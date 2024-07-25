@@ -164,6 +164,9 @@ c--- overall factor extracted (c.f. getggZZamps.f and getggHZZamps.f )
 
       msq(0,0)=msqgg*fac*vsymfact
 
+c--- write out
+      call writecsv(p,msq)
+
 c--- for ME check:
       ! print*,"|||||||||||||||| phase space point: ||||||||||||||||||"
       ! print*,c6
