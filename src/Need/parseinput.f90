@@ -205,21 +205,25 @@ contains
     ! [hjetmass]
     call cfg_add(cfg, "hjetmass%mtex", 0, "controls approximation for 2-loop virtual corrections")
 
-    ! [anom_higgs]
-    call cfg_add(cfg, "smeft%c6", 0d0, "c6")
-    call cfg_add(cfg, "smeft%t1", 1d0, "t1")
-    call cfg_add(cfg, "smeft%t2", 0d0, "t2")
-    call cfg_add(cfg, "smeft%t3", 0d0, "t3")
-    call cfg_add(cfg, "smeft%t4", 0d0, "t4")
-    call cfg_add(cfg, "smeft%t5", 0d0, "t5")
-    call cfg_add(cfg, "smeft%t6", 0d0, "t6")
-    call cfg_add(cfg, "smeft%w1", 0d0, "w1")
-    call cfg_add(cfg, "smeft%w2", 0d0, "w2")
-    call cfg_add(cfg, "smeft%w3", 0d0, "w3")
-    call cfg_add(cfg, "smeft%w4", 0d0, "w4")
-    call cfg_add(cfg, "smeft%w5", 0d0, "w5")
-    call cfg_add(cfg, "smeft%cx", 0d0, "cx")
-    call cfg_add(cfg, "smeft%mx", 0d0, "mx")
+    ! [higgs_trilinear]
+    call cfg_add(cfg, "higgs_trilinear%c6", 0d0, "c6")
+    call cfg_add(cfg, "higgs_trilinear%t1", 1d0, "t1")
+    call cfg_add(cfg, "higgs_trilinear%t2", 0d0, "t2")
+    call cfg_add(cfg, "higgs_trilinear%t3", 0d0, "t3")
+    call cfg_add(cfg, "higgs_trilinear%t4", 0d0, "t4")
+    call cfg_add(cfg, "higgs_trilinear%t5", 0d0, "t5")
+    call cfg_add(cfg, "higgs_trilinear%t6", 0d0, "t6")
+    call cfg_add(cfg, "higgs_trilinear%w1", 0d0, "w1")
+    call cfg_add(cfg, "higgs_trilinear%w2", 0d0, "w2")
+    call cfg_add(cfg, "higgs_trilinear%w3", 0d0, "w3")
+    call cfg_add(cfg, "higgs_trilinear%w4", 0d0, "w4")
+    call cfg_add(cfg, "higgs_trilinear%w5", 0d0, "w5")
+    call cfg_add(cfg, "higgs_trilinear%cx", 0d0, "cx")
+    call cfg_add(cfg, "higgs_trilinear%mx", 0d0, "mx")
+
+    ! [output]
+    call cfg_add(cfg, "output%csvfile", "output.csv", "CSV output file") 
+   !  call cfg_add(cfg, "output%lhefile", "output.lhe", "LHE output file") 
 
     ! [anom_higgs]
     call cfg_add(cfg, "anom_higgs%hwidth_ratio", 1d0, "Gamma_H / Gamma_H(SM)")
@@ -340,7 +344,8 @@ contains
     include 'scalarselect.f'
     include 'interference.f'
     include 'userap.f'
-    include 'smeftvals.f'
+    include 'higgs_trilinear.f'
+    include 'csvfile.f'
     character(len=cfg_string_len) :: mcfm_version, part, dynstring
     character(len=cfg_string_len) :: pdfchannels
 
@@ -659,21 +664,24 @@ contains
     call cfg_get(cfg, "anom_higgs%cttH", cttH)
     call cfg_get(cfg, "anom_higgs%cWWH", cWWH)
 
-    ! [anom_higgs]
-    call cfg_get(cfg, "smeft%c6", c6)
-    call cfg_get(cfg, "smeft%t1", t1)
-    call cfg_get(cfg, "smeft%t2", t2)
-    call cfg_get(cfg, "smeft%t3", t3)
-    call cfg_get(cfg, "smeft%t4", t4)
-    call cfg_get(cfg, "smeft%t5", t5)
-    call cfg_get(cfg, "smeft%t6", t6)
-    call cfg_get(cfg, "smeft%w1", w1)
-    call cfg_get(cfg, "smeft%w2", w2)
-    call cfg_get(cfg, "smeft%w3", w3)
-    call cfg_get(cfg, "smeft%w4", w4)
-    call cfg_get(cfg, "smeft%w5", w5)
-    call cfg_get(cfg, "smeft%cx", cx)
-    call cfg_get(cfg, "smeft%mx", mx)
+    ! [higgs_trilinear]
+    call cfg_get(cfg, "higgs_trilinear%c6", c6)
+    call cfg_get(cfg, "higgs_trilinear%t1", t1)
+    call cfg_get(cfg, "higgs_trilinear%t2", t2)
+    call cfg_get(cfg, "higgs_trilinear%t3", t3)
+    call cfg_get(cfg, "higgs_trilinear%t4", t4)
+    call cfg_get(cfg, "higgs_trilinear%t5", t5)
+    call cfg_get(cfg, "higgs_trilinear%t6", t6)
+    call cfg_get(cfg, "higgs_trilinear%w1", w1)
+    call cfg_get(cfg, "higgs_trilinear%w2", w2)
+    call cfg_get(cfg, "higgs_trilinear%w3", w3)
+    call cfg_get(cfg, "higgs_trilinear%w4", w4)
+    call cfg_get(cfg, "higgs_trilinear%w5", w5)
+    call cfg_get(cfg, "higgs_trilinear%cx", cx)
+    call cfg_get(cfg, "higgs_trilinear%mx", mx)
+
+    ! [output]
+    call cfg_get(cfg, "output%csvfile", csvfile)
 
     ! [anom_wz]
     call cfg_get(cfg, "anom_wz%enable", anomtgc)
