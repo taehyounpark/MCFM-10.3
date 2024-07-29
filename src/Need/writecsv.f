@@ -16,15 +16,19 @@
       include 'constants.f'
       include 'nf.f'
       include 'first.f'
+      include 'csvfile.f'
       real(dp):: p(mxpart,4),msq(fn:nf,fn:nf)
       integer :: i, j, iostat
-      character(len=100) :: filename
+      character(len=255)::rundir, filepath
+      common/rundir/rundir
+
+      ! csvfile = rundir // '/' // csvfile
+      filepath = trim(rundir) // "/" // trim(csvfile)
 
       if (first) then
       first=.false.
       evtnum = 0
-      filename = 'output.csv'
-      open(unit=10, file=filename, status='replace', action='write', iostat=i)
+      open(unit=10, file=filepath, status='replace', action='write', iostat=i)
       ! Write headers
       write(10, '(A)', advance='no') 'evtnum,'
       write(10, '(A)', advance='no') 'p1_px,p1_py,p1_pz,p1_E,'
@@ -36,7 +40,7 @@
       write(10, '(A)', advance='yes') 'msq'
   
       if (iostat /= 0) then
-            print*, 'Error opening file: ', filename
+            print*, 'Error opening file: ', csvfile
             stop
       endif
       endif
