@@ -61,7 +61,7 @@ c---
       include 'zprods_decl.f'
       include 'scale.f'
       include 'anom_higgs.f'
-      include 'smeftvals.f'
+      include 'higgs_trilinear.f'
       include 'scalarselect.f'
       integer:: h1,h34,h56
       real(dp):: p(mxpart,4),mb2,mt2,
