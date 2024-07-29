@@ -2,13 +2,14 @@
 !  SPDX-License-Identifier: GPL-3.0-or-later
 !  Copyright (C) 2019-2022, respective authors of MCFM.
 !
-      subroutine gg_ZZ_int(p,msq)
-      implicit none
-      include 'types.f'
+
 c--- Author: J. M. Campbell, September 2013
 c--- Effect of interference between gg -> H -> ZZ signal process
 c--- and gg -> ZZ NNLO contribution to continuum background
 c--- The effect of massive bottom and top quark loops is included
+      subroutine gg_ZZ_int(p,msq)
+      implicit none
+      include 'types.f'
       include 'constants.f'
       include 'nf.f'
       include 'mxpart.f'
@@ -25,8 +26,8 @@ c--- The effect of massive bottom and top quark loops is included
      & Mloop_bquark(2,2,2,2),Mloop_tquark(2,2,2,2),
      & Sloop_uptype(2,2,2,2),Sloop_dntype(2,2,2,2),
      & Sloop_bquark(2,2,2,2),Sloop_tquark(2,2,2,2),
-     & ggH_bquark(2,2,2,2),ggH_tquark(2,2,2,2),Acont,Ahiggs,
-     & ggH_bquark_swap(2,2,2,2),ggH_tquark_swap(2,2,2,2),Ahiggs_swap,
+     & ggH_bquark(2,2,2,2),ggH_tquark(2,2,2,2),Acont,AHiggs,
+     & ggH_bquark_swap(2,2,2,2),ggH_tquark_swap(2,2,2,2),AHiggs_swap,
      & Acont_swap,Mamp,Samp,
      & Mloop_c6_propagator(2,2,2,2),
      & Mloop_c6_propagator_swap(2,2,2,2),
@@ -102,8 +103,9 @@ c---- This only accumulates contributions from the interference
 
       if (interference .eqv. .false.) then
 c--- normal case
-        msqgg=msqgg+abs(Acont+AHiggs)**2
-     &             -abs(Acont)**2-abs(AHiggs)**2
+      msqgg=msqgg+abs(Acont+AHiggs)**2
+     &        -abs(Acont)**2-abs(AHiggs)**2
+     &        +two*real(conjg(Acont)*AHiggs_c6)
       else
 c--- with interference
         Acont_swap=
@@ -169,6 +171,8 @@ c--- overall factor extracted (c.f. getggZZamps.f and getggHZZamps.f )
       fac=avegg*V*(four*abs(zesq)*gsq/(16._dp*pisq)*abs(zesq))**2
 
       msq(0,0)=msqgg*fac*vsymfact
+
+      call writecsv(p,msq)
 
       return
       end

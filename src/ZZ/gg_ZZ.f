@@ -96,6 +96,7 @@ c--- overall factor extracted (c.f. getggZZamps.f)
       fac=avegg*V*(4._dp*abs(zesq)*gsq/(16._dp*pisq)*abs(zesq))**2
 
       msqgg=msqgg*fac*vsymfact
+      call writecsv(p,msqgg)
 
       return
       end
