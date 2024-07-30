@@ -99,11 +99,19 @@ c--- compute total Higgs amplitude
      &  +ggH_bquark(h1,h2,h34,h56)
      &  +ggH_tquark(h1,h2,h34,h56)
 
-c---- This only accumulates contributions from the interference
+c--- compute total c6 correction to Higgs amplitude        
+      AHiggs_c6=
+     &  +Mloop_c6_propagator(h1,h2,h34,h56)
+     &  +Mloop_c6_decay(h1,h2,h34,h56)
+     &  +Mloop_c6_production(h1,h2,h34,h56)
+     &  +Mloop_c6_width(h1,h2,h34,h56) 
+c-------------------------------      
 
+c---- This only accumulates contributions from the interference
+      
       if (interference .eqv. .false.) then
-c--- normal case
-      msqgg=msqgg+abs(Acont+AHiggs)**2
+c---  normal case
+        msqgg=msqgg+abs(Acont+AHiggs)**2
      &        -abs(Acont)**2-abs(AHiggs)**2
      &        +two*real(conjg(Acont)*AHiggs_c6)
       else
