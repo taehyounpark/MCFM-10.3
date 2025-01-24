@@ -1,0 +1,62 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{scales}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+		\texttt{renscale} &
+		This parameter may be used to adjust the value
+		of the {\it renormalization} scale. This is the scale
+		at which $\alpha_S$ is evaluated and will typically be set to
+		a mass scale appropriate to the process ($M_W$, $M_Z$, $M_t$ for
+		instance). \\
+		\texttt{facscale} &
+		This parameter may be used to adjust the value
+		of the {\it factorization} scale and will typically be set to
+		a mass scale appropriate to the process ($M_W$, $M_Z$, $M_t$ for
+		instance). \\
+		\texttt{dynamicscale} &
+		This character string is used to specify whether
+		the renormalization, factorization and fragmentation scales are dynamic, i.e. recalculated
+		on an event-by-event basis. If this string is set to `{\tt none}' then the scales
+		are fixed for all events at the values	specified by {\tt renscale}, {\tt facscale}
+		as well as \texttt{fragmentation\_scale} as defined further below.
+		
+		The type of dynamic scale to be used is selected by using a particular string
+		for the variable {\tt dynamicscale}, as indicated in \cref{tab:dynamicscales} on \cpageref{tab:dynamicscales}.
+		Not all scales are defined for each process, with program execution halted if
+		an invalid selection is made in the input file.
+		The selection chooses a reference scale, $\mu_0$. The actual scales used in
+		the code are then,
+		\begin{equation}
+		\mu_{\mathrm{ren}} = {\tt scale} \times \mu_0 \;, \qquad
+		\mu_{\mathrm{fac}} = {\tt facscale} \times \mu_0
+		\label{eq:dynscale}
+		\end{equation}
+		Note that, for simplicity, the fragmentation scale (relevant only for processes
+		involving photons) is set equal to the renormalization scale.
+		In some cases it is possible for the dynamic scale to become very large. This can cause problems 
+		with the interpolation of data tables for the PDFs and fragmentation functions. As a result if a dynamic scale 
+		exceeds a maximum of $60$ TeV (PDF) or $990$ GeV (fragmentation) this value is set by default to the maximum. 	
+		\\
+		\texttt{doscalevar} &
+		
+		This additional option can be set to \texttt{.true.} to enable scale variation.
+		It performs a variation of the scales used in \cref{eq:dynscale} by a factor of 
+		two so that it surveys the 
+		additional possibilities,
+		\begin{eqnarray}
+		&&
+		(2\mu_{\mathrm{ren}},2\mu_{\mathrm{fac}}),
+		(\mu_{\mathrm{ren}}/2,\mu_{\mathrm{fac}}/2), \nonumber \\ &&
+		(2\mu_{\mathrm{ren}},\mu_{\mathrm{fac}}),
+		(\mu_{\mathrm{ren}}/2,\mu_{\mathrm{fac}}),
+		(\mu_{\mathrm{ren}},2\mu_{\mathrm{fac}}),
+		(\mu_{\mathrm{ren}},\mu_{\mathrm{fac}}/2) \,.
+		\label{eq:scalevar}
+		\end{eqnarray}
+		The histograms corresponding to these different choices are included in the output file, from which an
+		envelope of theoretical uncertainty may be constructed by the user. \\
+		\texttt{maxscalevar} &
+		Number of additional scale variation points to choose, can be set to two or six. For two
+		it just samples the first two variations as in eq.~\ref{eq:scalevar}. \\
+		\bottomrule
+	\end{longtable}

@@ -1,0 +1,250 @@
+\topheading{Input file configuration}
+\midheading{Run-time input file parameters}
+
+MCFM execution is performed in the {\tt Bin/} directory,
+with syntax:
+\begin{center}
+	{\tt mcfm }{\it input.ini}
+\end{center}
+If no command line options are given, then MCFM will default
+to using the file {\tt input.ini} in the current directory for
+choosing options. The \texttt{input.ini} file can be in any directory and
+then the first argument to \texttt{mcfm} should be the location
+of the file. Furthermore, one can overwrite or append single
+configuration options with additional parameters like:
+\begin{center} 
+\texttt{./mcfm benchmark/input.ini -general\%part=nlo -lhapdf\%dopdferrors=.true.}
+\end{center}
+Here specifying a parameter uses a single dash, then the section name as in the input file (see below), followed
+by a percent sign, followed by the option name, followed by an equal sign and the actual value of the setting.
+
+All default settings in the input file are explained below, as well as further optional parameters.
+The top level setting \texttt{mcfm\_version} specifies the input file version number and it must  match the version of 
+the code being used.
+
+The general structure of a fixed-order calculation up to NNLO is as follows:
+\begin{equation}
+\sigma = \sigma_0 + \Delta\sigma_1 + \Delta\sigma_2 \,,
+\end{equation}
+where $\Delta\sigma_k$ is of order $\alpha_s^k$ with respect to the leading
+order cross section $\sigma_0$, thus representing the
+N$^k$LO contribution to the cross section.
+When performing the NLO calculation using dipole subtraction
+its contribution to the cross section can be decomposed as,
+\begin{equation}
+\Delta\sigma_1 = \Delta\sigma_1^v + \Delta\sigma_1^r \,.
+\end{equation}
+$\Delta\sigma_1^v$ includes virtual (loop) contributions, as well
+as counterterms that render them finite.
+$\Delta\sigma_1^r$ includes contributions from diagrams
+involving real parton emission, again with counterterms to make them finite.
+Only the sum of $\Delta\sigma_1^v$ and $\Delta\sigma_1^v$ is physical.
+
+This contribution can also be computed using a slicing method with the
+corresponding decomposition,
+\begin{equation}
+\Delta\sigma_1^a = \Delta\sigma_1^{a,<} + \Delta\sigma_1^{a, >} \,.
+\end{equation}
+$a$ labels the slicing resolution variable, which in MCFM can be either
+0-jettiness, $q_T$ (of a color-singlet system) or $p_T^{j_1}$ (lead jet $p_T$)
+(thus corresponding to a jet veto).
+$\Delta\sigma_1^{a,<}$ is termed the below-cut slicing contribution which is
+computed by the means of a factorization theorem and includes loop contributions.
+$\Delta\sigma_1^{a,>}$ is the above-cut contribution containing radiation of
+an additional parton.
+Only the sum $\Delta\sigma_1^a$ is physical and contains a dependence on
+the slicing resolution variable $a_{\text{cut}}$ that tends to zero as
+$a_{\text{cut}} \to 0$
+
+At NNLO only slicing calculations are available.  The decomposition is,
+\begin{equation}
+\Delta\sigma_2^a = \Delta\sigma_2^{a,<} + \Delta\sigma_2^{a, v>}  + \Delta\sigma_2^{a, r>} \,.
+\end{equation}
+$\Delta\sigma_2^{a,<}$ is the below-cut slicing contribution containing 2-loop
+contributions.
+$\Delta\sigma_1^{a, v>}$ is the above-cut contribution containing loop corrections
+to radiation of an additional parton.
+$\Delta\sigma_1^{a, r>}$ is the above-cut contribution representing
+radiation of up to two additional partons.
+Only the sum $\Delta\sigma_2^a$ is physical and contains a dependence on
+the slicing resolution variable $a_{\text{cut}}$ that tends to zero as
+$a_{\text{cut}} \to 0$
+
+The type of computation that is performed depends on the parameter
+\texttt{part} in the \texttt{general} section.
+The list of possible values,
+and the associated meaning, is shown in Tables~\ref{tab:partchoicesfo}
+and~\ref{tab:partchoicesresum}.  They can also be listed by
+setting \texttt{part} equal to \texttt{help in the input file}.
+
+
+\begin{longtable}{p{4.5cm}p{9.0cm}}
+\caption{Possible values for the parameter \texttt{part} that correspond to
+performing a fixed-order calculation. \label{tab:partchoicesfo}} \\
+		\hline
+		\texttt{part} & description\\
+		\hline
+			 {\tt lo}/{\tt lord} &
+			$\sigma_0$
+			\\
+			 {\tt virt} &
+			$\Delta\sigma_1^v$
+			\\
+			 {\tt real} &
+			$\Delta\sigma_1^r$
+			\\
+			 {\tt nlocoeff}/{\tt totacoeff} &
+			$\Delta\sigma_1$
+			\\
+			 {\tt nlo}/{\tt tota} &
+			$\sigma_0+\Delta\sigma_1$. For photon processes that include fragmentation,
+			{\tt nlo} also includes the calculation of the fragmentation ({\tt frag})
+			contributions.
+			\\
+			 {\tt frag} &
+			Processes 280, 285, 290, 295, 300-302, 305-307,  820-823 only, see sections~\ref{subsec:gamgam},
+			\ref{subsec:wgamma} and
+			\ref{subsec:zgamma} below.
+			\\
+			 {\tt nlodk}/{\tt todk} &
+			Processes 114, 161, 166, 171, 176, 181, 186, 141, 146, 149, 233, 238, 501, 511 only, see
+			sections~\ref{subsec:stop} and
+			\ref{subsec:wt} below.
+			\\
+                         {\tt snloR} & $\Delta\sigma_1^{a,>}$
+			 \\
+                         {\tt snloV} & $\Delta\sigma_1^{a,<}$
+			 \\
+                         {\tt snlocoeff}/{\tt scetnlocoeff} & $\Delta\sigma_1^a$
+			 \\
+                         {\tt snlo}/{\tt scetnlo} & $\sigma_0 + \Delta\sigma_1^a$
+			 \\
+                         {\tt nnloVVcoeff} & $\Delta\sigma_2^{a,<}$
+			 \\
+                         {\tt nnloRVcoeff} & $\Delta\sigma_2^{a,v>}$
+			 \\
+                         {\tt nnloRRcoeff} & $\Delta\sigma_2^{a,r>}$
+			 \\
+                         {\tt nnloVV} & $\Delta\sigma_1^{a,<} + \Delta\sigma_2^{a,<}$
+			 \\
+                         {\tt nnloRV} & $\Delta\sigma_1^{a,>} + \Delta\sigma_2^{a,v>}$
+			 \\
+                         {\tt nnloRR} & $\Delta\sigma_2^{a,r>}$
+			 \\
+                         {\tt nnlocoeff} & $\Delta\sigma_2^{a}$
+			 \\
+			 {\tt nnlo} & $\sigma_0 + \Delta\sigma_1 + \Delta\sigma_2^{a}$
+\end{longtable}
+
+\begin{longtable}{p{4.5cm}p{9.0cm}}
+\caption{Possible values for the parameter \texttt{part} that correspond to
+performing a calculation including large-log resummation. \label{tab:partchoicesresum}} \\
+		\hline
+		\texttt{part} & description\\
+		\hline
+                         {\tt resLO} & NLL resummed and matched
+			 \\
+                         {\tt resonlyLO} & NLL resummed only
+			 \\
+                         {\tt resonlyLOp} & NLLp resummed only
+			 \\
+                         {\tt resexpNLO} & NNLL resummed expanded to NLO
+			 \\
+                         {\tt resonlyNLO} & NNLL resummed
+			 \\
+                         {\tt resaboveNLO} & fixed-order matching to NLO
+			 \\
+                         {\tt resmatchcorrNLO} & matching corrections at NLO
+			 \\
+                         {\tt resonlyNLOp} & NNLLp resummed
+			 \\
+                         {\tt resexpNNLO} & N$^3$LL resummed expanded to NNLO
+			 \\
+                         {\tt resonlyNNLO} & N$^3$LL resummed
+			 \\
+                         {\tt resaboveNNLO} & fixed-order matching to NLO
+			 \\
+                         {\tt resmatchcorrNNLO} & matching corrections at NLO
+			 \\
+                         {\tt resLOp} & NLLp resummed and matched
+			 \\
+                         {\tt resNLO} & NNLL resummed, matched to NLO
+			 \\
+                         {\tt resNLOp} & N$^3$LL resummed, matched to NLO
+			 \\
+                         {\tt resNNLO} & N$^3$LL resummed, matched to NNLO
+			 \\
+                         {\tt resNNLOp} & N$^3$LLp resummed, matched to NNLO
+			 \\
+                         {\tt resonlyNNLOp} & N$^3$LLp resummed
+\end{longtable}
+
+\bottomheading{General}
+\input{sections/table_general.tex}
+\bottomheading{Resummation}
+\input{sections/table_resummation.tex}
+\bottomheading{NNLO}
+\input{sections/table_nnlo.tex}
+\bottomheading{PDFs}
+\input{sections/table_pdf.tex}
+\bottomheading{LHAPDF}
+\input{sections/table_lhapdf.tex}
+\bottomheading{Scales}
+\input{sections/table_scales.tex}
+\begin{table}
+	\begin{center}
+		\begin{longtable}{|l|l|l|}
+			\hline
+			{\tt dynamic scale} & $\mu_0^2$ & comments\\
+			\hline 
+			{\tt m(34)} & $(p_3+p_4)^2$ & \\
+			{\tt m(345)} & $(p_3+p_4+p_5)^2$ & \\
+			{\tt m(3456)} & $(p_3+p_4+p_5+p_6)^2$ & \\
+			{\tt sqrt(M\pow 2+pt34\pow 2)} & $M^2 + (\vec{p_T}_3 + \vec{p_T}_4)^2$ & $M=$~mass of particle 3+4 \\
+			{\tt sqrt(M\pow 2+pt345\pow 2)} & $M^2 + (\vec{p_T}_3 + \vec{p_T}_4 + \vec{p_T}_5)^2$ & $M=$~mass of 
+			particle 3+4+5 \\
+			{\tt sqrt(M\pow 2+pt5\pow 2)} & $M^2 + \vec{p_T}_5^2$ & $M=$~mass of particle 3+4 \\
+			{\tt sqrt(M\pow 2+ptj1\pow 2)} & $M^2 + \vec{p_T}_{j_1}^2$ & $M=$~mass(3+4), $j_1=$ leading $p_T$ jet \\
+			{\tt pt(photon)} & $\vec{p_T}_\gamma^2$ & \\
+			{\tt pt(j1)} & $\vec{p_T}_{j_1}^2$ & \\
+			{\tt HT} & $\sum_{i=1}^n {p_T}_i$ & $n$ particles (partons, not jets) \\
+			\hline 
+			\hline\end{longtable}
+	\end{center}
+	\caption{Choices of the input parameter {\tt dynamicscale} that result in an event-by-event
+		calculation of all relevant scales using the given reference scale-squared $\mu_0^2$.
+		\label{tab:dynamicscales}}
+\end{table}
+\bottomheading{Masses}
+\input{sections/table_masses.tex}
+\bottomheading{Basic jets}
+\label{basicjets}
+\input{sections/table_basicjets.tex}
+\bottomheading{Mass cuts}
+\label{masscuts}
+\input{sections/table_masscuts.tex}
+\bottomheading{Cuts}
+\input{sections/table_cuts1.tex}
+\bottomheading{Cuts (continued)}
+\input{sections/table_cuts2.tex}
+\bottomheading{Photon}
+\input{sections/table_photon.tex}
+\bottomheading{Histograms}
+\input{sections/table_histogram.tex}
+\bottomheading{Imtegration}
+\input{sections/table_integration.tex}
+\midheading{Process specific options}
+\bottomheading{Single Top}
+\input{sections/table_singletop.tex}
+\bottomheading{Anomalous $W/Z$ couplings}
+\input{sections/table_anom_wz.tex}
+\bottomheading{$W/Z$+2 jets}
+\input{sections/table_wz2jet.tex}
+\bottomheading{H jetmass}
+\input{sections/table_hjetmass.tex}
+\bottomheading{Anomalous $H$ couplings}
+\input{sections/table_anom_higgs.tex}
+\bottomheading{Extra}
+\input{sections/table_extra.tex}
+\bottomheading{Dipoles}
+\input{sections/table_dipoles.tex}

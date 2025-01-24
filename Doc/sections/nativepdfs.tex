@@ -1,0 +1,148 @@
+\topheading{Native PDF sets}
+\label{olderPDFs}
+
+MCFM contains a native implementation of a number of PDF sets, such that
+the use of LHAPDF is not required.  In this mode, one can choose from 
+collection of parton distribution functions that are included with
+MCFM.  The most recent distributions, together with their associated $\alpha_s(M_Z)$
+values, are given in \ref{pdlabelrecent}.
+Note that,  due to the memory requirements for
+using the NNPDF sets, in OpenMP operation it is usually necessary to increase
+the value of the environment variable {\tt OMP\_STACKSIZE} to avoid
+segmentation faults.
+%
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+{\tt pdlabel}  & $\alpha_s(M_Z)$ & order & reference \\
+\hline
+{\tt mstw8lo}  & 0.1394 & 1     & \cite{Martin:2009iq} \\
+{\tt mstw8nl}  & 0.1202 & 2     & \cite{Martin:2009iq} \\
+{\tt mstw8nn}  & 0.1171 & 3     & \cite{Martin:2009iq} \\
+{\tt MMHT\_lo}  & 0.135  & 1     & \cite{Harland-Lang:2014zoa} \\
+{\tt MMHT\_nl}  & 0.120  & 2     & \cite{Harland-Lang:2014zoa} \\
+{\tt MMHT\_nn}  & 0.118  & 3     & \cite{Harland-Lang:2014zoa} \\
+\hline
+{\tt CT10.00}  & 0.118  & 2     & \cite{Lai:2010vv} \\
+{\tt CT14.LL}  & 0.130  & 1     & \cite{Dulat:2015mca} \\
+{\tt CT14.NL}  & 0.118  & 2     & \cite{Dulat:2015mca} \\
+{\tt CT14.NN}  & 0.118  & 3     & \cite{Dulat:2015mca} \\
+{\tt CT14qed}  & 0.118  & 2     & \cite{Schmidt:2015zda} \\
+\hline
+{\tt NN2.3NL}  & 0.118  & 2     & \cite{Ball:2012cx} \\
+{\tt NN2.3NN}  & 0.118  & 3     & \cite{Ball:2012cx} \\
+{\tt NN3.0LO}  & 0.118  & 1     & \cite{Ball:2014uwa} \\
+{\tt NN3.0NL}  & 0.118  & 2     & \cite{Ball:2014uwa} \\
+{\tt NN3.0NN}  & 0.118  & 3     & \cite{Ball:2014uwa} \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Modern PDF sets that are available in the code,
+their corresponding values of $\alpha_s(M_Z)$ and order of running,
+and a reference to the paper
+that describes their origin.  Further sets, of a more historical nature, are listed in \ref{olderPDFs}.
+\label{pdlabelrecent}}
+\end{table}
+
+The availability of a number of historical PDF sets is retained in the code.  These should
+typically not be used in modern analyses, but they may be helpful for comparison with
+older codes or in specialized cases.
+These distributions, together with their associated $\alpha_S(M_Z)$
+values, are given in Tables~\ref{pdlabelmrs} and~\ref{pdlabelcteq}. 
+For the older distributions, where the
+coupling was specified by $\Lambda$ this requires 
+some calculation and/or guesswork.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c||c|c|c|}
+\hline
+{\tt mrstqed}  & 0.1205       & hep-ph/0411040 &
+{\tt mrs02nl}  & 0.1197       & \mrstohtwo \\
+{\tt mrs02nn}  & 0.1154       & \mrstohtwo &
+{\tt mrs4nf3}  & 0.1083       & \mrstff \\
+{\tt mrs4lf3}  & 0.1186       & \mrstff &
+{\tt mrs4nf4}  & 0.1153       & \mrstff \\
+{\tt mrs4lf4}  & 0.1251       & \mrstff &
+{\tt mrs0119}  & 0.119        & \mrstohone \\
+{\tt mrs0117}  & 0.117        & \mrstohone &
+{\tt mrs0121}  & 0.121        & \mrstohone \\
+{\tt mrs01\_j} & 0.121        & \mrstohone &
+{\tt mrs01lo}  & 0.130        & \mrstohtwofirst \\ 
+{\tt mrs99\_1} & 0.1175       & \mrsninenine &
+{\tt mrs99\_2} & 0.1175       & \mrsninenine \\
+{\tt mrs99\_3} & 0.1175       & \mrsninenine &
+{\tt mrs99\_4} & 0.1125       & \mrsninenine \\    
+{\tt mrs99\_5} & 0.1225       & \mrsninenine &
+{\tt mrs99\_6} & 0.1178       & \mrsninenine \\    
+{\tt mrs99\_7} & 0.1171       & \mrsninenine &
+{\tt mrs99\_8} & 0.1175       & \mrsninenine \\    
+{\tt mrs99\_9} & 0.1175       & \mrsninenine &
+{\tt mrs9910}  & 0.1175       & \mrsninenine \\    
+{\tt mrs9911}  & 0.1175       & \mrsninenine &
+{\tt mrs9912}  & 0.1175       & \mrsninenine \\    
+{\tt mrs98z1}  &  0.1175      & \mrsnineeight &  
+{\tt mrs98z2}  &  0.1175      & \mrsnineeight \\ 
+{\tt mrs98z3}  &  0.1175      & \mrsnineeight &  
+{\tt mrs98z4}  &  0.1125      & \mrsnineeight \\  
+{\tt mtungb1}  &  0.109       & \mrsnineeight &
+{\tt mrs98z5}  &  0.1225      & \mrsnineeight \\   
+{\tt mrs96r1}  &  0.113       & \mrsninesix &    
+{\tt mrs96r2}  &  0.120       & \mrsninesix \\  
+{\tt mrs96r3}  &  0.113       & \mrsninesix &   
+{\tt mrs96r4}  &  0.120       & \mrsninesix \\   
+{\tt mrs95ap}  &  0.1127      & \mrsninefive &
+{\tt mrs95\_g} &  0.1148      & \mrsninefive \\
+{\tt hmrs90e}  &  0.09838     & \hmrs & 
+{\tt hmrs90b}  &  0.10796     & \hmrs \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Historical MRS-type pdf sets, their corresponding values of
+$\alpha_S(M_Z)$ and a reference to the paper or preprint that
+describes their origin.
+\label{pdlabelmrs}}
+\end{table}
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c||c|c|c|}
+\hline
+               &              & &
+{\tt cteq66m}  &  0.118       & \cteqsixsixm \\
+{\tt cteq61m}  &  0.118       & \cteqsixonem &
+{\tt cteq6\_m} &  0.118       & \cteqsix \\
+{\tt cteq6\_d} &  0.118       & \cteqsix &
+{\tt cteq6\_l} &  0.118       & \cteqsix \\
+{\tt cteq6l1}  &  0.130       & \cteqsix &
+{\tt cteq5hq}  &  0.118       & \cteqfive \\
+{\tt cteq5f3}  &  0.106       & \cteqfive &
+{\tt cteq5f4}  &  0.112       & \cteqfive \\
+{\tt cteq5\_m} &  0.118       & \cteqfive &
+{\tt cteq5\_d} &  0.118       & \cteqfive \\
+{\tt cteq5\_l} &  0.127       & \cteqfive & 
+{\tt cteq5l1}  &  0.127       & \cteqfive \\
+{\tt cteq5hj}  &  0.118       & \cteqfive &
+{\tt cteq5m1}  &  0.118       & \cteqfive \\
+{\tt ctq5hq1}  &  0.118       & \cteqfive &
+{\tt cteq4a5}  &  0.122       & \cteqfour \\
+{\tt cteq4hj}  &  0.116       & \cteqfour &
+{\tt cteq4lq}  &  0.114       & \cteqfour \\
+{\tt cteq4\_m} &  0.116       & \cteqfour &
+{\tt cteq4\_d} &  0.116       & \cteqfour \\
+{\tt cteq4\_l} &  0.132       & \cteqfour &
+{\tt cteq4a1}  &  0.110       & \cteqfour \\
+{\tt cteq4a2}  &  0.113       & \cteqfour &
+{\tt cteq4a3}  &  0.116       & \cteqfour \\
+{\tt cteq4a4}  &  0.119       & \cteqfour &
+{\tt cteq3\_m} &  0.112       & \cteqthree \\
+{\tt cteq3\_l} &  0.112       & \cteqthree &
+{\tt cteq3\_d} &  0.112       & \cteqthree \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Historical CTEQ-type pdf sets, their corresponding values of
+$\alpha_S(M_Z)$ and a reference to the paper or preprint that
+describes their origin.
+\label{pdlabelcteq}}
+\end{table}

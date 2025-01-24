@@ -1,0 +1,65 @@
+\section{Output}
+\label{sec:output}
+
+\todo[inline]{This needs to be completely rewritten!}
+
+In addition to the direct output of the program to {\tt stdout}, after
+the final sweep of {\tt Vegas} the program can output additional files
+as specified below.
+If a working directory was specified in the command line, then these
+output files will be written to that directory.
+
+The standard output will detail the iteration-by-iteration best estimate
+of the total cross-section, together with the accompanying error estimate.
+After all sweeps have been completed, a final summary line will be printed.
+In the {\tt npart}~$=$~{\tt tota} case, this last line will actually be the
+sum of the two separate real and virtual integrations.
+
+Other output files may be produced containing various histograms associated
+with the calculated process. The write-out of the different output files
+is controlled by logical variables at the top of the input file. The various options are:
+\begin{itemize}
+	\item {\tt writetop}:  write out the histograms as a {\tt TOPDRAWER} file,
+	{\tt outputname.top}.
+	\item {\tt writetxt}:  write out the histograms in a raw format 
+	which may be read in by a plotting package of the user's choosing,
+	{\tt outputname.txt}.
+	
+\end{itemize}
+
+All of the output files include a summary of the options file ({\tt input.ini}) in the form of
+comments at the beginning. The structure
+of {\tt outputname} is as follows:
+\begin{displaymath}
+{\tt procname\_part\_pdlabel\_scale\_facscale\_runstring}
+\end{displaymath}
+where {\tt procname} is a label assigned by the program corresponding to
+the calculated process; the remaining labels are as input by the user
+in the file {\tt input.ini}.
+
+
+\subsection{Histograms}
+\label{sec:histos}
+
+Extra histograms may be added to the plotting files in
+a fairly straightforward manner. Each histogram is filled by making
+a call to the routine {\tt bookplot} and updating the histogram
+counter {\tt n} by 1. For example, the pseudorapidity of particle $3$
+may be plotted using the following code fragment:
+
+\begin{verbatim}
+eta3=etarap(3,p)
+call bookplot(n,tag,'eta3',eta3,wt,wt2,-4d0,4d0,0.1d0,'lin')
+n=n+1
+\end{verbatim}
+The first two arguments of the call should not be changed. The third
+argument is a string which is used as the title of the plot in the
+output files. The fourth argument carries the variable to
+be plotted, which has been previously calculated. The arguments {\tt
+	wt} and {\tt wt2} contain information about the phase-space weight and
+should not be changed. The
+last arguments tell the histogramming routine to use bins of size {\tt
+	0.1} which run from {\tt -4} to {\tt 4}, and use a linear scale for
+the plot. A logarithmic scale may be used by changing the final
+argument to {\tt 'log'}.
+

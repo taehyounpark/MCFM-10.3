@@ -1,0 +1,21 @@
+\midheading{$\gamma\gamma\gamma$ production, process 287}
+\label{subsec:trigam}
+
+Process {\tt 287} represents the production of three real photons.
+The cross section diverges
+when one of the photons is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt gammptmin} and {\tt gammrapmax}. This will ensure that
+the cross section is well-defined.
+
+The calculation of process {\tt 285} may be performed at NLO using either the
+Frixione algorithm~\cite{Frixione:1998jh} or standard cone isolation.  The production of a photon via parton
+fragmentation is included at NLO and
+can be run separately by using the {\tt frag} option in {\tt part}. This option includes the contributions from the
+integrated
+photon dipole subtraction terms and the LO QCD matrix element multiplied by the fragmentation function.
+The phase space cuts for the final state photons are defined in {\tt{input.ini}}, for multiple photon processes such
+as {\tt 285 - 287} the $p_T$'s of the individual photons (hardest, next-to hardest and softest) can be controlled
+independently.
+The remaining cut on $R_{\gamma j}$, $\eta_{\gamma}$ etc. are applied universally to all photons. Users wishing to alter
+this feature should edit the file {\tt{photon\_cuts.f}} in the directory {\tt{src/User}}.

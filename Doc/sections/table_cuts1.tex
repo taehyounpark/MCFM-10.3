@@ -1,0 +1,38 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\hline
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{cuts}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\hline
+		\texttt{makecuts} &
+		If this parameter is set to {\tt .false.}, then
+		no additional cuts are applied to the events (apart from those in Sections~\ref{basicjets} and \ref{masscuts})
+                and the remaining parameters in this section are ignored. Otherwise, events will
+		be rejected according to a set of cuts that is specified below.
+		Further options may be implemented by editing {\tt src/User/gencuts\_user.f90}. \\
+		
+		{\tt ptleptmin, etaleptmax} & These specify the values
+		of $p_{T,{\mathrm{min}}}$ and $|\eta|_{\mathrm{max}}$ for one of the leptons produced
+		in the process. One can also introduce optional settings \texttt{ptleptmax}
+		and \texttt{etaleptmin}. \\
+		
+		{\tt etaleptveto} & This should be specified as a pair of double
+		precision numbers that indicate a rapidity range that should be excluded
+		for the lepton that passes the above cuts. \\
+		
+		{\tt ptminmiss} & Specifies the minimum missing transverse
+		momentum (coming from neutrinos). \\
+		
+		{\tt ptlept2min}, \texttt{etalept2max} & These specify
+		the values of $p_{T,{\mathrm{min}}}$ and $|\eta|_{\mathrm{max}}$ for the remaining
+		leptons in the process. This allows for staggered cuts where, for
+		instance, only one lepton is required to be hard and central.
+		One can also introduce optional settings \texttt{ptlept2max} and
+		\texttt{etalept2min}. \\
+		
+		{\tt etalept2veto} & This should be specified as a pair of double
+		precision numbers (separated by a space) that indicate a rapidity range that should be excluded
+		for the remaining leptons. \\
+		
+		\hline
+	\end{longtable}
+%\end{table}
+\clearpage

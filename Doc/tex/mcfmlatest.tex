@@ -1,0 +1,97 @@
+\section{New features in this release}
+\label{sec:latest}
+
+Version 10.2 of the code introduces the ability to compute diboson processes
+to NNLO.  It also allows all NNLO calculations to be performed using two
+variants of slicing: using 0-jettiness (as in previous versions) or $q_T$ (new).
+We have included a suite of input files that have been set up
+to showcase all processes that may be computed at NNLO in this version, located
+in {\tt Bin/2202.07738\_nonlocal/nnlo} (and similarly for {\tt lo} and {\tt nlo}).
+These files also reproduce the results presented in Ref.~\cite{Campbell:2022gdq}.
+A list of the processes, input files and results (NNLO coefficient and running time)
+is shown in Table~\ref{table:nnlo10}.
+
+\renewcommand{\arraystretch}{1.05}
+\begin{table}
+\begin{tabular}{llllr}
+\toprule
+Final state & input file & precision & $\delta_{NNLO}$ & Time (CPU days) \\
+\midrule
+$H$
+& in\texttt{put\_H\_qt.int}   & 0.01 & 10.13(0.09)pb & 2.18 \\ % 187978 \\
+& in\texttt{put\_H\_scet.int} &      & 10.09(0.09)pb & 4.07 \\[2pt] % 351574 \\
+$Z$
+& in\texttt{put\_Z\_qt.int}   & 0.05 & -388(20)pb & 313 \\ % 27007796. \\
+& in\texttt{put\_Z\_scet.int} &      & -371(18)pb & 261 \\[2pt] % 22543465. \\
+$W^-$
+& in\texttt{put\_W-\_qt.int}   & 0.03 & -667(20)pb & 268 \\ % 23154067. \\
+& in\texttt{put\_W-\_scet.int} &      & -624(19)pb & 213 \\[2pt] % 18434954. \\
+$W^+$
+& in\texttt{put\_W+\_qt.int}   & 0.06 & -358(21)pb & 556 \\ % 48061977. \\
+& in\texttt{put\_W+\_scet.int} &      & -275(16)pb & 555 \\[2pt] % 47926621. \\
+$ZH$
+& in\texttt{put\_ZH\_qt.int}   & 0.01 & 65.9(0.6)fb & 19.4 \\ % 1673353.0 \\
+& in\texttt{put\_ZH\_scet.int} &      & 67.4(0.6)fb & 19.1 \\[2pt] % 1653967.0 \\
+$W^-H+W^+H$
+& in\texttt{put\_WH\_qt.int}   & 0.01 & 29.7(0.3)fb & 271 \\ % 23379691 \\
+& in\texttt{put\_WH\_scet.int} &      & 29.4(0.3)fb & 281 \\[2pt] % 24241018.\\
+$e^-e^+\gamma$
+& in\texttt{put\_eexa\_qt.int}   & 0.03 & 133.8(4.0)fb & 183 \\ % 15818271. \\
+& in\texttt{put\_eexa\_scet.int} &      & 128.7(3.8)fb & 203 \\[2pt] % 17528784.\\
+$e^-\bar\nu_e\gamma$
+& in\texttt{put\_enexa\_qt.int}   & 0.01 & 389.8(3.9)fb & 26.1 \\ % 2254963.1 \\
+& in\texttt{put\_enexa\_scet.int} &      & 371.7(3.6)fb & 50.0 \\[2pt] % 4320244.9 \\
+$\nu_e e^+\gamma$
+& in\texttt{put\_neexa\_qt.int}   & 0.01 & 488.0(4.8)fb & 29.1 \\ % 2510408.8 \\
+& in\texttt{put\_neexa\_scet.int} &      & 461.7(4.6)fb & 47.1 \\[2pt] % 4071605.7 \\
+$\gamma\gamma$
+& in\texttt{put\_aa\_qt.int}   & 0.01 & 13.98(0.13)pb & 1.08 \\ % 92901.640 \\
+& in\texttt{put\_aa\_scet.int} &      & 14.17(0.14)pb & 0.92 \\[2pt] % 79255.726 \\
+$e^-\mu^+\bar\nu_e\nu_\mu$
+& in\texttt{put\_emxnexnm\_qt.int}   & 0.015 & 21.2(0.3)fb  & 325 \\ % 28043518 \\
+& in\texttt{put\_emxnexnm\_scet.int} &       & 21.6(0.3)fb  & 319 \\[2pt] %  \\
+$e^- \bar\nu_e \mu^-\mu^+$
+& in\texttt{put\_enexmmx\_qt.int}   & 0.01   & 2.23(0.02)fb & 82.7 \\ % 7142746.4 \\
+& in\texttt{put\_enexmmx\_scet.int} &        & 2.25(0.02)fb & 76.6 \\[2pt] %  \\
+$\bar\nu e^+ \mu^- \mu^+$
+& in\texttt{put\_neexmmx\_qt.int}   & 0.01   & 3.13(0.03)fb & 124 \\ % 10685538 \\
+& in\texttt{put\_neexmmx\_scet.int} &        & 3.14(0.03)fb & 121 \\[2pt] % 10487091 \\
+$e^- e^+ \mu^- \mu^+$
+& in\texttt{put\_eexmmx\_qt.int}   & 0.01    & 2.99(0.03)fb & 54.2 \\ % 4685505.7 \\
+& in\texttt{put\_eexmmx\_scet.int} &         & 3.03(0.03)fb & 76.1 \\ % 6572676.0 \\
+\bottomrule
+\end{tabular}
+\caption{Processes that may be computed at NNLO in this version.  Results have been obtained
+when requiring the given precision (\texttt{precisiongoal} in the input file)
+on the calculation of the NNLO coefficient ($\delta_{NNLO}$).
+\label{table:nnlo10}}
+\end{table}
+\renewcommand{\arraystretch}{1.0}
+
+This version also extends the capabilities of the interface to allow a calculation
+of one-loop amplitudes representing diboson+jet production with
+a variety of $W$ and $Z$ boson decays, including all appropriate interferences.
+The calculation of diboson amplitudes (without the presence of an additional
+jet) has also been extended to include additional processes that include
+interference contributions.
+The new scattering amplitudes available are:
+\begin{lstlisting}
+d u~ e- ve~ e+ e-
+u d~ e+ ve e+ e-
+u u~ e- e+ ve ve~
+
+d u~ e- ve~ a g
+u d~ e+ ve a g
+u u~ e- e+ a g
+u u~ e- ve~ mu+ vmu g
+d u~ e- ve~ mu+ mu- g
+u d~ e+ ve mu+ mu- g
+u u~ e- e+ mu+ mu- g
+u u~ e- e+ e- e+ g
+u u~ e- e+ vmu vmu~ g
+u u~ e- e+ ve ve~ g
+\end{lstlisting}
+where, in addition, all relevant combinations of quark flavors are included.
+
+A description of the new features added in recent releases (v9.0 onwards) is 
+given in Appendix~\ref{mcfm9plus}.

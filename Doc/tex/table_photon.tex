@@ -1,0 +1,79 @@
+	\begin{longtable}{p{3.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{photon}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+		{\tt fragmentation} &  This parameter is a logical variable that determines whether the production of photons 
+		by a parton 
+		fragmentation process is included. If {\tt fragmentation} is set to {\tt .true.} the code uses a a standard 
+		cone isolation
+		procedure (that includes LO fragmentation contributions in the NLO calculation).
+		If {\tt fragmentation} is set to {\tt .false.} the code implements
+		a Frixione-style photon cut~\cite{Frixione:1998jh},
+		\begin{eqnarray}
+		\sum_{i \in R_0} E_{T,i}^j  < \epsilon_h E_{T}^{\gamma} \bigg(\frac{1-\cos{R_{i\gamma}}}{1-\cos{R_0}}\bigg)^{n} 
+		\;.
+		\label{frixeq}
+		\end{eqnarray}
+		In this equation, $R_0$, $\epsilon_h$ and $n$ are defined by {\tt cone\_ang}, {\tt epsilon\_h} 
+		and {\tt n\_pow}  respectively (see below).
+		$E_{T,i}^{j}$ is the transverse energy of a parton, $E_{T}^\gamma$ is the
+		transverse energy of the photon and $R_{i\gamma}$ is the separation between the photon and the parton using the 
+		usual definition 
+		$R=\sqrt{\Delta\phi^2+\Delta\eta^2}$. $n$ is an integer parameter which by default is set to~1. \\
+		
+		{\tt fragmentation\_set} & A length eight character variable that is used to choose the particular photon 
+		fragmentation set.
+		Currently implemented fragmentation functions can be called with `{\tt BFGSet\_I}', `{\tt 
+			BFGSetII}'~\cite{Bourhis:1997yu} or `{\tt GdRG\_\_LO}'~\cite{GehrmannDeRidder:1998ba}. \\
+		
+		{\tt fragmentation\_scale} & A double precision variable that will be used to choose the scale 
+		at which the photon fragmentation is evaluated. \\
+		
+		{\tt gammptmin} & This specifies the value
+		of $p_T^{\mathrm{min}}$ for the photon with the largest transverse momentum.
+		Note that this cut, together with all the photon cuts specified in this section
+		of the input file, are applied even if {\tt makecuts} is set to {\tt .false.}.
+		One can also add an entry for \texttt{gammptmax} to cut on a range. \\
+		
+		{\tt gammrapmax} & This specifies the value
+		of $|y|^{\mathrm{max}}$ for any photons produced in the process. One can also add an entry
+		for \texttt{gammrapmin} to cut on a range. \\
+		
+		{\tt gammpt2} and {\tt gammpt3} & These specify the values
+		of $p_T^{\mathrm{min}}$ for the second and third photons, ordered by $p_T$. \\
+		
+		{\tt Rgalmin} & Using the usual definition of $\Delta R$,
+		this requires that all photon-lepton pairs are separated by
+		$\Delta R >$~{\tt Rgalmin}. This parameter must be non-zero
+		for processes in which photon radiation from leptons is included. \\
+		
+		{\tt Rgagamin} & Using the usual definition of $\Delta R$,
+		this requires that all photon pairs are separated by
+		$\Delta R >$~{\tt Rgagamin}. \\
+		
+		{\tt Rgajetmin} & Using the usual definition of $\Delta R$,
+		this requires that all photon-jet pairs are separated by
+		$\Delta R >$~{\tt Rgajetmin}. \\
+		
+		{\tt cone\_ang} & Fixes the cone size ($R_0$) for photon isolation.
+		This cone is used in both forms of isolation. \\
+		
+		{\tt epsilon\_h} & This cut controls the amount of radiation allowed in cone when  {\tt fragmentation} is set 
+		to 
+		{\tt .true.}. If  {\tt epsilon\_h} $ < 1$ then the photon is isolated using
+		$\sum_{\in R_0} E_T{\mathrm{(had)}} < \epsilon_h \, p^{\gamma}_{T}.$ Otherwise {\tt epsilon\_h}  $ > 1$ sets 
+		$E_T(max)$ in  $\sum_{\in R_0} E_T{\mathrm{(had)}} < E_T(max)$. \\
+		
+		{\tt n\_pow} & When using the Frixione isolation prescription, the exponent $n$ in Eq.~(\ref{frixeq}). \\
+		
+                {\tt fixed\_coneenergy} & This is only operational when using the Frixione isolation prescription.
+		If {\tt fixed\_coneenergy} is .false. then $\epsilon_h$ controls the amount of hadronic energy allowed 
+		inside the cone using the
+		Frixione isolation prescription (see above, Eq.~(\ref{frixeq}))
+		If {\tt fixed\_coneenergy} is .true. then this formula
+		is replaced by one where $\epsilon_h E_T^\gamma \rightarrow \epsilon_h$. \\		
+
+                {\tt hybrid}, {\tt  R\_inner} & If {\tt hybrid} is set to .true. use a hybrid isolation scheme
+		with Frixione isolation on an inner cone of radius {\tt  R\_inner}. \\
+    \bottomrule
+	\end{longtable}

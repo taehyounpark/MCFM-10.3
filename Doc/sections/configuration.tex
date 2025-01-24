@@ -1,0 +1,185 @@
+\topheading{Configuration}
+\label{Input_parameters}
+
+\midheading{Compile-time settings}
+MCFM allows the user to choose between a number of schemes
+for defining the electroweak couplings. These choices are summarized
+in Table~\ref{ewscheme}. The scheme is selected by modifying the
+value of {\tt ewscheme} in {\tt src/User/mdata.f} prior to compilation, 
+which also contains
+the values of all input parameters (see also Table~\ref{default}).
+
+\begin{table}
+\begin{center}
+	\caption{Different options for the scheme used to fix the electroweak
+		parameters of the Standard Model and the corresponding default input
+		values. $M_W$ and $M_Z$ are taken from ref.~\cite{Amsler:2008zzb}.}
+	\label{ewscheme}
+	\vspace{0.5em}
+\begin{tabular}{|c|c|c|c|c|c|c|} \hline
+ Parameter & Name & Input Value
+ & \multicolumn{4}{c|}{Output Value determined by \tt ewscheme} \\
+\cline{4-7}
+& ({\tt \_inp}) & & {\tt -1} & {\tt 0} & {\tt 1} & {\tt 2} \\ \hline
+$G_F$            & {\tt Gf}      & 1.16639$\times$10$^{-5}$ 
+ & input & calculated & input & input \\
+$\alpha(M_Z)$    & {\tt aemmz}   & 1/128.89                 
+ & input & input & calculated & input \\
+$\sin^2 \theta_w$& {\tt xw}      & 0.2223               
+ & calculated & input & calculated & input \\
+$M_W$            & {\tt wmass}   & 80.385 GeV                
+ & input & calculated & input & calculated \\
+$M_Z$            & {\tt zmass}   & 91.1876 GeV               
+ & input & input & input & calculated \\
+$m_t$            & {\tt mt}      & {\tt input.ini}                  
+ & calculated & input & input & input \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+The default scheme corresponds to {\tt ewscheme=+1}. As described below, this corresponds to a scheme
+in which the top quark mass is an input parameter so that it is
+more suitable for many processes now included in the program.
+
+The choice of ({\tt ewscheme=-1}) enforces the use of an effective field
+theory approach, which is valid for scales below the top mass. In this
+approach there are 4 independent parameters (which we choose to be
+$G_F$, $\alpha(M_Z)$, $M_W$ and $M_Z$). For further details,
+see Georgi~\cite{Georgi:1991ci}.
+
+For all the other schemes ({\tt ewscheme=0,1,2}) the top mass is simply
+an additional input parameter and there are 3 other independent
+parameters from the remaining 5. The variable {\tt ewscheme} then performs
+exactly the same role as {\tt idef} in MadEvent~\cite{Maltoni:2002qb}.
+{\tt ewscheme=0} is the old MadEvent default and {\tt ewscheme=1} is the
+new MadEvent default, which is also the same as that used in 
+Alpgen~\cite{Alpgen} and LUSIFER~\cite{Lusifer}. 
+For processes in which the top quark is directly produced  it is 
+preferable to use  the schemes ({\tt ewscheme=0,1,2}), since in these schemes
+one can adjust the top mass to its physical value (in the input file
+{\tt input.ini}). Schemes where the $W$ and $Z$ masses are fixed to their measured
+values are the most appropriate for $W$ and $Z$ production processes.
+
+\begin{table}
+\begin{center}
+	\caption{Default values for the remaining parameters in MCFM.
+		$\Gamma_W$ and $\Gamma_Z$ from ref.~\cite{Amsler:2008zzb}.}
+	\label{default} 
+	\vspace{0.5em}
+\begin{tabular}{|c|c|c|} \hline
+Parameter & Fortran name & Default value \\ 
+\hline
+$m_\tau$         & {\tt mtau}      & 1.777 GeV            \\
+$m^2_\tau$& {\tt mtausq}  & 3.1577 GeV$^2$     \\
+$\Gamma_\tau$    & {\tt tauwidth}& 2.269$\times$10$^{-12}$~GeV \\
+$\Gamma_W$       & {\tt wwidth}  & 2.093 GeV               \\
+$\Gamma_Z$       & {\tt zwidth}  & 2.4952 GeV               \\
+$V_{ud}$         & {\tt Vud}     & 0.975                  \\
+$V_{us}$         & {\tt Vus}     & 0.222             \\
+$V_{ub}$         & {\tt Vub}     & 0.                     \\
+$V_{cd}$         & {\tt Vcd}     & 0.222             \\
+$V_{cs}$         & {\tt Vcs}     & 0.975                  \\
+$V_{cb}$         & {\tt Vcb}     & 0.                     \\
+\hline
+\end{tabular}
+
+\end{center}
+\end{table}
+
+% I consider this setting dangerous, where is it used?
+
+%In the same file ({\tt mdata.f}) one can also choose the definition
+%that the program uses for computing transverse quantities, namely
+%transverse momentum or transverse energy. These are defined by,
+%\begin{eqnarray}
+%\mbox{transverse momentum:} & \sqrt{p_x^2+p_y^2} \; ,\nonumber \\
+%\mbox{transverse energy:}   &
+% \frac{E \sqrt{p_x^2+p_y^2}}{\sqrt{p_x^2+p_y^2+p_z^2}} \; .
+%\end{eqnarray}
+%The two definitions of course coincide for massless particles.
+%The chosen definition is used for all cuts that are applied to the
+%process and it is the one that is used in the default set of histograms.
+
+\midheading{Parton distributions}
+\label{subsec:pdfsets}
+The value of $\alpha_s(M_Z)$ is not adjustable; it is hardwired with the
+parton distribution. In addition, the parton distribution also specifies
+the number of loops that should be used in the running of $\alpha_s$.
+As default the code uses the LHAPDF library for PDF evaluation; a native
+implementation of some (mostly older) PDF sets is also retained.
+
+\midheading{Electroweak corrections}
+\label{subsec:EW}
+
+As of version 8.1, {\tt MCFM} allows the calculation of weak corrections to a
+selection of processes: {\tt 31} (neutral-current DY),
+{\tt 157} (top-pair production) and {\tt 190} (di-jet production).
+This is controlled by the flag {\tt ewcorr} in the input file.  A complete description
+of the calculations is provided in Ref.~\cite{Campbell:2016dks}.
+
+By setting {\tt ewcorr} to {\tt sudakov}, the program performs a calculation of
+the leading weak corrections to these processes using a Sudakov approximation that
+is appropriate at high energies.   The calculation of the weak corrections using the
+exact form of the one-loop amplitudes is obtained by using the flag {\tt exact}.
+A comparison between the two approaches, together with discussions of the validity of
+the Sudakov approximation, may be found in Ref.~\cite{Campbell:2016dks}.
+
+For the case of top-pair and di-jet production, the weak one-loop corrections contain
+infrared divergences that must be cancelled against corresponding real radiation
+contributions (in much the same manner as a regular NLO QCD calculation).  For this
+reason the screen output will contain two sets of iterations corresponding to the
+virtual and real contributions.
+
+For all processes, performing the calculation of weak
+corrections enables a special mode of phase-space integration that is designed to
+better-sample events produced at high-energies.  For this reason the VEGAS output that
+appears on the screen does not correspond to a physical cross-section -- and a corresponding
+warning message to this effect will be displayed.  In many cases the quantity of most interest
+is the relative correction to the leading order result ($\delta_{\mathrm{wk}}$) given by,
+
+\begin{equation}
+\delta_{\mathrm{wk}} = \frac{d\sigma_{\mathrm{wk}}^{NLO} - d\sigma^{LO}}{d\sigma^{LO}} \;.
+\end{equation}
+
+It is straightforward to compute this quantity for a distribution by editing the appropriate
+{\tt nplotter} routine.
+This is achieved by filling a histogram with the weight corresponding
+to the LO result, another with the weight for the NLO weak result and then an additional placeholder
+histogram that contains the special string {\tt '+RELEW+'}.  Examples of the syntax and correct calling
+sequence can be seen in the code. (The appropriate nplotter routine is displayed on the process web-page, reachable from 
+the tables in Section~\ref{MCFMprocs}.)
+
+
+
+% \midheading{Nuclear collisions}
+% \label{sec:nucleus}
+% 
+% It is possible to specify nuclear collisions by choosing values
+% of {\tt ih1} and/or {\tt ih2} above {\tt 1000d0}. In that case,
+% the identity of the nucleus is specified by the atomic number
+% and mass ($Z$ and $A$ respectively) as follows:
+% \begin{equation}
+% {\tt ih} = 1000Z+A.
+% \end{equation}
+% For example, to choose an incoming lead beam one would set
+% {\tt ih1=+82207d0}, corresponding to $Z=82$ and $A=207$.
+% When running the program, the value of {\tt sqrts} should also be
+% changed. This must be done by hand and is not automatically taken
+% care of by the
+% program. The centre-of-mass energy is decreased by a factor of
+% $\sqrt{Z/A}$ for each nuclear beam. 
+% 
+% The nucleon PDFs are calculated by applying the correction
+% factors of EKS98~\cite{Eskola:1998df} on top of the PDF set that is selected.
+% This construction simply corrects each parton distribution by
+% a factor that depends on the value of $(x,\mu)$ in the event.
+% This parametrization is limited to the region $\mu < 100$~GeV and
+% any value above that threshold will instead default to $100$~GeV.
+% 
+% Note that the cross-section reported by the program at the end
+% of the run is given per nucleon per beam. Therefore the
+% appropriate factors of $A$ should be applied in order to obtain
+% the total cross section.
+
+

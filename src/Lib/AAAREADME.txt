@@ -1,0 +1,38 @@
+This directory is no longer used (moved to SpecialFns library)
+
+Various files for special functions taken from a variety of sources:-
+
+xcdil.f  xcli3.f  xli3.f  xspenz.f: From Tord Riemann
+
+dclaus.f  dgauss.f  WGPLG.f: adapted from CERNLIB  
+
+
+hplog6.f: Gehrman and Remiddi
+
+
+hplog.f
+    author = "Gehrmann, T. and Remiddi, E.",
+    title = "{Numerical evaluation of harmonic polylogarithms}",
+    eprint = "hep-ph/0107173",
+    archivePrefix = "arXiv",
+    reportNumber = "CERN-TH-2001-188",
+    doi = "10.1016/S0010-4655(01)00411-8",
+    journal = "Comput. Phys. Commun.",
+    volume = "141",
+    pages = "296--312",
+    year = "2001"
+}
+
+tdhpl.f
+    author = "Gehrmann, T. and Remiddi, E.",
+    title = "{Numerical evaluation of two-dimensional harmonic polylogarithms}",
+    eprint = "hep-ph/0111255",
+    archivePrefix = "arXiv",
+    reportNumber = "CERN-TH-2001-326",
+    doi = "10.1016/S0010-4655(02)00139-X",
+    journal = "Comput. Phys. Commun.",
+    volume = "144",
+    pages = "200--223",
+    year = "2002"
+}
+

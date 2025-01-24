@@ -1,0 +1,2217 @@
+\section{Notes on specific processes}
+
+\label{sec:specific}
+
+The processes described in the file {\tt process.DAT} include appropriate boson decays when the parameter 
+{\tt removebr} is set to {\tt .false.}. In many cases a more simple calculation can be performed by setting 
+this parameter to {\tt .true.}, in which case these decays are not performed.
+Technically the full calculation including the decays
+is still performed but cuts are not performed on the decay products and the
+branching ratio is divided out, thus yielding the cross section before decay.
+In the notes below we indicate the simpler processes thus obtained. When running in
+this mode, the parameter {\tt zerowidth} should be set to {\tt .true.} for consistency. However in certain 
+circumstances, for the sake of comparison, it may be useful to run with it set to {\tt .false.}.
+
+\subsection{$W$-boson production, processes 1,6}
+\label{subsec:wboson}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically. The calculation may be performed at NLO.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{EW corrections to $W$-boson production, processes 2,7}
+\label{subsec:wbosonew}
+
+These processes compute the electroweak corrections to the production of
+a $W$ boson which subsequently decays leptonically.  If particle 5 is present
+it should be interpreted as a photon.
+The calculation must be performed at NLO.
+
+\subsection{Photon-induced corrections to $W$-boson production, processes 3,8}
+\label{subsec:wbosonphoton}
+
+These processes compute the production of
+a $W$ boson which subsequently decays leptonically through the reaction,
+$q + \gamma \to e + \nu + q$.
+The calculation must be performed at NLO.
+
+\subsection{$W+$~jet production, processes 11,16}
+\label{subsec:w1jet}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with a single jet.
+The calculation may be performed at NLO.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$W+b$ production, processes 12,17}
+\label{subsec:wb}
+
+These processes represent the production of a $W$ boson which
+subsequently decays leptonically, in association with a single bottom
+quark, exploiting the weak transitions $c \to b$ and $u \to b$.
+This is produced at leading order by an initial state which
+contains a charm quark (or the CKM  suppressed $u$ quark) and a
+gluon.  The effect of the bottom quark mass is included throughout the
+calculation.  
+For this case the CKM matrix elements $V_{cb}$ and $V_{ub}$,
+(if they are equal to zero in the input data file, {\tt mdata.f})
+are set equal to $0.041$ and $0.00347$ respectively. 
+Otherwise the non-zero values specified in {\tt mdata.f} are used. 
+The calculation of this process may
+be performed at NLO.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$W+c$ production, processes 13,18}
+\label{subsec:wc}
+
+These processes represent the production of a $W$ boson which
+subsequently decays leptonically, in association with a charm
+quark. This is produced at leading order by an initial state which
+contains a strange quark (or Cabibbo suppressed $d$ quark) and a
+gluon.  The effect of the charm quark mass is included throughout the
+calculation.  As of version 5.2, the calculation of this process may
+be performed at NLO.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$W+c$ production ($m_c=0$), processes 14,19}
+\label{subsec:wcmassless}
+
+These processes are identical to {\tt 13} and {\tt 18} except for the fact
+that the charm quark mass is neglected. The calculation can currently be
+performed at LO only.
+
+\subsection{$W+b{\bar b}$ production, processes 20,25}
+\label{subsec:wbb}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with a $b{\bar b}$ pair. The effect of
+the bottom quark mass is included throughout the calculation.  
+Beginning with \MCFM{} version 6.0 this calculation may be performed at NLO, thanks to
+the incorporation of the virtual corrections from ref.~\cite{Badger:2010mg}.
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+To select final states in which one of the $b$-quarks may be unobserved the
+user can employ processes 401--408 instead (see section~\ref{subsec:wbbfilter}).
+These processes use the same matrix
+elements but make specific requirements on the kinematics of the $b$-quarks
+and QCD radiation. 
+
+\subsection{$W+b{\bar b}$ production ($m_b=0$), processes 21,26}
+\label{subsec:wbbmassless}
+
+These processes are identical to {\tt 20} and {\tt 25} except for the fact
+that the bottom quark mass is neglected. This allows the calculation to be
+performed up to NLO, with currently calculated virtual matrix elements. These 
+processes run considerably faster than the corresponding processes with the mass
+for the $b$ quark, (20,25). In circumstances where both $b$ quarks are at large 
+transverse momentum, the inclusion of the mass for the $b$-quark is not mandatory
+and a good estimate of the cross section may be obtained by using these processes.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$W+2$~jets production, processes 22,27}
+\label{subsec:w2jets}
+
+\begin{center}
+[{\it For more details on this calculation, please see Refs.~\cite{Campbell:2002tg,Campbell:2003hd}}]
+\end{center}
+
+This process represents the production of a $W$ boson and $2$ jets,
+where the $W$ boson decays leptonically. The calculation may be
+performed up to NLO, as detailed below. Virtual amplitudes are
+taken from ref.~\cite{Bern:1997sc}.
+
+For these processes (and also for $Z+2$~jet production, {\tt nproc=44,46})
+the next-to-leading order matrix elements are
+particularly complex and so they have been divided into two groups.
+The division is according to the lowest order diagrams from which they
+originate:
+\begin{enumerate}
+\item Diagrams involving two external quark lines and two external gluons,
+the ``{\tt Gflag}'' contribution. The real diagrams in this case thus
+involve three external gluons.
+
+\item Diagrams where all four external lines are quarks,
+the ``{\tt Qflag}'' contribution. The real diagrams in this case 
+involve only one gluon.
+\end{enumerate}
+
+By specifying {\tt Gflag} and {\tt Qflag} in the file {\tt input.ini} one may
+select one of these options at a time. The full result may be obtained
+by straightforward addition of the two individual pieces, with no
+meaning attached to either piece separately. 
+Both of these may be set to {\tt .true.} simultaneously, however this
+may result in lengthy run-times for sufficient convergence of the integral.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$W+3$~jets production, processes 23,28}
+\label{subsec:w3jets}
+
+This process represents the production of a $W$ boson and $3$ jets,
+where the $W$ boson decays leptonically. The calculation may be
+performed at LO only.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$W+b{\bar b}+$~jet production ($m_b=0$), processes 24,29}
+\label{subsec:wbbjetmassless}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with a $b{\bar b}$ pair and an
+additional jet. The effect of the bottom quark mass is neglected throughout
+and the calculation may be performed at LO only.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$Z$-boson production, processes 31--33}
+\label{subsec:zboson}
+
+These processes represent the production of a $Z$ boson which subsequently
+decays either into electrons ({\tt nproc=31}), neutrinos ({\tt nproc=32})
+or bottom quarks ({\tt nproc=33}). Where appropriate, the effect of a virtual
+photon is also included. As noted above, in these latter cases {\tt m34min > 0}
+is obligatory. The calculation may be performed at NLO,
+although the NLO calculation of process {\tt 33} does not include radiation
+from the bottom quarks (i.e.\ radiation occurs in the initial state only).
+
+When {\tt removebr} is true in process {\tt 31}, the $Z$ boson does not decay.
+
+\subsection{$Z$-boson production decaying to jets, processes 34--35}
+Radiation from the final state quarks is not included in this process.
+
+\subsection{$t \bar{t}$ production mediated by $Z/\gamma^*$-boson exchange, process 36}
+
+These processes represent the production of a virtual $Z$ boson or photon 
+which subsequently decays into $t \bar{t}$.
+The leptonic decays of the top quarks are included.
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects
+the $W$ bosons from the top quark decay.
+Note that {\tt m34min > 0} is obligatory due to the inclusion of the
+virtual photon diagrams. The calculation may be only be performed at LO.
+
+\subsection{Lepton pair production through photonic initial states, process 310}
+\label{subsec:gg2lep}
+
+This process represents the production of a lepton pair through an electroweak
+process involving two photons in the initial state, $\gamma\gamma \to e^- e^+$.
+
+
+\subsection{$Z+$~jet production, processes 41--43}
+\label{subsec:zjet}
+
+These processes represent the production of a $Z$ boson and a single jet,
+where the $Z$ subsequently
+decays either into electrons ({\tt nproc=41}), neutrinos ({\tt nproc=42})
+or bottom quarks ({\tt nproc=43}). Where appropriate, the effect of a virtual
+photon is also included. The calculation may be performed at NLO,
+although the NLO calculation of process {\tt 43} does not include radiation
+from the bottom quarks.
+
+When {\tt removebr} is true in process {\tt 41}, the $Z$ boson does not decay.
+
+\subsection{$Z+2$~jets production, processes 44, 46}
+\label{subsec:z2jets}
+
+\begin{center}
+[{\it For more details on this calculation, please see Refs.~\cite{Campbell:2002tg,Campbell:2003hd}}]
+\end{center}
+
+These processes represents the production of a $Z$ boson and $2$ jets,
+including also the effect of a virtual photon ({\tt nproc=44} only). The $Z/\gamma^*$ decays
+to an $e^+ e^-$ pair ({\tt nproc=44}) or into three species of neutrino ({\tt nproc=46}).
+The calculation may be performed up to NLO --
+please see the earlier Section~\ref{subsec:w2jets} for more details,
+especially the discussion regarding {\tt Qflag} and {\tt Gflag}.
+As of version 6.0, both of these may be set to {\tt .true.} simultaneously but this
+may result in lengthy run-times for sufficient convergence of the integral.
+Virtual amplitudes are taken from ref.~\cite{Bern:1997sc}.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.
+
+
+\subsection{$Z+3$~jets production, processes 45, 47}
+\label{subsec:z3jets}
+
+These processes represent the production of a $Z$ boson and $3$ jets,
+including also the effect of a virtual photon ({\tt nproc=45} only). The $Z/\gamma^*$ decays
+to an $e^+ e^-$ pair ({\tt nproc=45}) or into three species of neutrino ({\tt nproc=47}).
+The calculation may be performed at LO only.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.
+
+\subsection{$Z+b{\bar b}$ production, process 50}
+\label{subsec:zbb}
+
+These processes represent the production of a $Z$ boson (or virtual photon)
+which subsequently decays leptonically, in association
+with a $b{\bar b}$ pair. The effect of
+the bottom quark mass is included throughout the calculation.  
+The calculation may be performed at LO only.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.
+
+\subsection{$Z+b{\bar b}$ production ($m_b=0$), processes 51--53}
+\label{subsec:zbbmassless}
+
+Process {\tt 51} is identical to {\tt 50} except for the fact
+that the bottom quark mass is neglected. This allows the calculation to be
+performed up to NLO. The other processes account for the decays into
+neutrinos ({\tt nproc=52}) and bottom quarks ({\tt nproc=53}). Note that
+the NLO calculation of process {\tt 53} does not currently 
+include radiation from the
+bottom quarks produced in the decay.
+
+When {\tt removebr} is true in process {\tt 51}, the $Z$ boson does not decay.
+
+\subsection{$Z+b{\bar b}+$~jet production ($m_b=0$), process 54}
+\label{subsec:zbbjetmassless}
+
+This process represents the production of a $Z$ boson (and virtual photon)
+which subsequently decays leptonically, in association
+with a $b{\bar b}$ pair and an additional jet.
+The effect of the bottom quark mass is neglected throughout
+and the calculation may be performed at LO only.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.
+
+\subsection{$Z+c{\bar c}$ production ($m_c=0$), process 56}
+\label{subsec:zccmassless}
+
+Process {\tt 56} is the equivalent of {\tt 51}, with the bottom quarks
+replaced by charm. Although the charm mass is neglected, the calculation
+contains diagrams with two gluons in the initial state and a
+$Z$ coupling to the heavy quark line -- hence the dependence upon the quark
+flavour.
+
+When {\tt removebr} is true in process {\tt 56}, the $Z$ boson does not decay.
+
+\subsection{Di-boson production, processes 61--89}
+\label{subsec:diboson}
+
+\begin{center}
+[{\it For more details on this calculation, please see Refs.~\cite{Campbell:1999ah,Campbell:2011bn}}]
+\end{center}
+
+These processes represent the production of a diboson pair $V_1 V_2$,
+where $V_1$ and $V_2$ may be either a $W$ or $Z/\gamma^*$. 
+All the processes in this section may be calculated at NLO, with the exception
+of {\tt nproc=66,69}. There are various
+possibilities for the subsequent decay of the bosons, as specified in the
+sections below. Amplitudes are taken from ref.~\cite{Dixon:1998py}.
+Where appropriate, these processes include glue-glue initiated box diagrams
+which first contribute at order $\alpha_s^2$ but are included here in the
+NLO calculation. We also include singly resonant diagrams at NLO for all processes
+in the case {\tt zerowidth = .false.}.
+
+For processes {\tt 62}, {\tt 63}, {\tt 64}, {\tt 65}, {\tt 74}
+and {\tt 75} the default behaviour is that the hadronic decay products
+of the bosons are clustered into jets using the supplied jet
+algorithm parameters, but no cut is applied on the number of jets.
+This behaviour can be altered by changing the value of the
+variable {\tt notag} in the file {\tt src/User/setnotag.f}.
+ 
+\subsubsection{$WW$ production, processes 61-64, 69}
+
+For $WW$ production, both $W$'s can decay leptonically ({\tt nproc=61}) or one
+may decay hadronically ({\tt nproc=62} for $W^-$ and {\tt nproc=64} for $W^+$).
+Corresponding to processes {\tt 62,64}, processes {\tt 63,65} implement radiation in 
+decay from the hadronically decaying W's.
+Process {\tt 69} implements the matrix elements for the leptonic decay of
+both $W$'s but where no polarization information is retained. It is included
+for the sake of comparison with other calculations.
+Processes {\tt 62} and {\tt 64} may be run at NLO with the option {\tt todk},
+including radiation in the decay of the hadronically decaying $W$.
+Processes {\tt 63} and {\tt 65} give the effect of radiation in the decay alone
+by making the choices {\tt virt},  {\tt real} or {\tt tota}.
+
+Note that, in processes
+{\tt 62} and {\tt 64}, the NLO corrections include radiation from the
+hadronic decays of the $W$.
+
+The NLO calculations include contributions from the process $gg \to WW$
+that proceeds through quark loops. The calculation of loops containing the third quark generation
+includes the effect of the top quark mass (but $m_b=0$), while the first two
+generations are considered massless. For numerical stability, a small cut on the
+transverse momentum of the $W$ bosons is applied: $p_T(W)>0.05$~GeV for loops
+containing massless (first or second generation) quarks, $p_T(W)>2$~GeV for $(t,b)$
+loops. This typically removes less than $0.1$\% of the total cross section. The
+values of these cutoffs can be changed by editing ${\tt src/WW/gg\_WW.f}$ and recompiling.
+
+When {\tt removebr} is true in processes {\tt 61} and {\tt 69},
+the $W$ bosons do not decay.
+
+\subsubsection{$WW$+jet production, process 66}
+
+This process is only implemented for the leptonic decay modes of both $W$
+bosons and is currently limited to LO accuracy only. When {\tt removebr} is true,
+the $W$ bosons do not decay.
+
+\subsubsection{$WZ$ production, processes 71--80}
+
+For $WZ$ production, the $W$ is chosen to decay leptonically. The $Z$ (or
+virtual photon, when appropriate) may decay into electrons
+({\tt nproc=71},{\tt 76}), neutrinos ({\tt nproc=72},{\tt 77}), a
+pair of bottom quarks ({\tt nproc=73},{\tt 78}), three generations of down-type
+quarks ({\tt nproc=74},{\tt 79}) or two generations of up-type quarks ({\tt nproc=75},{\tt 80}).
+In process {\tt 78} the mass of the $b$-quark is neglected.
+These processes will be observed
+in the final state as $W$-boson + two or three jets.
+In processes {\tt 72} and {\tt 77}, a sum is performed over all three species of neutrinos.
+
+When {\tt removebr} is true in processes {\tt 71} and {\tt 76},
+neither the $W$ or the $Z$ boson decays.
+
+\subsubsection{$ZZ$ production, processes 81--84, 90}
+
+The $Z$'s can either both decay leptonically ({\tt nproc=81}),
+one can decay leptonically while the other decays into neutrinos
+({\tt nproc=82}) or bottom quarks ({\tt nproc=83}), or
+one decays into neutrinos and the other into a bottom quark pair
+({\tt nproc=84}).
+In process {\tt 83} the mass of the $b$-quark is neglected. Note that, in processes
+{\tt 83}--{\tt 84}, the NLO corrections do not include
+radiation from the bottom quarks that are produced by the $Z$ decay.
+In process {\tt 90} the two $Z$ bosons decay to identical charged leptons,
+and interference effects between the decay products of the two $Z$ bosons
+are included.
+In all cases these processes also include the contribution from a virtual photon .
+
+The NLO calculations include contributions from the process $gg \to ZZ$
+that proceeds through quark loops. The calculation of loops containing the third quark generation
+includes the effect of both the top and the bottom quark mass ($m_t,m_b \neq 0$), while the first two
+generations are considered massless. For numerical stability, a small cut on the
+transverse momentum of the $Z$ bosons is applied: $p_T(Z)>0.1$~GeV.
+This typically removes less than $0.1$\% of the total cross section. The
+values of these cutoffs can be changed by editing {\tt src/ZZ/getggZZamps.f} 
+and recompiling.
+
+When {\tt removebr} is true in process {\tt 81}, neither of the $Z$ bosons decays.
+
+
+\subsubsection{$ZZ$+jet production, process 85}
+
+This process is only implemented for the case when one $Z$ boson decays to
+electrons and the other to neutrinos (i.e. the companion of {\tt nproc=82}).
+It may only be calculated at LO. When {\tt removebr} is true, the $Z$ bosons
+do not decay.
+
+\subsubsection{Anomalous couplings}
+
+\label{sec:anomalous}
+As of version 3.0, it is possible to specify anomalous trilinear
+couplings for the $W^+W^-Z$ and $W^+W^-\gamma$ vertices that are
+relevant for $WW$ and $WZ$ production. To run in this mode, one
+must set {\tt zerowidth} equal to {\tt .true.}
+and modify the appropriate lines for the couplings in {\tt input.ini}
+(see below). Note that, at present, the effect of anomalous couplings is not included
+in the gluon-gluon initiated contributions to the $WW$ process.
+
+The anomalous couplings appear in the Lagrangian,
+${\cal L} = {\cal L}_{SM} + {\cal L}_{anom}$ as follows
+(where ${\cal L}_{SM}$ represents the usual Standard Model Lagrangian and
+${\cal L}_{anom}$ is taken from Ref.~\cite{Dixon:1999di}):
+\begin{eqnarray}
+{\cal L}_{anom} & = & i g_{WWZ} \Biggl[
+ \Delta g_1^Z \left( W^*_{\mu\nu}W^\mu Z^\nu - W_{\mu\nu}W^{*\mu} Z^\nu \right)
++\Delta\kappa^Z W^*_\mu W_\nu Z^{\mu\nu} \nonumber \\
+ & &+
+ \frac{\lambda^Z}{M_W^2} W^*_{\rho\mu} W^\mu_\nu Z^{\nu\rho} \Biggr]
++i g_{WW\gamma} \Biggl[ 
+ \Delta\kappa^\gamma W^*_\mu W_\nu \gamma^{\mu\nu}
++\frac{\lambda^\gamma}{M_W^2} W^*_{\rho\mu} W^\mu_\nu\gamma^{\nu\rho}
+ \Biggr], \nonumber
+\end{eqnarray}
+where $X_{\mu\nu} \equiv \partial_\mu X_{\nu} - \partial_\nu X_{\mu}$
+and the overall coupling factors are $g_{WW\gamma}=-e$,
+$g_{WWZ}=-e\cot\theta_w$.
+This is the most general Lagrangian that conserves $C$ and $P$
+separately and electromagnetic gauge invariance requires that there
+is no equivalent of the $\Delta g_1^Z$ term for the photon coupling.
+
+In order to avoid a violation of unitarity, these couplings are often
+included only after suppression by dipole form factors,
+\begin{displaymath}
+\Delta g_1^Z \rightarrow \frac{\Delta g_1^Z}{(1+\hat{s}/\Lambda^2)^2}, \qquad
+\Delta \kappa^{Z/\gamma} \rightarrow
+ \frac{\Delta \kappa_1^{Z/\gamma}}{(1+\hat{s}/\Lambda^2)^2}, \qquad
+\lambda^{Z/\gamma} \rightarrow
+ \frac{\Delta \lambda^{Z/\gamma}}{(1+\hat{s}/\Lambda^2)^2},
+\end{displaymath}
+where $\hat{s}$ is the vector boson pair invariant mass and $\Lambda$
+is an additional parameter giving the scale of new physics, which should
+be in the TeV range.
+These form factors should be produced by the new physics associated with the
+anomalous couplings and this choice is somewhat arbitrary. The use of the form
+factors can be disabled as described below.
+
+The file {\tt input.ini} contains the values of the $6$ parameters
+which specify the anomalous couplings.
+If the input file contains a negative value for the form-factor scale
+then the suppression factors described above are not applied.
+
+\subsection{$WH$ production, processes 91-94, 96-99, 900}
+\label{subsec:wh}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with a Standard Model Higgs boson that
+decays into a bottom quark pair ({\tt nproc=91, 96}), 
+a pair of $W$ bosons ({\tt nproc=92, 97}), 
+a pair of $Z$ bosons ({\tt nproc=93, 98}), or a pair of photons ({\tt nproc=94, 99}).  
+Note that in the cases of Higgs decay to $W$,($Z$) pairs, 
+below the $W$,($Z$) pair threshold
+one of the $W$,($Z$) bosons is virtual 
+and therefore one must set {\tt zerowidth=.false.}.
+The calculation may be performed at NLO.
+Note that the bottom quarks are considered massless and radiation from the
+bottom quarks in the decay is not included.
+\texttt{nproc=900} may be used to compute the sum over both W charges in
+one run (with the decay products 3 and 4 representing lepton and antilepton
+respectively).
+
+When {\tt removebr} is true, neither the $W$ boson nor the Higgs decays.
+
+\subsection{$ZH$ production, processes 101--109}
+\label{subsec:zh}
+
+These processes represent the production of a $Z$ boson (or virtual photon)
+in association with a Standard Model Higgs boson that
+decays into a bottom quark pair ({\tt nproc=101-103}),
+or decays into a pair of photons ({\tt nproc=104-105}) 
+or a pair of $W$ bosons ({\tt nproc=106-108}),
+or a pair of $Z$ bosons ({\tt nproc=109}). 
+The $Z$ subsequently decays into 
+either an $e^+ e^-$ pair ({\tt nproc=101, 106, 109}), neutrinos ({\tt nproc=102, 107})
+or a bottom quark pair ({\tt nproc=103, 108}).
+The calculation may be performed at NLO, although radiation from the
+bottom quarks in the decay of the Higgs (or the $Z$, for processes
+{\tt 103, 108}) is not included.
+
+When {\tt removebr} is true in processes {\tt 101, 106, 109}, neither the $Z$ boson
+nor the Higgs decays.
+
+\subsection{Higgs production, processes 111--121}
+\label{subsec:h}
+
+These processes represent the production of a Standard Model Higgs
+boson that decays either into a bottom quark
+pair ({\tt nproc=111}), a pair of tau's ({\tt nproc=112}), 
+a $W^+W^-$ 
+pair that further decays leptonically ({\tt nproc=113}) 
+a $W^+W^-$ pair where the $W^-$ decays hadronically ({\tt nproc=114,115}) 
+or a $ZZ$ pair ({\tt nproc=116-118}) . In addition, the loop-level decays of the Higgs 
+into a pair of photons ({\tt nproc=119}) and the $Z\gamma$ decay are included
+({\tt nproc=120,121}).
+
+For the case of $W^+W^-$ process {\tt nproc=115} gives the contribution 
+of radiation from the hadronically decaying $W^-$.
+Process {\tt 114} may be run at NLO with the option {\tt todk},
+including radiation in the decay of the hadronically decaying $W^-$.~\footnote{
+We have not included the case of a hadronically decaying $W^+$; it can
+be obtained from processes {\tt nproc=114,115} by performing the
+substitutions $\nu \to e^-$ and $e^+ \to \bar{\nu}$.}
+For the case of a $ZZ$ decay,
+the subsequent decays can either be into a pair of muons and a pair of electrons
+({\tt nproc=116)}, a pair of muons and neutrinos ({\tt nproc=117}) or
+a pair of muons and a pair of bottom quarks ({\tt nproc=118}).
+
+At LO the relevant diagram
+is the coupling of two gluons to the Higgs via a top quark loop.
+This calculation is performed in the limit of infinite top quark mass, so that 
+the top quark loop is replaced by an effective operator. This corresponds
+to the effective Lagrangian,
+\begin{equation}
+\mathcal{L} = \frac{1}{12\pi v} \, G^a_{\mu\nu} G^{\mu\nu}_a H \;,
+\label{eq:HeffL}
+\end{equation}
+where $v$ is the Higgs vacuum expectation value and $G^a_{\mu\nu}$ the
+gluon field strength tensor.
+The calculation may be performed at NLO, although radiation from the
+bottom quarks in the decay of processes {\tt 111} and {\tt 118} is not yet included.
+
+%At the end of the output the program will also display the cross section rescaled
+%by the constant factor,
+%\begin{equation}
+%\frac{\sigma_{\rm LO}(gg \to H, \mbox{finite}~m_t)}{\sigma_{\rm LO}(gg \to H, m_t \to \infty)} \;.
+%\label{eqn:hrescale}
+%\end{equation}
+%For the LO calculation this gives the exact result when retaining a finite value for $m_t$,
+%but this is only an approximation at NLO. The output histograms are not rescaled in this way.
+
+When {\tt removebr} is true in processes {\tt 111,112,113,118},
+the Higgs boson does not decay.
+
+Process {\tt 119} implements the decay of the Higgs boson into two photons
+via loops of top quarks and $W$-bosons.
+The decay is implemented using the formula Eq.(11.12) from ref.~\cite{Ellis:1991qj}.
+When {\tt removebr} is true in process {\tt 119} the Higgs boson does not decay.
+
+Processes {\tt 120} and {\tt 121} implement the decay of the Higgs boson into an lepton-antilepton
+pair and a photon. As usual the production of a charged lepton-antilepton pair is mediated by a 
+$Z/\gamma^*$ (process {\tt 120}) and the production of three types of neutrinos 
+$\sum  \nu \bar{\nu}$ by a $Z$-boson (process {\tt 121}). These processes are implemented 
+using a generalization of the formula of \cite{Djouadi:1996yq}. (Generalization to take into
+account off-shell $Z$-boson and adjustment of the sign of $C_2$ in their Eq.(4)).
+
+
+\subsection{$H \to W^+W^-$ production, processes 123-126}
+These processes represent the production of a Higgs boson that decays to $W^+ W^-$,
+with subsequent decay into leptons. For process {\tt 123}, the exact form of the triangle
+loop coupling a Higgs boson to two gluons is included, with both top and bottom quarks
+circulating in the loop. This is to be contrasted with process {\tt 113} in which only the
+top quark contribution is included in the effective coupling approach.
+
+Process {\tt 124} includes only the effect of the interference of the
+Higgs and $gg \to W^+W^-$ amplitudes, as described in ref.~\cite{Campbell:2011cu}.
+The calculation is available at LO only. LO corresponds to $O(\alpha_s^2)$ in this case.
+The calculation of loops containing the third quark generation
+includes the effect of the top quark mass (but $m_b=0$), while the first two
+generations are considered massless. For numerical stability, a small cut on the
+transverse momentum of the $W$ bosons is applied: $p_T(W)>0.05$~GeV for loops
+containing massless (first or second generation) quarks, $p_T(W)>2$~GeV for $(t,b)$
+loops. This typically removes less than $0.1$\% of the cross section. The
+values of these cutoffs can be changed by editing ${\tt src/HWW/gg\_WW\_int.f}$ and recompiling.
+
+Process {\tt 125} includes all $gg$-intitiated diagrams that have a Higgs boson in the $s$-channel,
+namely the square of the $s$-channel Higgs boson production and the interference with the diagrams
+that do not contain a Higgs boson, (i.e. $gg \to W^+W^- \to \nu_e e^+ e^- \bar{\nu_e}$).
+
+The result for the square of the box diagrams alone, i.e. the process
+$gg \to W^+W^- \to \nu_e e^+ e^- \bar{\nu_e}$, may be obtained by running process
+{\tt nproc=61} with {\tt part=virt} and {\tt ggonly=.true.} 
+
+Process {\tt 126} calculates the full result for this process from  $gg$-intitiated diagrams.
+This includes diagrams that have a Higgs boson in the $s$-channel, the continuum $W^+W^-$
+diagrams described above and their interference. 
+
+
+\subsection{$H \to ZZ \to e^- e^+ \mu^- \mu^+$ production, processes 128-133}
+These processes represent the production of a Higgs boson that decays to $Z Z$,
+with subsequent decay into charged leptons. For process {\tt 128}, the exact form of the triangle
+loop coupling a Higgs boson to two gluons is included, with both top and bottom quarks
+circulating in the loop. This is to be contrasted with process {\tt 116} in which only the
+top quark contribution is included in the effective coupling approach.
+
+Process {\tt 129} includes only the effect of the interference of the
+Higgs and $gg \to ZZ$ amplitudes.
+The calculation is available at LO only. LO corresponds to $O(\alpha_s^2)$ in this case.
+The calculation of loops containing the third quark generation
+includes the effect of both the top quark mass and the bottom quark, while the first two
+generations are considered massless. For numerical stability, a small cut on the
+transverse momentum of the $Z$ bosons is applied: $p_T(Z)>0.05$~GeV.
+This typically removes less than $0.1$\% of the cross section. The
+values of these cutoffs can be changed by editing ${\tt src/ZZ/getggZZamps.f}$ and recompiling.
+
+Process {\tt 130} includes all $gg$-intitiated diagrams that have a Higgs boson in the $s$-channel,
+namely the square of the $s$-channel Higgs boson production and the interference with the diagrams
+that do not contain a Higgs boson, (i.e. $gg \to Z/\gamma^*+Z/\gamma^* \to e^- e^+ \mu^- \mu^+$).
+
+Process {\tt 131} calculates the full result for this process from  $gg$-intitiated diagrams.
+This includes diagrams that have a Higgs boson in the $s$-channel, the continuum $ Z/\gamma^*+Z/\gamma^*$
+diagrams described above and their interference. 
+
+Process {\tt 132}  gives the result for the square of the box diagrams alone, i.e. the process
+$gg \to Z/\gamma^*+Z/\gamma^* \to e^- e^+ \mu^- \mu^+$.
+
+Process {\tt 133} calculates the interference for the $qg$ initiated process.
+
+For those processes that include contributions from the Higgs boson, the form
+of the Higgs propagator may be changed by editing the file
+{\tt src/Need/sethparams.f}.  If the logical variable {\tt CPscheme} is
+changed from the default value {\tt .false.} to {\tt .true.} then the
+Higgs propagator is computed using the ``bar-scheme'' that is
+implemented in the HTO code of G. Passarino~\cite{Goria:2011wa,Passarino:2010qk}.
+The value of the Higgs boson width has been computed with v1.1 of the
+HTO code, for Higgs masses in the interval $50 < m_H< 1500$~GeV.  These
+values are tabulated, in $0.5$~GeV increments, in the file
+{\tt Bin/hto\_output.dat}.  The widths for other masses in this range
+are obtained by linear interpolation.
+
+\subsubsection{Specifying other final states}
+\label{specifyingZdecays}
+As described above, these processes refer to a final state 
+$e^- e^+ \mu^- \mu^+$.  It is however possible to specify a final state
+that corresponds to a different set of $Z$ boson decays.  This is achieved
+by altering the value of {\tt NPROC} in the input file by appending a
+period, followed by two 2-character strings that identify each of the decays.
+Possible values for the strings, and the corresponding decays, are
+shown in the table below.
+\begin{center}
+\begin{tabular}{ll}
+string & $Z$ decay \\
+\hline
+{\tt el,EL} & $(e^-,e^+)$ \\
+{\tt mu,MU,ml,ML} & $(\mu^-,\mu^+)$ \\
+{\tt tl,TL} & $(\tau^-,\tau^+)$ \\
+{\tt nu,NU,nl,NL} & $(\nu,\bar\nu) \times 3$ \\
+{\tt bq,BQ} & $(b,\bar b)$ \\
+\end{tabular}
+\end{center}
+Note that, for the case of neutrino decays, the sum over three flavours of
+neutrino is performed.  The labelling of the particles in the output is best
+understood by example.  Setting {\tt nproc=132.ELNU} corresponds to the
+process $gg \to Z/\gamma^*+Z/\gamma^* \to e^-(p_3) e^+(p_4) \nu(p_5) \bar\nu(p_6)$.
+Note that the default process corresponds to the string {\tt ELMU} so that,
+for instance {\tt nproc=132.ELMU} is entirely equivalent to
+{\tt nproc=132}.
+The effect of changing the lepton flavour is only seen in the output
+of LHE events, where the correct mass is then used when producing the
+event record.
+
+\subsection{$e^- e^+ \nu_e \bar \nu_e$ production, processes 1281, 1311, 1321}
+These processes compute cross sections relevant for the final state
+$e^- e^+ \nu_e \bar \nu_e$, i.e. with charged leptons and neutrinos from the
+same (electron) doublet.  As a result they receive contributions from diagrams
+with resonant $ZZ$ propagators and resonant $WW$ propagators.  Process
+{\tt 1281} only includes amplitudes containing a Higgs boson (c.f. processes
+{\tt 123} and {\tt 128}). Process
+{\tt 1321} only includes continuum (box-diagram) amplitudes (c.f. processes
+{\tt 127} and {\tt 132}). Process
+{\tt 1311} includes both amplitudes and the effects of the interference
+between them (c.f. processes {\tt 126} and {\tt 131}).
+The effect of the interference between the $WW$ and $ZZ$ diagrams can be assessed
+by, for instance, comparing process {\tt 1281} with the sum of processes
+{\tt 123} and one-third of {\tt 128.ELNU}, where the weighting is to divide out
+the natural sum over three neutrino flavours in process {\tt 128.ELNU}.
+
+Event generation is not available for these processes at present.
+
+\subsection{$e^- e^+ \nu \bar \nu$ production, processes 1282, 1312, 1322}
+These processes compute cross sections relevant for the final state
+$e^- e^+ \nu \bar \nu$, i.e. an electron pair and a sum over all three
+flavours of neutrino.  For muon and tau neutrinos, only $ZZ$ diagrams
+contribute.  For electron neutrinos there are contributions from diagrams
+with resonant $ZZ$ propagators and resonant $WW$ propagators.  Process
+{\tt 1282} only includes amplitudes containing a Higgs boson (c.f. processes
+{\tt 123} and {\tt 128}). Process
+{\tt 1322} only includes continuum (box-diagram) amplitudes (c.f. processes
+{\tt 127} and {\tt 132}). Process
+{\tt 1312} includes both amplitudes and the effects of the interference
+between them (c.f. processes {\tt 126} and {\tt 131})s.
+The effect of the interference between the $WW$ and $ZZ$ diagrams can be assessed
+by, for instance, comparing process {\tt 1282} with the sum of processes
+{\tt 123} and {\tt 128.ELNU}.
+
+Event generation is not available for these processes at present.
+
+
+\subsection{$H+b$ production, processes 136--138}
+\label{subsec:Hb}
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Campbell:2002zm}}]
+\end{center}
+
+These processes represent the production of a Standard Model Higgs
+boson that decays into a pair of bottom quarks,
+in association with a further bottom quark. The initial state at lowest order
+is a bottom quark and a gluon.
+The calculation may be performed at NLO, although radiation from the
+bottom quarks in the Higgs decay is not included.
+
+For this process, the matrix elements are divided up into a number of
+different sub-processes, so the user must sum over these after performing
+more runs than usual. At lowest order one can proceed as normal, using
+{\tt nproc=136}. For a NLO calculation, the sequence of runs is as follows:
+\begin{itemize}
+\item Run {\tt nproc=136} with {\tt part=virt} and {\tt part=real} (or, both
+at the same time using {\tt part=tota});
+\item Run {\tt nproc=137} with {\tt part=real}.
+\end{itemize}
+The sum of these yields the cross-section with one identified $b$-quark in
+the final state. To calculate the contribution with two $b$-quarks in the
+final state, one should use {\tt nproc=138} with {\tt part=real}.
+
+When {\tt removebr} is true, the Higgs boson does not decay.
+
+\subsection{$t\bar{t}$ production with 2 semi-leptonic decays, processes 141--145}
+\label{subsec:ttbar}
+
+These processes describe $t \bar{t}$ production including semi-leptonic
+decays for both the top and the anti-top. 
+In version 6.2 we have updated this to use the one-loop amplitudes of
+ref.~\cite{Badger:2011yu}. The code for the virtual amplitudes now runs
+about three times faster than earlier versions where the virtual
+amplitudes of ref.~\cite{Korner:2002hy} were used.  
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects 
+the $W$ bosons from the top quark decay, because our method of including spin
+correlations requires the top quark to be on shell.
+
+Process {\tt 141} includes all corrections, i.e.\ both radiative corrections
+to the decay and to the production. This process is therefore the
+basic process for the description of top production where both quarks
+decay semi-leptonically.  When {\tt removebr} is true in process {\tt 141},
+the top quarks do not decay.
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false in process {\tt 141}.
+The LO calculation proceeds as normal. 
+At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams. 
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+Process {\tt 142} includes only the corrections in
+the semileptonic decay of the top quark. Thus it is of primary
+interest for theoretical studies rather than for physics applications.  
+Because of the method that we have used to include the radiation in the decay,
+the inclusion of the corrections in the decay does not change the
+total cross section. This feature is explained in section 6 of ref.~\cite{Campbell:2012uf}.
+
+In the case of process {\tt 145}, there are no spin correlations in
+the decay of the top quarks. The calculation is performed by
+multiplying the spin summed top production cross section, by the decay
+matrix element for the decay of the $t$ and the $\bar{t}$. These
+processes may be used as a diagnostic test for the importance of the
+spin correlation.
+
+
+
+\subsection{$t\bar{t}$ production with decay and a gluon, process 143}
+This process describes lowest order $t \bar{t}+g$ production 
+including two leptonic decays $t \to b l \nu$. 
+When {\tt removebr} is true, the top quarks do not decay.
+This LO process only includes radiation only includes radiation in production.
+
+\subsection{$t\bar{t}$ production with one hadronic decay, processes 146--151}
+
+These processes describe the hadronic production of a pair of top
+quarks, with one quark decaying hadronically and one quark decaying
+semileptonics.  For processes {\tt 146--148}, the top quark decays
+semileptonically whereas the anti-top quark decays hadronically.  For
+processes {\tt 149--151}, the top quark decays hadronically whereas the
+anti-top quark decays semi-leptonically.  The base processes for
+physics are process {\tt 146} and {\tt 149} which include
+radiative corrections in both production and decay.  Switching {\tt zerowidth} from 
+{\tt .true.} to {\tt .false.} only affects the $W$ bosons from the top
+quark decay, because our method of including spin correlations
+requires the top quark to be on shell.
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false in processes {\tt 146} and {\tt 149}.
+The LO calculation proceeds as normal. At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams. 
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+
+Processes {\tt 147} and {\tt 150} include only the radiative 
+corrections in the decay of the top quark without including 
+the radiative corrections in the hadronic decay of the $W$-boson.
+Because of the method that we have used to include the radiation in the decays,
+the inclusion of the corrections in this stage of the decay does not change the
+total cross section.
+Process {\tt 148} ({\tt 151}) includes only the radiative corrections
+in the hadronic decay of the $W$-boson coming from the anti-top (top).
+The inclusion of the corrections in this stage of the decay increases the
+partial width by the normal $\alpha_s/\pi$ factor.
+
+\subsection{$Q\overline{Q}$ production, processes 157--159}
+These processes calculate the production of heavy quarks
+({\tt 157} for top, {\tt 158} for bottom and {\tt 159} for charm) up to NLO 
+using the matrix elements of ref.~\cite{Nason:1987xz}. No decays
+are included.
+
+\subsection{$t{\bar t}+$~jet production, process 160}
+This process calculates the production of top quarks and a single jet
+at LO, without any decay of the top quarks.
+
+\subsection{Single-top-quark production and decay at NNLO, process 1610}
+\label{single-top-quark-production-and-decay-at-nnlo}
+
+This calculation is based on ref.~\cite{Campbell:2020fhf}. See also
+ref.~\cite{Campbell:2021qgd} for the role of double-DIS scales and the
+relevancy for PDFs.
+
+This process can be run by using process number 1610. The resulting
+histograms and cross-sections are printed for a strict fixed-order
+expansion as well as for a naive addition of all contributions. The
+fixed-order expansion assembles pieces according to the following
+formula. Please see ref.~\cite{Campbell:2020fhf} for more details.
+
+\[\begin{aligned}
+\mathrm{d}\sigma_\text{LO} & = \frac{1}{\Gamma_t^{(0)}} 
+\mathrm{d}\sigma^{(0)}\otimes\mathrm{d}\Gamma_t^{(0)} \,,\\
+\mathrm{d}\sigma_{\delta \text{NLO}} & = \frac{1}{\Gamma_t^{(0)}} \Bigg[ 
+\mathrm{d}\sigma^{(1)}\otimes\mathrm{d}\Gamma_t^{(0)} + 
+\mathrm{d}\sigma^{(0)}\otimes\left(\mathrm{d}\Gamma_t^{(1)} 
+- \frac{\Gamma_t^{(1)}}{\Gamma_t^{(0)}} \mathrm{d}\Gamma_t^{(0)}  \right)
+\Bigg] \,,\\
+\mathrm{d}\sigma_{\delta \text{NNLO}} & = \frac{1}{\Gamma_t^{(0)}} \Bigg[
+\mathrm{d}\sigma^{(2)}\otimes\mathrm{d}\Gamma_t^{(0)} + 
+\mathrm{d}\sigma^{(1)}\otimes\left(
+\mathrm{d}\Gamma_t^{(1)} - 
+\frac{\Gamma_t^{(1)}}{\Gamma_t^{(0)}}\mathrm{d}\Gamma_t^{(0)}
+\right) \\
+& \qquad\qquad  + \mathrm{d}\sigma^{(0)}\otimes \left(
+\mathrm{d}\Gamma_t^{(2)} - 
+\frac{\Gamma_t^{(2)}}{\Gamma_t^{(0)}}\mathrm{d}\Gamma_t^{(0)}
+-\frac{\Gamma_t^{(1)}}{\Gamma_t^{(0)}} \left(
+\mathrm{d}\Gamma_t^{(1)} - \frac{\Gamma_t^{(1)}}{\Gamma_t^{(0)}}
+\mathrm{d}\Gamma_t^{(0)}
+\right)
+\right) \Bigg] \,.
+\end{aligned}\]
+
+At each order a corresponding top-decay width is used throughout all
+parts. The NNLO width is obtained from ref.~\cite{Blokland:2005vq} and at
+LO and NLO from ref.~\cite{Czarnecki:1990kv}. These widths agree with
+numerical results obtained from our calculation of course.
+
+This process can be run with a fixed scale or with dynamic DIS (DDIS)
+scales by setting \texttt{dynamicscale\ =\ DDIS},
+\texttt{renscale\ =\ 1.0} and \texttt{facscale\ =\ 1.0}.
+
+At NNLO there are several different contributions from vertex
+corrections on the light-quark line, heavy-quark line in production, and
+heavy-quark line in the top-quark decay. Additionally there are one-loop
+times one-loop interference contributions between all three
+contributions. These contributions can be separately enabled in the
+\texttt{singletop} block:
+
+\begin{verbatim}
+[singletop]
+    nnlo_enable_light = .true.
+    nnlo_enable_heavy_prod = .true.
+    nnlo_enable_heavy_decay = .true.
+    nnlo_enable_interf_lxh = .true.
+    nnlo_enable_interf_lxd = .true.
+    nnlo_enable_interf_hxd = .true.
+    nnlo_fully_inclusive = .false.
+\end{verbatim}
+
+For a fully inclusive calculation without decay the last setting has to
+be set to \texttt{.true.} and the decay and decay interference parts
+have to be removed. Additionally jet requirements must be lifted, see
+below.
+
+When scale variation is enabled with DDIS scales then automatically also
+a variation around the fixed scale \(\mu=m_t\) is calculated for
+comparison.
+
+This process uses a fixed diagonal CKM matrix with
+\(V_{ud}=V_{cs}=V_{tb}=1\). The setting \texttt{removebr=.true.} removes
+the \(W\to \nu e\) branching ratio.
+
+This process involves complicated phase-space integrals and we have
+pre-set the initial integration calls for precise differential
+cross-sections with fiducial cuts. The number of calls can be tuned
+overall with the multiplier setting
+\texttt{integration\%globalcallmult}. For total fully inclusive
+cross-sections the number of calls can be reduced by a factor of ten by
+setting \texttt{integration\%globalcallmult\ =\ 0.1}, for example.
+
+For scale variation uncertainties and PDF uncertainties we recommend to
+start with the default number of calls and a larger number of warmup
+iterations \texttt{integration\%iterbatchwarmup=10}, for example. For
+the warmup grid no scale variation or PDF uncertainties are calculated
+and this ensures a good Vegas integration grid that can be calculated
+fast. The setting \texttt{integration\%callboost} modifies the number of
+calls for subsequent integration iterations after the warmup. For
+example setting it to \texttt{0.1} reduces the calls by a factor of ten.
+This is typically enough to compute the correlated uncertainties for a
+previously precisely determined central value.
+
+At NNLO the default value for \(\tau_\text{cut}\) is \(10^{-3}\), which
+is the value used for all the plots in our publication. We find that
+cutoff effects are negligible at the sub-permille level for this choice.
+We strongly recommend to not change this value.
+
+\paragraph{Using the plotting routine with b-quark
+tagging}\label{using-the-plotting-routine-with-b-quark-tagging}
+
+The calculation has been set up with b-quark tagging capabilities that
+can be accessed in both the \texttt{gencuts\_user.f90} routine and the
+plotting routine \texttt{nplotter\_singletop\_new.f90}. The plotting
+routine is prepared to generate all histograms shown in our publication
+in ref.~\cite{Campbell:2020fhf}. By default the top-quark is
+reconstructed using the leading b-quark jet and the exact W-boson
+momentum, but any reconstruction algorithm can easily be implemented.
+
+We have added the \texttt{gencuts\_user.f90} file as used for the plots
+in our paper~\cite{Campbell:2020fhf} in \\
+\texttt{src/User/docs/gencuts\_user\_singletop\_nnlo.f90} that can be
+used as a guide on how to access the b-quark tagging in the
+\texttt{gencuts\_user} routine.
+
+See also \texttt{nplotter\_ktopanom.f} (used for the NLO off-shell
+calculation in ref.~\cite{Neumann:2019kvk} for a reconstruction of the
+W-boson. It is based on requiring an on-shell W-boson and selecting the
+solution for the neutrino z-component that gives the closest on-shell
+top-quark mass by adding the leading b-quark jet.
+
+\paragraph{Calculating fully inclusive
+cross-sections}\label{calculating-fully-inclusive-cross-sections}
+
+When calculating a fully inclusive cross-section without top-quark decay
+please set \texttt{zerowidth\ =\ .true.},
+\texttt{removebr\ =\ .true.} in the general section of the input file;
+\texttt{inclusive\ =\ .true}, \texttt{ptjetmin\ =\ 0.0},
+\texttt{etajetmax\ =\ 99.0} in the basicjets section;
+\texttt{makecuts\ =\ .false.} in the cuts section; also set
+\texttt{nnlo\_enable\_heavy\_decay\ =\ .false.} and
+\texttt{nnlo\_enable\_interf\_lxd\ =\ .false.},
+\texttt{nnlo\_enable\_interf\_hxd\ =\ .false.} and
+\texttt{nnlo\_fully\_inclusive\ =\ .true.} in the singletop section.
+
+These settings ensure that neither the decay nor any production times
+decay interference contributions are included. The last setting makes
+sure that only the right pieces in the fixed-order expansion of the
+cross-section are included. It also ensures that the b-quark from the
+top-quark decay is not jet-tagged and just integrated over.
+
+\paragraph{Notes on runtimes and demo
+files}\label{notes-on-runtimes-and-demo-files}
+
+Running the provided input file \\
+\texttt{input\_singletop\_nnlo\_Tevatron\_total.ini} with
+-integration\%globalcallmult=0.1 and without histograms takes about 4-5
+CPU days. So depending on the number of cores, this can be run on a
+single desktop within a few hours.
+
+Running the input file \\
+\texttt{input\_singletop\_nnlo\_LHC\_fiducial.ini} with the default set
+of calls and histograms takes about 3 CPU months (about 3 wall-time
+hours on our cluster with 45 nodes). For the fiducial cross-section
+(without precise histograms) a setting of
+\texttt{-integration\%globallcallmult=0.2} can also be used.
+
+Note that \texttt{-extra\%nohistograms\ =\ .true.} has been set in these
+demonstration files, so no further histograms from
+\texttt{nplotter\_singletop\_new.f90} are generated.
+
+The input file \texttt{input\_singletop\_nnlo\_LHC\_fiducial.ini}
+together with the file \\
+\texttt{src/User/docs/gencuts\_user\_singletop\_nnlo.f90} replacing
+\texttt{src/User/gencuts\_user.f90} reproduces the fiducial
+cross-sections in ref.~\cite{Campbell:2020fhf} table 6.
+
+
+\subsection{Single top production, processes 161--177}
+\label{subsec:stop}
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Campbell:2004ch}}]
+\end{center}
+
+These processes represent single top production and may be calculated up to
+NLO as described below.
+
+Single top production is divided as usual into $s$-channel 
+(processes {\tt 171-177}) and $t$-channel ({\tt 161-167})
+diagrams. Each channel includes separately the production of a top
+and anti-top quark, which is necessary when calculating rates at the LHC.
+Below we illustrate the different use of these processes by considering
+$t$-channel top production ({\tt 161,162}), although the procedure is the same
+for anti-top production ({\tt 166,167}) and the corresponding $s$-channel
+processes ({\tt 171,172}) and ({\tt 176,177}).
+
+
+To calculate cross-sections that do not include any decay of the (anti-)top
+quark, one should use process {\tt 161}
+(or, correspondingly, {\tt 166}, {\tt 171} and {\tt 176}) with {\tt removebr}
+true. The procedure is exactly the same
+as for any other process.
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects
+the $W$ boson from the top quark decay.
+
+For processes {\tt 161}, {\tt 162}, {\tt 163}, {\tt 166}, {\tt 167}
+and {\tt 168} the default behaviour when {\tt removebr} is true is that
+partons are clustered into jets using the supplied jet
+algorithm parameters, but no cut is applied on the number of jets.
+This behaviour can be altered by changing the value of the
+variable {\tt notag} in the file {\tt src/User/setnotag.f}.
+ 
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false.
+The LO calculation proceeds as normal. At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams. This process can only be performed at NLO with 
+{\tt zerowidth = .true}. This should be set automatically.
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+The contribution from radiation in the decay may be calculated separately using
+process {\tt 162}. This process number can be used with {\tt part=virt,real}
+only. To ensure consistency, it is far simpler to use {\tt 161}
+and this is the recommended approach.
+
+A further option is provided for the $t-$channel single top process (when no
+top quark decay is considered), relating to NLO real radiation diagrams that
+contain a bottom quark. In the processes above the bottom quark is taken to
+be massless. To include the effect of $m_b > 0$, one can run process
+{\tt 163} ({\tt 168}) in place of {\tt 161} ({\tt 166}) and additionally include
+process $\tt 231$ ({\tt 236}) at leading order.
+The non-zero bottom quark mass has little effect on
+the total cross section, but enables a (LO) study of the bottom quark kinematics.
+Higher order corrections to the bottom quark kinematics can only be studied by running
+process {\tt 231} ({\tt 236}) at NLO.
+
+\subsection{Off-shell single top production in SM and SMEFT, processes 164,169}
+\label{subsec:offstop}
+\begin{center}
+	[{\it For more details on this calculation, please refer to ref.~\cite{Neumann:2019kvk}}]
+\end{center}
+
+The processes 164 and 169 represent off-shell single-top-quark and anti-top-quark production
+in the complex-mass scheme, respectively. Both the SM and contributions from the SMEFT can be calculated.
+
+Dynamical double deep inelastic scattering scales can be
+consistently used at NLO by setting \texttt{dynamicscale} to `DDIS'
+and \texttt{scale}$=$\texttt{facscale} to 1d0. In this way the
+momentum transfer along the $W$-boson $Q^2$ is used as the scale for
+the light-quark-line corrections $\mu^2=Q^2$, and $\mu^2=Q^2+m_t^2$ for
+the heavy-quark-line corrections. These scales are also consistently
+used for the non-resonant contributions, with QCD corrections on the
+$ud$-quark line, and separate QCD corrections on the bottom-quark
+line.
+
+The new block `Single top SMEFT, nproc=164,169' in the input
+file governs the inclusion of SMEFT operators and corresponding
+orders.  The scale of new physics $\Lambda$ can be separately set, and
+has a default value of $\SI{1000}{\GeV}$.  The flag \texttt{enable
+	1/lambda4} enables the $1/\Lambda^4$ contributions, where operators
+$\Qtwo, \Qfour, \Qseven$ and $\Qnine$ can contribute for the first
+time.  For the non-Hermitian operators we allow complex Wilson
+coefficients.  We also have a flag to disable the pure SM
+contribution, leaving only contributions from SMEFT operators
+either interfered with the SM amplitudes or as squared
+contributions at $1/\Lambda^4$.  This can be used to directly and
+quickly extract kinematical distributions and the magnitudes of
+pure SMEFT contributions.
+
+To allow for easier comparisons with previous anomalous couplings
+results, and possibly estimate further higher order effects, we allow
+for an anomalous couplings mode at LO by enabling the corresponding
+flag.  The relations between our operators and the anomalous couplings
+are
+
+\begin{align*}
+	 \delta V_L &= \Cone \frac{m_t^2}{\Lambda^2} ,\,\text{where } V_L = 1 + \delta V_L\,,\\
+	 V_R &= \Ctwo{}^* \frac{m_t^2}{\Lambda^2}\,, \\
+	 g_L &= -4\frac{m_W m_t}{\Lambda^2} \cdot \Cfour\,, \\
+	 g_R &= -4 \frac{m_W m_t}{\Lambda^2} \cdot \Cthree{}^*\,,
+\end{align*}
+
+where $m_W$ is the $W$-boson mass, and $m_W = \frac{1}{2} g_W v$ has
+been used to derive this equivalence.  Note that the minus sign for
+$g_L$ and $g_R$ is different from the literature. See also the publication for more information.
+
+For comparisons with on-shell results one needs to add up the contributions
+from processes 161 at NLO and from the virt and real contributions from 162, see above.
+
+The analysis/plotting routine is contained in the file
+`\texttt{src/User/nplotter\_ktopanom.f}', where all observables
+presented in this study are implemented, and the $W$-boson/neutrino
+reconstruction is implemented and can be switched on or off.
+
+\subsection{$Wt$ production, processes 180--187}
+\label{subsec:wt}
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Campbell:2005bb}}]
+\end{center}
+
+These processes represent the production of a $W$ boson that decays leptonically
+in association with a top quark. The lowest order diagram involves a gluon and
+a bottom quark from the PDF, with the $b$-quark radiating a $W$ boson and
+becoming a top quark. The calculation can be performed up to NLO.
+
+Processes {\tt 180} and {\tt 185} produce a top quark that does not decay,
+whilst in processes {\tt 181} and {\tt 186} the top quark decays leptonically.
+Consistency with
+the simpler processes ({\tt 180,185}) can be demonstrated by running process
+{\tt 181,186} with {\tt removebr} set to true.
+
+At next-to-leading order, the calculation includes contributions from diagrams
+with two gluons in the initial state, $gg \rightarrow Wtb$. The $p_T$ of the
+additional $b$ quark is vetoed according to the value of the parameter
+{\tt ptmin\_bjet} which is specified in the input file. The contribution from
+these diagrams when the $p_T$ of the $b$ quark is above {\tt ptmin\_bjet}
+is zero. The values of this parameter and the factorization scale ({\tt facscale})
+set in the input file should be chosen carefully. Appropriate values for both
+(in the range $30$-$100$~GeV) are discussed in the associated paper.
+
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false.
+The LO calculation proceeds as normal. At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams. This process can only be performed at NLO with 
+{\tt zerowidth = .true}. This should be set automatically.
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+The contribution from radiation in the decay may be calculated separately using
+processes {\tt 182,187}. These process numbers can be used with {\tt part=virt,real}
+only. To ensure consistency, it is far simpler to use {\tt 181,186}
+and this is the recommended approach.
+
+\subsection{Di-jet production, processes 190--191}
+\label{subsec:dijet}
+
+Process {\tt 190} represents di-jet production through strong interactions.
+It may be calculated to LO only.
+
+Process {\tt 191} is an ancillary process that is used in the calculation of
+weak one-loop corrections to di-jet production.  When computed at LO it gives the
+contribution of weak (${\cal O}(\alpha^2)$) and mixed weak-strong (${\cal O}(\alpha\alpha_s)$)
+mediated processes to di-jet production.  Please refer to Ref.~\cite{Campbell:2016dks} for details.
+
+\subsection{$H+$~jet production with finite top-mass effects, process 200}
+\label{subsec:hjetma}
+This process represents the production of a Higgs boson in association with a single jet based on refs.~ 
+\cite{Neumann:2016dny,Neumann:2018bsx,Budge:2020oyl}. Decay modes are currently unsupported/untested. The top-quark mass is taken 
+into account 
+exactly for the born and real-emission parts, as well as for the singular part of the virtual corrections.
+
+The finite part of the two-loop virtual corrections can be computed in different ways.
+\begin{itemize}
+    \item In a low energy asymptotic expansion in $1/m_t^k$ up to order $k=2,4$ by setting mtex to $2$ or $4$ in the 
+    input file. This is recommended for transverse momenta up to $\simeq\SI{225}{\GeV}$.
+    \item In a high energy expansion by setting mtex=100 in the input file. This is recommended for transverse momenta 
+    beyond \SI{450}{\GeV}.
+    \item In a rescaling approach where the finite part of the two-loop virtual amplitude in the effective field theory 
+    ($m_t=\infty$) is rescaled pointwise by the ratio of the one-loop amplitude computed with full $m_t$ dependence to 
+    the one-loop amplitude for $m_t=\infty$. This mode is the default mode and enabled with mtex=0 in the input file. 
+    This is the recommended approach for the intermediate energy region and for estimating top-mass uncertainties in 
+    the transition regions between these approaches.
+\end{itemize}
+
+\subsection{$H+$~jet production, processes 201--210}
+\label{subsec:hjet}
+
+These processes represent the production of a Higgs boson in association
+with a single jet, with the subsequent decay of the Higgs to either
+a pair of bottom quarks (processes {\tt 201,203,206}) 
+or to a pair of tau's ({\tt 202,204,207}),
+or to a pair of $W$'s which decay leptonically ({\tt 208}),
+or to a pair of $Z$'s which decay leptonically ({\tt 209}),
+or to a pair of photons ({\tt 210}).
+
+The Higgs boson couples to a pair of gluons via a loop of heavy fermions
+which, in the Standard Model, is accounted for almost entirely by including
+the effect of the top quark alone. For processes {\tt 201,202,206,207}, the
+matrix elements include the full dependence on the top quark mass.
+The calculation can only be performed at LO. 
+However, the Higgs boson can either be the Standard Model one
+(processes {\tt 201,202}) or a pseudoscalar ({\tt 206,207}).
+Note that the pseudoscalar case corresponds, in the heavy top limit, to the effective Lagrangian,
+\begin{equation}
+\mathcal{L} = \frac{1}{8\pi v} \, G^a_{\mu\nu} \widetilde G^{\mu\nu}_a A \;,
+\end{equation}
+where $\widetilde G^{\mu\nu}_a = i\epsilon^{\mu\nu\alpha\beta}
+ G_{\alpha\beta}^a$.
+The interaction differs from the scalar case in Eq.~{\ref{eq:HeffL}} by a factor of $3/2$
+and hence the rate is increased by a factor of $(3/2)^2$.
+
+
+For processes {\tt 203,204,208,209,210}, the calculation is performed in the
+limit of infinite top quark mass, so that NLO results can be obtained.
+The virtual matrix elements have been implemented from
+refs~\cite{Ravindran:2002dc} and~\cite{Schmidt:1997wr}.
+Phenomenological results have previously been 
+given in refs.~\cite{deFlorian:1999zd},\cite{Ravindran:2002dc} 
+and \cite{Glosser:2002gm}.
+Note that the effect of radiation from the bottom quarks in process {\tt 203}
+is not included.
+
+When {\tt removebr} is true in processes {\tt 201}, {\tt 203}, {\tt 206}, {\tt 208}, {\tt 209}
+and {\tt 210}, the Higgs boson does not decay.
+
+\subsection{Higgs production via WBF, processes 211--217}
+\label{subsec:wbf}
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Berger:2004pca}}]
+\end{center}
+
+These processes provide predictions for the production of a Higgs boson in
+association with two jets via weak-boson fusion (WBF). The Higgs boson
+subsequently decays to either a pair of bottom quarks
+(processes {\tt 211, 216}), to a pair of tau's ({\tt 212, 217}), 
+to a pair of $W$ bosons ({\tt 213}),
+to a pair of $Z$ bosons ({\tt 214}),
+or to a pair of photons ({\tt 215}).
+
+Calculations can be performed up to NLO for processes {\tt 211}--{\tt 215}.
+In addition to this, processes {\tt 216} and {\tt 217} provide the lowest
+order calculation of the WBF reaction which radiates an additional jet. 
+
+When {\tt removebr} is true, the Higgs boson does not decay.
+
+\subsection{$\tau^+\tau^-$ production, process 221}
+\label{subsec:tautau}
+
+This process provides predictions for the production of a tau lepton
+pair mediated by $\gamma^*/Z$, with subsequent leptonic decays. The calculation is available at LO
+only. The relevant matrix elements are adapted from the ones in
+ref.~\cite{Kleiss:1988xr}.
+
+When {\tt removebr} is true, the tau leptons do not decay.
+
+
+%
+\subsection{$e^-e^+ \nu_{\mu} \bar\nu_{\mu} $-pair production via WBF, processes 222}
+The {\it weak} processes occur in $O(\alpha^6)$, whereas the {\it strong} processes occur in $O(\alpha^4 \alpha_S^2)$.
+These processes can currently only be calculated at lowest order.
+\begin{eqnarray}
+&222 &  f(p_1)+f(p_2) \to Z(e^-(p_3),e^+(p_4))Z(\nu_\mu(p_5),\bar{\nu}_\mu(p_6)))+f(p_7)+f(p_8) [WBF]  \nonumber \\
+&2201 & f(p_1)+f(p_2) \to Z(e^-(p_3),e^+(p_4))Z(\mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) [strong] \nonumber \\
+&2221 & f(p_1)+f(p_2) \to Z(e^-(p_3),e^+(p_4))Z(\nu_\mu(p_5),\bar{\nu}_\mu(p_6)))+f(p_7)+f(p_8) [strong]  \nonumber
+\end{eqnarray}
+%
+\subsection{$\nu_e  e^+ \mu^- \mu^+$-pair production via WBF, processes 223,2231}
+The {\it weak} processes occur in $O(\alpha^6)$, whereas the {\it strong} processes occur in $O(\alpha^4 \alpha_S^2)$.
+These processes can currently only be calculated at lowest order.
+\begin{eqnarray}
+& 223  & f(p_1)+f(p_2) \to W^+(\nu_e(p_3),e^+(p_4))Z(\mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) [weak]  \nonumber \\
+& 2231 & f(p_1)+f(p_2) \to W^+(\nu_e(p_3),e^+(p_4))Z(\mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) [strong]  \nonumber
+\end{eqnarray}
+
+\subsection{$e^- \bar\nu_{e} \nu_{\mu} \mu^+$-pair production via WBF, processes 224,2241}
+The {\it weak} processes occur in $O(\alpha^6)$, whereas the {\it strong} processes occur in $O(\alpha^4 \alpha_S^2)$.
+These processes can currently only be calculated at lowest order.
+\begin{eqnarray}
+&224   & f(p_1)+f(p_2) \to W^-(e^-(p_3),\bar{\nu}_e(p_6)))W^+(\nu_\mu(p_5),\mu^+(p_4))+f(p_7)+f(p_8) [WBF]    \nonumber 
+\\
+&2241  & f(p_1)+f(p_2) \to W^-(e^-(p_3),\bar{\nu}_e(p_6)))W^+(\nu_\mu(p_5),\mu^+(p_4))+f(p_7)+f(p_8) [strong]  
+\nonumber   
+\end{eqnarray}
+%
+\subsection{$e^- \bar\nu_{e} \mu^- \mu^+$-pair production via WBF, processes 225,2251}
+The {\it weak} processes occur in $O(\alpha^6)$, whereas the {\it strong} processes occur in $O(\alpha^4 \alpha_S^2)$.
+These processes can currently only be calculated at lowest order.
+\begin{eqnarray}
+&225   & f(p_1)+f(p_2) \to W^-(e^-(p_3),\bar{\nu}_e(p_4))Z(\mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) [weak]    \nonumber \\
+&2251  &  f(p_1)+f(p_2) \to W^-(e^-(p_3),\bar{\nu}_e(p_4))Z(\mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) [strong]  \nonumber  
+\end{eqnarray}
+
+
+\subsection{$e^- e^+ \bar\nu_{e} \nu_{e}$-pair production via WBF, processes 226}
+The {\it weak} processes occur in $O(\alpha^6)$, whereas the {\it strong} processes occur in $O(\alpha^4 \alpha_S^2)$.
+This process can currently only be calculated at lowest order.
+\begin{eqnarray}
+&226  &  f(p_1)+f(p_2) \to e-(p_3)+e^+(p_4)+\nu_e(p_5)+\bar{\nu}_e(p_6)+f(p_7)+f(p_8) [WBF]    \nonumber
+\end{eqnarray}
+
+\subsection{$\nu_{e} e^+ \nu_{\mu} \mu^+ $-pair production via WBF, processes 228,2281}
+This is pure electroweak process, occuring in $O(\alpha^6)$.
+These processes can currently only be calculated at lowest order.
+\begin{eqnarray}
+&228  &  f(p_1)+f(p_2) \to W^+(\nu_e(p_3),e^+(p_4)))W^+(\nu_\mu(p_5),\mu^+(p_6))+f(p_7)+f(p_8) [WBF]    \nonumber \\
+&2281 &  f(p_1)+f(p_2) \to W^+(\nu_e(p_3),e^+(p_4)))W^+(\nu_\mu(p_5),\mu^+(p_6))+f(p_7)+f(p_8) [strong]     \nonumber
+\end{eqnarray}
+\subsection{$e^- \bar{\nu}_{e} \mu^- \bar{\nu}_{\mu} $-pair production via WBF, processes 229,2291}
+This is pure electroweak process, occuring in $O(\alpha^6)$.
+These processes can currently only be calculated at lowest order.
+\begin{eqnarray}
+& 229 &   f(p_1)+f(p_2) \to W^-(e^-(p_3),\bar{\nu}_e(p_4)))W^+(\mu^-(p_5),\bar{\nu}_\mu(p_6))+f(p_7)+f(p_8) [WBF]   
+\nonumber \\
+&2291 &  f(p_1)+f(p_2) \to W^-(e^-(p_3),\bar{\nu}_e(p_4)))W^-(\mu^-(p_5),\bar{\nu}_\mu(p_6))+f(p_7)+f(p_8) [strong]  
+\nonumber  
+\end{eqnarray}
+
+\subsection{$t$-channel single top with an explicit $b$-quark, processes 231--240}
+\label{subsec:stopb}
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Campbell:2009ss}}]
+\end{center}
+
+These represent calculations of the $t$-channel single top~({\tt 231}) and anti-top~({\tt 231})
+processes in a scheme with four flavours of quark in the proton, so that $b$-quarks are not present in the proton.
+The $b$-quark is instead explicitly included in the final state.
+
+Processes {\tt 232} and {\tt 236} represent $t$-channel single top production in association
+with a further jet and may be calculated at LO only.
+
+Processes {\tt 233} and {\tt 238} are the complete four-flavour scheme $t$-channel single top production processes.
+These are therefore the processes that should be used for most physics applications.
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false in processes {\tt 233} and {\tt 236}.
+The LO calculation proceeds as normal. At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams. 
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+
+Processes {\tt 234} and {\tt 239} give the extra contribution due to radiation 
+in top decay. These processes are mainly of theoretical interest. 
+
+Processes {\tt 235} and {\tt 240} are the leading order single top processes with an 
+extra radiated parton. These processes do not includes jets produced in the decay process.
+
+\subsection{$W^+W^++$jets production, processes 251,252}
+These processes represent the production of two $W^+$ 
+bosons in association with two (process {\tt 251}) or three (process {\tt 252})
+jets.  The lowest order at which two positively charged $W$ bosons 
+can be produced is with two jets. 
+This process is only implemented for leptonic decays of the 
+$W$ particles. The calculation is available at LO only.
+The calculation and code are from ref.~\cite{Melia:2010bm}.
+{\tt removebr} is not implemented and has no effect.
+
+\subsection{$Z+Q$ production, processes 261--267}
+\label{subsec:ZQ}
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Campbell:2003dd}}]
+\end{center}
+
+These processes represent the production of a $Z$
+boson that decays into a pair of electrons,
+in association with a heavy quark, $Q$.
+
+For processes {\tt 261}, {\tt 262}, {\tt 266} and {\tt 267} the initial
+state at lowest order is the heavy quark and a gluon and 
+the calculation may be performed at NLO.
+As for $H+b$ production, the matrix elements are divided into two
+sub-processes at NLO. Thus the user must sum over these after performing
+more runs than usual. At lowest order one can proceed as normal, using
+{\tt nproc=261} (for $Z+b$) or {\tt nproc=262} (for $Z+c$).
+For a NLO calculation, the sequence of runs is as follows:
+\begin{itemize}
+\item Run {\tt nproc=261} (or {\tt 262}) with {\tt part=virt} and
+{\tt part=real} (or, both at the same time using {\tt part=tota});
+\item Run {\tt nproc=266} (or {\tt 267}) with {\tt part=real}.
+\end{itemize}
+The sum of these yields the cross-section with one identified heavy quark in
+the final state when {\tt inclusive} is set to {\tt .false.} . To calculate the
+rate for at least one heavy quark, {\tt inclusive} should be {\tt .true.}.
+
+For processes {\tt 263} and
+{\tt 264}, the calculation uses the matrix elements for the production
+of a $Z$ and a heavy quark pair and demands that one of the heavy quarks
+is not observed. It may either lie outside the range of $p_T$ and $\eta$
+required for a jet, or both quarks may be contained in the same jet.
+Due to the extra complexity (the calculation must retain the full
+dependence on the heavy quark mass), this can only be computed at LO.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.
+
+\subsection{$H + 2$~jet production, processes 270--274}
+
+These processes represent the production of a Standard Model Higgs boson
+in association with two jets. The Higgs boson
+subsequently decays to either a pair of photons ({\tt nproc=270}), a bottom quark pair ({\tt nproc=271}), 
+a pair of tau's ({\tt nproc=272}), a pair of leptonically decaying $W$'s ({\tt nproc=273}) 
+or a pair of leptonically decaying $Z$'s ({\tt nproc=274}).
+
+The matrix elements are included in the infinite top mass limit
+using the effective Lagrangian approach. 
+
+When {\tt removebr} is true, the Higgs boson does not decay.
+
+\subsection{$H + 3$~jet production, processes 275-278}
+
+These processes represent the production of a Standard Model Higgs boson
+in association with three jets. The Higgs boson
+subsequently decays to either a bottom quark pair ({\tt nproc=275}), 
+or a pair of tau's ({\tt nproc=276})
+or a pair of $W$'s that decay leptonically into a single generation of leptons ({\tt nproc=278})
+or a pair of $Z$'s that decay leptonically into a single generation of leptons ({\tt nproc=279}).
+The matrix elements are included in the infinite top mass limit
+using an effective Lagrangian approach. These calculations can be
+performed at LO only.
+
+When {\tt removebr} is true, the Higgs boson does not decay.
+
+\subsection{Direct $\gamma$ production, processes 280--282}
+\label{subsec:dirphot}
+
+These processes represent the production a real photon.
+Since this process includes a real photon, the cross section diverges
+when the photon is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. This will ensure that
+the cross section is well-defined.
+
+The calculation of process {\tt 282} is only available at leading order.
+
+\subsection{Direct $\gamma$ + heavy flavour production, processes 283--284}
+\label{subsec:heavyfl}
+
+These processes represent the production a real photon with a $b$ quark
+or a charm quark
+Since this process includes a real photon, the cross section diverges
+when the photon is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. This will ensure that
+the cross section is well-defined.
+
+The calculation of process {\tt 283}--{\tt 284} is only available at leading order.
+
+\subsection{$\gamma\gamma$ production, processes 285-286}
+\label{subsec:gamgam}
+
+Process {\tt 285} represents the production of a pair of real photons.
+Since this process includes two real photons, the cross section diverges
+when one of the photons is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. This will ensure that
+the cross section is well-defined.
+
+The calculation of process {\tt 285} may be performed at NLO using either the
+Frixione algorithm~\cite{Frixione:1998jh} or standard cone isolation.  This process also includes
+the one-loop gluon-gluon contribution as given in
+ref.~\cite{Bern:2002jx}.  The production of a photon via parton fragmentation is included at NLO and 
+can be run separately by using the {\tt frag} option in {\tt part}. This option includes the contributions from the 
+integrated 
+photon dipole subtraction terms and the LO QCD matrix element multiplied by the fragmentation function.  
+
+%Process {\tt 285} can be run using different cuts for each photon. Setting the first 9 characters of the runstring to 
+%{\tt Stag\_phot} will apply the following default cuts:
+%\begin{eqnarray*}
+%p_T^{\gamma_1} > 40~\mbox{GeV}, \; p_T^{\gamma_2} > {\tt ptmin\_photon}~\mbox{GeV}, \; |\eta^{\gamma_i}| < {\tt 
+%etamax\_photon}
+%\end{eqnarray*} 
+%These values can be changed by editing the file photon\_cuts.f in src/User. 
+
+The phase space cuts for the final state photons are defined in {\tt{input.ini}}, for multiple photon processes such 
+as {\tt 285 - 287} the $p_T$'s of the individual photons (hardest, second hardest and third hardest or softer) can be 
+controlled independently. 
+The remaining cuts on $R_{\gamma j}$, $\eta_{\gamma}$ etc. are applied universally to all photons. Users wishing to 
+alter
+this feature should edit the file {\tt{photon\_cuts.f}} in the directory {\tt{src/User}}. 
+
+
+Process {\tt 286}, corresponding to $\gamma\gamma+$jet production, can be computed at leading order only.
+
+\subsection{$\gamma\gamma\gamma$ production, process 287}
+\label{subsec:trigam}
+
+Process {\tt 287} represents the production of three real photons.
+The cross section diverges
+when one of the photons is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. This will ensure that
+the cross section is well-defined.
+
+The calculation of process {\tt 285} may be performed at NLO using either the
+Frixione algorithm~\cite{Frixione:1998jh} or standard cone isolation.  The production of a photon via parton 
+fragmentation is included at NLO and 
+can be run separately by using the {\tt frag} option in {\tt part}. This option includes the contributions from the 
+integrated 
+photon dipole subtraction terms and the LO QCD matrix element multiplied by the fragmentation function.  
+The phase space cuts for the final state photons are defined in {\tt{input.ini}}, for multiple photon processes such 
+as {\tt 285 - 287} the $p_T$'s of the individual photons (hardest, next-to hardest and softest) can be controlled 
+independently. 
+The remaining cut on $R_{\gamma j}$, $\eta_{\gamma}$ etc. are applied universally to all photons. Users wishing to alter
+this feature should edit the file {\tt{photon\_cuts.f}} in the directory {\tt{src/User}}. 
+
+
+\subsection{$\gamma\gamma\gamma\gamma$ production, process 289}
+\label{subsec:fourgam}
+
+Process {\tt 289} represents the production of four real photons.
+The cross section diverges
+when one of the photons is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. This will ensure that
+the cross section is well-defined.
+
+The calculation of process {\tt 289} may be performed at NLO using either the
+Frixione algorithm~\cite{Frixione:1998jh} or standard cone isolation.  The production of a photon via parton 
+fragmentation is included at NLO and
+can be run separately by using the {\tt frag} option in {\tt part}. This option includes the contributions from the 
+integrated
+photon dipole subtraction terms and the LO QCD matrix element multiplied by the fragmentation function.
+The phase space cuts for the final state photons are defined in {\tt{input.ini}}, for multiple photon processes such
+as {\tt 285 - 289} the $p_T$'s of the individual photons (hardest, next-to hardest and softest) can be controlled 
+independently.
+The remaining cut on $R_{\gamma j}$, $\eta_{\gamma}$ etc. are applied universally to all photons. Users wishing to alter
+this feature should edit the file {\tt{photon\_cuts.f}} in the directory {\tt{src/User}}.
+
+Note that for this process the second softest and softest photons are forced to have equal minimum $p_T$, defined
+by the {\tt{[ptmin\_photon(3rd)]}} variable in the input file.
+
+
+\subsection{$W\gamma$ production, processes 290-299, 2941, 2991}
+\label{subsec:wgamma}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with a real photon.
+Since this process includes a real photon, the cross section diverges
+when the photon is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $W \to \ell \nu$ will include
+photon radiation from the lepton, so that a non-zero {\tt R(photon,lept)\_min} should
+also be supplied. This will ensure that the cross section is well-defined.
+Virtual amplitudes are taken from ref.~\cite{Dixon:1998py}.
+
+The calculation of processes {\tt 290} and {\tt 295} may be performed
+at NLO using the Frixione algorithm~\cite{Frixione:1998jh} or standard isolation. 
+
+For processes {\tt 290} and {\tt 295} the role of {\tt mtrans34cut} changes to become a cut 
+on the transverse mass on the $M_{345}$ system, i.e. the photon is included with the leptons in the cut. 
+
+Processes {\tt 292} and {\tt 297} represent the $W\gamma$+jet production
+processes.  They may be computed to NLO. 
+
+Processes {\tt 294} and {\tt 299} represent the photon-induced reactions,
+$p + \gamma \to e \nu \gamma j$ and should be computed at NLO. 
+Processes {\tt 2941} and {\tt 2991} represent the photon-induced reactions,
+$p + \gamma \to e \nu \gamma j j$ and should be computed at NLO. 
+
+\subsubsection{Anomalous $WW\gamma$ couplings}
+Processes {\tt 290}-{\tt 297} may also be computed including the effect of anomalous $WW\gamma$ couplings, making
+use of the amplitudes calculated in Ref.~\cite{DeFlorian:2000sg}. Including only dimension 6 operators
+or less and demanding gauge, $C$ and $CP$ invariance gives the general form of the anomalous 
+vertex~\cite{DeFlorian:2000sg},
+\begin{eqnarray}
+ \Gamma^{\alpha \beta \mu}_{W W \gamma}(q, \bar q, p) &=& 
+  {\bar q}^\alpha g^{\beta \mu} 
+    \biggl( 2 + \Delta\kappa^\gamma + \lambda^\gamma {q^2\over M_W^2} \biggr) 
+ - q^\beta g^{\alpha \mu}
+    \biggl( 2 + \Delta\kappa^\gamma + \lambda^\gamma {{\bar q}^2\over M_W^2}
+\biggr) \nonumber \\  
+&& \hskip 1 cm
+ + \bigl( {\bar q}^\mu - q^\mu \bigr) 
+ \Biggl[ - g^{\alpha \beta} \biggl( 
+   1 + {1\over2} p^2 \frac{\lambda^\gamma}{M_W^2} \biggr) 
+ +\frac{\lambda^\gamma}{M_W^2} p^\alpha p^\beta \Biggr] \,,
+\end{eqnarray}
+where the overall coupling has been chosen to be $-|e|$. The parameters that
+specify the anomalous couplings, $\Delta\kappa^\gamma$ and $\lambda^\gamma$, are
+specified in the input file as already discussed in Section~\ref{subsec:diboson}.
+If the input file contains a negative value for the form-factor scale $\Lambda$
+then no suppression factors are applied to the anomalous couplings.
+Otherwise, the couplings are included
+in \MCFM{} only after suppression by dipole form factors,
+\begin{displaymath}
+\Delta \kappa^{\gamma} \rightarrow
+ \frac{\Delta \kappa_1^{\gamma}}{(1+\hat{s}/\Lambda^2)^2}, \qquad
+\lambda^{\gamma} \rightarrow
+ \frac{\Delta \lambda^{\gamma}}{(1+\hat{s}/\Lambda^2)^2} \;,
+\end{displaymath}
+where $\hat{s}$ is the $W\gamma$ pair invariant mass.
+
+The Standard Model cross section is obtained by setting $\Delta\kappa^\gamma = \lambda^\gamma = 0$.
+
+\subsection{$Z\gamma$, production, processes 300, 305}
+\label{subsec:zgamma}
+
+
+Processes {\tt 300} and {\tt 305} represent the production of a $Z$ boson (or virtual photon for process {\tt 300})
+in association with a real photon based on ref.~\cite{Campbell:2017aul}. The $Z/\gamma^*$ subsequently decays into 
+either an $e^+ e^-$ pair ({\tt nproc=300}) or neutrinos ({\tt nproc=305}).
+Since these processes include a real photon, the cross section diverges
+when the photon is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $Z \to e^- e^+$ ({\tt nproc=300})
+will include photon radiation from both leptons, so that a non-zero {\tt R(photon,lept)\_min}
+should also be supplied. This will ensure that the cross section is well-defined.
+The calculation of processes {\tt 300} may be performed
+at NNLO using the Frixione algorithm~\cite{Frixione:1998jh} or standard isolation. 
+%Processes {\tt 302} and {\tt 307}  represents the production of a $Z$ boson (or virtual photon)
+%in association with a real photon and an additional jet. These processes are also available at NLO including 
+%the full fragmentation processes. Anomalous couplings are not available for these processes. 
+%Processes {\tt 304} and {\tt 309}  represents the production of a $Z$ boson (or virtual photon)
+%in association with a real photon and and two additional jets. These processes are available at leading order only. 
+%When {\tt removebr} is true in process {\tt 300} or {\tt 302} the $Z$ boson does not decay.
+
+For the process {\tt 300}  the role of {\tt mtrans34cut} changes to become a cut 
+on the invariant mass on the $M_{345}$ system, i.e. the photon is included with the leptons in the cut. 
+
+\subsubsection{Anomalous $ZZ\gamma$ and $Z\gamma\gamma$ couplings}
+Processes {\tt 300}-{\tt 305} may also be computed including the effect of anomalous couplings between $Z$ bosons and 
+photons.
+Note that, at present, the effect of anomalous couplings is not included in the gluon-gluon
+initiated contributions.
+
+The anomalous $Z\gamma Z$ vertex (not present at all in the Standard Model),
+considering operators up to dimension 8, is given by~\cite{DeFlorian:2000sg},
+\begin{eqnarray}
+ && \Gamma^{\alpha \beta \mu}_{Z \gamma Z}(q_1, q_2, p) = 
+   \frac{i(p^2-q_1^2)}{M_Z^2} \Biggl( 
+   h_1^Z \bigl( q_2^\mu g^{\alpha\beta} - q_2^\alpha g^{\mu \beta}
+   \bigr)
+    \nonumber \\ && + \frac{h_2^Z}{M_Z^2} p^\alpha \Bigl( p\cdot q_2\ g^{\mu\beta} -
+            q_2^\mu p^\beta \Bigr)
+   - h_3^Z \varepsilon^{\mu\alpha\beta\nu} q_{2\, \nu} 
+   - \frac{h_4^Z}{M_Z^2} \varepsilon^{\mu\beta\nu\sigma} p^\alpha
+p_\nu q_{2\, \sigma} \Biggl)
+\end{eqnarray}
+where the overall coupling has been chosen to be $|e|$ (and
+$\epsilon^{0123}=+1$). The non-standard $Z_\alpha(q_1) \gamma_\beta(q_2)
+\gamma_\mu(p)$ momentum-space vertex can be obtained from
+this equation by setting $q_1^2 \to 0$ and replacing $h_i^Z \to
+h_i^\gamma$. 
+The parameters that
+specify the anomalous couplings, $h_i^Z$ and $h_i^\gamma$ (for $i=1\ldots 4$), are
+specified in the input file as, e.g. {\tt h1(Z)} and {\tt h1(gamma)}.
+If the input file contains a negative value for the form-factor scale $\Lambda$
+then no suppression factors are applied to these anomalous couplings.
+Otherwise, the couplings are included
+in \MCFM{} only after suppression by dipole form factors,
+\begin{displaymath}
+h_{1,3}^{Z/\gamma} \rightarrow
+ \frac{h_{1,3}^{Z/\gamma}}{(1+\hat{s}/\Lambda^2)^3}, \qquad
+h_{2,4}^{Z/\gamma} \rightarrow
+ \frac{h_{2,4}^{Z/\gamma}}{(1+\hat{s}/\Lambda^2)^4}, \qquad
+\end{displaymath}
+where $\hat{s}$ is the $Z\gamma$ pair invariant mass. Note that these form factors are slightly
+different from those discussed in Sections~\ref{subsec:diboson} and~\ref{subsec:wgamma}. The
+form factors can be modified in {\ttfamily src/Need/set\_anomcoup.f}.
+
+The Standard Model cross section is obtained by setting $h_i^Z = h_i^\gamma = 0$ for $i=1\ldots 4$.
+
+\subsection{$Z\gamma\gamma$ production processes, 301, 306} 
+
+Processes {\tt{301}} and {\tt{306}} represent the production of a $Z$ boson 
+(or virtual photon for process {\tt 301}) in association with two photons.   The $Z/\gamma^*$ subsequently decays into 
+either an $e^+ e^-$ pair ({\tt nproc=301}) or neutrinos ({\tt nproc=306}).
+Since these processes include real photons, the cross section diverges
+when either of the photons is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $Z \to e^- e^+$ ({\tt nproc=301})
+will include photon radiation from both leptons, so that a non-zero {\tt R(photon,lept)\_min}
+should also be supplied. This will ensure that the cross section is well-defined.
+Anomalous couplings are not currently implemented for these processes. 
+
+\subsection{$Z\gamma j$, production, processes 302, 307}
+\label{subsec:zgammajet}
+Processes {\tt 302} and {\tt 307} represent the production of a $Z$ boson (or virtual photon)
+in association with a real photon and at least one jet. 
+The $Z/\gamma^*$ subsequently decays into 
+either an $e^+ e^-$ pair ({\tt nproc=302}) or neutrinos ({\tt nproc=307}).
+Since these processes include a real photon and a jet, the cross section diverges
+when the photon or jet is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}, and {\tt ptjet\_min} and {\tt etajet\_max}.
+ Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $Z \to e^- e^+$ ({\tt nproc=302})
+will include photon radiation from both leptons, so that a non-zero {\tt R(photon,lept)\_min}
+should also be supplied. This will ensure that the cross section is well-defined.
+The calculation of processes {\tt 302} and {\tt 307} may be performed
+at NLO using the Frixione algorithm~\cite{Frixione:1998jh} or standard isolation. 
+Anomalous couplings are not currently implemented for these processes. 
+
+
+\subsection{$Z\gamma\gamma j$ and $Z\gamma j j $, 303, 304, 308 and 309}
+
+These processes are available at LO only. The $Z/\gamma^*$ subsequently decays into 
+either an $e^+ e^-$ pair ({\tt nproc=303,304}) or neutrinos ({\tt nproc=308,309}). 
+Since these processes include a real photon and a jet, the cross section diverges
+when a photon or a jet is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}, and {\tt ptjet\_min} and {\tt etajet\_max}.
+ Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $Z \to e^- e^+$ ({\tt nproc=303, 304})
+will include photon radiation from both leptons, so that a non-zero {\tt R(photon,lept)\_min}
+should also be supplied. This will ensure that the cross section is well-defined.
+Anomalous couplings are not currently implemented for these processes. 
+
+
+
+%Processes {\tt 303} and {\tt 308}  represents the production of a $Z$ boson (or virtual photon)
+%in association with a two photons and and an additional jet. These processes are available at leading order only. 
+%These processes do not currently have anomalous couplings implemented. 
+
+\subsection{$W+Q+$~jet production processes 311--326}
+\label{subsec:wQj}
+
+These processes represent the production of a $W$
+boson that decays leptonically,
+in association with a heavy quark, $Q$ and an additional light jet. In
+processes {\tt 311} and {\tt 316} $Q$ is a bottom quark, whilst
+processes {\tt 321} and {\tt 326} involve a charm quark.
+In these processes the quark $Q$ occurs as parton PDF in the initial state. 
+The initial state in these processes consists of a light quark and a heavy 
+quark, with the light quark radiating the $W$ boson. These calculations may
+be performed at LO only.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$W+c+$~jet production, processes 331, 336}
+\label{subsec:wcj}
+
+These processes represent the production of a $W$
+boson that decays leptonically,
+in association with a charm quark and an additional light jet. 
+
+In contrast to processes {\tt 321} and {\tt 326} described above, the initial
+state in this case consists of two light quarks, one of which is a
+strange quark which radiates the $W$ boson. The calculation may
+be performed at LO only.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{$Z+Q+$jet production, processes 341--357}
+\label{subsec:ZQj}
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Campbell:2005zv}}]
+\end{center}
+
+These processes represent the production of a $Z$
+boson that decays into a pair of electrons,
+in association with a heavy quark, $Q$ and an untagged jet.
+
+For processes {\tt 341} and {\tt 351} the initial state at lowest
+order is the heavy quark and a gluon and the calculation may be
+performed at NLO.  Thus in these processes the quark $Q$ occurs as
+parton PDF in the initial state.  As for $H+b$ and $Z+Q$ production,
+the matrix elements are divided into two sub-processes at NLO. Thus
+the user must sum over these after performing more runs than usual. At
+lowest order one can proceed as normal, using {\tt nproc=341} (for
+$Zbj$) or {\tt nproc=351} (for $Zcj$).  For a NLO calculation, the
+sequence of runs is as follows:
+\begin{itemize}
+\item Run {\tt nproc=341} (or {\tt 351}) with {\tt part=virt} and
+{\tt part=real} (or, both at the same time using {\tt part=tota});
+\item Run {\tt nproc=342} (or {\tt 352}) with {\tt part=real}.
+\end{itemize}
+The sum of these yields the cross-section with one identified heavy
+quark and one untagged jet in the final state when {\tt inclusive} is
+set to {\tt .false.} . To calculate the rate for at least one heavy
+quark and one jet (the remaining jet may be a heavy quark, or
+untagged), {\tt inclusive} should be {\tt .true.}.
+
+Processes {\tt 346,347} and {\tt 356,357} are the lowest order processes that enter
+the above calculation in the real contribution. They can be computed only at LO.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.
+
+\subsection{$c \overline s \to W^+$, processes 361--363}
+\label{subsec:csbar}
+These processes represent the production of a $W^+$ from a charm and anti-strange
+quark at LO. The $W^+$ boson decays into a neutrino and a positron.
+
+The NLO corrections to this LO process include a contribution of the form,
+$g\overline s \to W^+ \overline c$. For process {\tt 361} this contribution is
+calculated in the approximation $m_c=0$ at NLO. In order to perform the NLO calculation 
+for a non-zero value of $m_c$, one must instead sum the results of processes {\tt 362}
+and {\tt 363} for {\tt part=tota}.
+
+\subsection{$W\gamma\gamma$ production, processes 370-371}
+\label{subsec:wgamgam}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with two real photons.
+Since this process includes real photons, the cross section diverges
+when the photon is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt ptmin\_photon} and {\tt etamax\_photon}. Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $W \to \ell \nu$ will include
+photon radiation from the lepton, so that a non-zero {\tt R(photon,lept)\_min} should
+also be supplied. This will ensure that the cross section is well-defined.
+
+These processes may be computed at leading order only.
+
+\subsection{$W+Q$ production in the 4FNS, processes 401--408}
+\label{subsec:wbbfilter}
+These processes represent the production of a $W$ boson and one or more jets,
+at least one of which is a $b$-quark, calculated in the 4-flavour number scheme (4FNS). 
+This implies that contributions that explicitly contain a $b$-quark in the initial state
+are not included.
+These processes all use the same matrix
+elements as processes 20 and 25 (see section~\ref{subsec:wbb}), but make different
+cuts on the final state. The final state is specified by the process number and
+the value of the flag {\tt inclusive}, as shown in Table~\ref{table:wbbfilter}.
+An additional flag is hard-coded into the file {\tt src/User/filterWbbmas.f} to control
+the inclusion of the 3-jet configuration, $(b,\overline b,j)$ when {\tt inclusive} is set to {\tt .true.}.
+By default this is included, {\tt veto3jets = .false.}. If this flag is set to {\tt .true.} 
+then the $(b,\overline b,j)$ contribution
+is not included in processes 401, 402, 406, 407.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|c|} \hline
+ Process ($W^+$/$W^-$) & {\tt inclusive=.false.} & {\tt inclusive=.true.} \\
+\hline
+{\tt 401}/{\tt 406} & $(b)$ or $(\overline b)$ & + ($b,\overline b$) or ($b,j$) or ($\overline b,j$) \\
+{\tt 402}/{\tt 407} & $(B)$ & + ($B,j$) \\
+{\tt 403}/{\tt 408} & $(b,\overline b)$ & \mbox{(no extra configurations)} \\
+\hline
+\end{tabular}
+\caption{The different final states allowed in the calculation of processes 401--408. A jet containing
+both $b$ and $\overline b$ quarks is denoted by $B$ and a light (quark or gluon) jet by $j$. The inclusive
+(right-hand) column also allows the final states in the exclusive (middle) column.}
+\label{table:wbbfilter}
+\end{center}
+\end{table}
+
+As usual, jets may be unobserved as a result of them falling outside the $p_T$
+and rapidity ranges specified in the input file. In addition, the number of jets
+may be different from the number of partons in the matrix element calculation as
+a result of merging in the jet algorithm.
+
+\subsection{$W+Q$ production in the 5FNS, processes 411, 416}
+\label{subsec:wb5FNS}
+
+These processes represent production of a $W$ boson in association with a
+$b$-jet, computed in the 5-flavour number scheme, i.e. a $b$-quark is present in
+the initial state. The lowest order processes are the same as in processes {\tt 311}, {\tt 316}.
+The results at NLO are not physical cross sections since part of the corrections
+are not included in order to avoid double-counting with the 4FNS process (processes
+{\tt 401} and {\tt 406}). To obtain combined 4FNS+5FNS predictions, the user
+should select process {\tt 421} ($W^+$) or {\tt 426} ($W^-$).
+
+\subsection{$W+Q$ production in the combined 4FNS/5FNS, processes 421, 426}
+\label{subsec:wbcombined}
+These processes represent the production of a $W$ boson and one or more jets,
+at least one of which is a $b$-quark, calculated by combining the 4- and 5-flavour results
+of processes {\tt 401}, {\tt 411} (for {\tt 421}) and {\tt 406}, {\tt 416} (for {\tt 426}).
+The selection of the final state is the same as for processes {\tt 401} and {\tt 406}, as
+described in Section~\ref{subsec:wbbfilter}. The procedure for combining the two
+calculations is described in refs.~\cite{Campbell:2008hh,Caola:2011pz}.
+
+\subsection{$W+b{\bar b}+$~jet production, processes 431,436}
+\label{subsec:wbbjetmassive}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with a $b{\bar b}$ pair and an
+additional jet. The effect of the bottom quark mass is included (c.f. the massless approximation
+used in processes {\tt 24}, {\tt 29})
+and the calculation may be performed at LO only.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+
+\subsection{Diboson+jet production, processes 461--487}
+\label{subsec:dibosonjet}
+
+These processes represent the production of a vector boson pair in association
+with a jet.  Theuy are the counterparts of the corresponding diboson process
+(\texttt{nproc-400}) described above, but also including a jet in the final
+state.  They may be computed to NLO.
+
+\subsection{$W+t{\bar t}$ processes 500--516}
+\label{subsec:wttdecay}
+
+These processes represent the production of a $W^\pm$ boson which subsequently
+decays leptonically, in association with a $t{\bar t}$ pair. In all except processes 
+{\tt 500} and {\tt 510} the decays of the top and anti-top quark are included.
+Processes {\tt 501,502} and {\tt 511,512} refer to the semileptonic decay of the top and antitop quarks,
+with the latter process in each pair giving the radiation in the decay of the top and antitop.
+Process {\tt 503} ({\tt 513}) refers to the semileptonic decay of the top (antitop)
+and the hadronic decay of the antitop (top). Processes {\tt 506}({\tt 516}) gives the semileptonic
+decay of the antitop(top) and the hadronic decay of the top(antitop).  Processes {\tt 506}({\tt 516}) 
+do not give same sign lepton events, so they may be of less phenomenological importance. For this reason 
+we have not yet included radiation in the decay for these processes. 
+
+For processes {\tt 503}, {\tt 506}, {\tt 513}
+and {\tt 516} the default behaviour is that the hadronic decay products
+are clustered into jets using the supplied jet
+algorithm parameters, but no cut is applied on the number of jets.
+This behaviour can be altered by changing the value of the
+variable {\tt notag} in the file {\tt src/User/setnotag.f}.
+
+The top quarks are always
+produced on-shell, which is a necessity for a gauge invariant result
+from this limited set of diagrams, but all spin correlations are included.
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects
+the $W$ bosons (both the directly produced one and from the top quark decay).
+Processes {\tt 501} and {\tt 511} may be run at NLO with the option {\tt todk},
+including radiation in the decay of the top quark, see section \ref{subsec:ttbar}.
+
+
+
+
+
+
+\subsection{$Zt{\bar t}$ production, processes 529-533}
+\label{subsec:ztt}
+
+These processes represent the production of a $Z$ boson in association
+with a pair of top quarks.
+For process {\tt 529}, neither the top quarks nor the $Z$-boson
+decays. 
+In processes {\tt 530-533}, the top quarks are always
+produced on-shell, which is a necessity for a gauge invariant result
+from this limited set of diagrams.
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects
+the $Z$ and the $W$ bosons from the top quark decay.
+In process {\tt 530} the $Z$ boson decays into an electron pair, whilst
+in {\tt 531} the decay is into a massless bottom quark pair.
+In process {\tt 532--533} the $Z$ boson decays into an electron pair, whilst
+on or other of the top quark or top anti-quark decays hadronically.
+The calculations can be performed at LO only.
+
+For processes {\tt 532} and {\tt 533} the default behaviour is that the hadronic decay products
+are clustered into jets using the supplied jet
+algorithm parameters, but no cut is applied on the number of jets.
+This behaviour can be altered by changing the value of the
+variable {\tt notag} in the file {\tt src/User/setnotag.f}.
+
+When {\tt removebr} is true in process {\tt 530}, the top quarks and the $Z$ boson do not decay.
+
+\subsection{$Ht$ and $H\bar{t}$ production, processes 540--557}
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Campbell:2013yla}}]
+\end{center}
+
+\label{subsec:Ht}
+These processes describe the production of a single top quark ({\tt 540}, {\tt 544}, {\tt 550},
+{\tt 554}) or antiquark ({\tt 541}, {\tt 547}, {\tt 551}, {\tt 557}) by $W$ exchange in the
+$t$-channel, in association with a Higgs boson. These processes can be performed at NLO.
+For processes {\tt 540}, {\tt 541}, {\tt 550},
+{\tt 551}, the top quark does not decay, but the
+Higgs boson decays to $b\bar{b}$, ({\tt 540}, {\tt 541}), or to $\gamma \gamma$, ({\tt 550}, {\tt 551}).
+Processes {\tt 544}, {\tt 547} and {\tt 554}, {\tt 557} include the decay of the top quark and antiquark
+in the approximation in which the top quark is taken to be on shell allowing a clean separation
+between production and decay. 
+
+It is possible to study the effects of anomalous couplings of the Higgs boson to the top quark and $W$ bosons. These 
+are parametrized by $c_{t\bar{t}H} = g_{t\bar{t}H}/g_{t\bar{t}H}^{SM}$ and $c_{WWH} = g_{WWH}/g_{WWH}^{SM}$ 
+respectively, so that $c_{t\bar{t}H}=c_{WWH}=1$ in the SM. Different couplings may be chosen by modifying the variables 
+{\tt cttH} and {\tt cWWH} in {\tt src/Need/reader$\_$input.f} and recompiling.
+
+\subsection{$Zt$ and $Z\bar{t}$ production, processes 560--569}\
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Campbell:2013yla}}]
+\end{center}
+
+\label{subsec:Zt}
+These processes describe the production of a single top quark (or antiquark) by $W$ exchange in the
+$t$-channel, in association with a $Z$ boson. Processes {\tt 560}, {\tt 561},
+{\tt 564}, {\tt 567} can be performed at NLO.
+Processes {\tt  560}-{\tt 563} are for stable top quarks, whereas processes {\tt 564}-{\tt 569}
+include the decay of the top quark and antiquark
+in the approximation inwhich the top quark is taken to
+be on shell allowing a clean separation
+between production and decay.
+
+For processes {\tt 564} and {\tt 567} the default behaviour is that the hadronic decay products
+are clustered into jets using the supplied jet
+algorithm parameters, but no cut is applied on the number of jets.
+This behaviour can be altered by changing the value of the
+variable {\tt notag} in the file {\tt src/User/setnotag.f}.
+
+\subsection{$HH$ production, processes 601--602}
+These processes represent the production of a pair of Higgs bosons.
+The production proceeds through gluon-fusion one-loop diagrams involving loops 
+of top quarks. The formulae implemented in the code are taken from ref.~\cite{Glover:1987nx},
+where the two Higgs bosons are treated as being on-shell. To enforce this 
+condition, the code sets zerowidth to true, overriding the value set in the input file.
+The calculation can be performed at LO only, (i.e.\ one-loop order only).
+Two decays of the Higgs bosons are currently foreseen, although other decays can easily be implemented. 
+In process {\tt 601}, one Higgs boson decays to
+a pair of $b$-quarks, and the other decays to a pair of $\tau$'s.
+In process {\tt 602}, one Higgs boson decays to
+a pair of $b$-quarks, and the other decays to a pair of photons.
+
+\subsection{$Ht{\bar t}$ production, processes 640--660}
+\label{subsec:htt}
+
+These processes represent the production of a Higgs boson in association
+with a pair of top quarks. The calculation can be performed at LO only.
+
+For process {\tt 640}, neither the top quarks nor the Higgs boson
+decays. 
+In processes {\tt 641-647}, the top quarks are always
+produced on-shell, which is a necessity for a gauge invariant result
+from this limited set of diagrams.
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects
+the Higgs and the $W$ bosons from the top quark decay.
+In process {\tt 641} both the top quarks decay leptonically
+and the Higgs boson decays into a pair of bottom quarks. 
+Consistency with
+the simpler process ({\tt 640}) can be demonstrated by running process
+{\tt 641} with {\tt removebr} set to true.
+In process {\tt 644} the top quark decays leptonically
+and the anti-top quark decays hadronically and the Higgs boson decays into a pair of bottom quarks. 
+In process {\tt 647} the anti-top quark decays leptonically
+and the top quark decays hadronically and the Higgs boson decays into a pair of bottom quarks. 
+
+Processes {\tt 651}--{\tt 657} correspond to processes {\tt 641}--{\tt 647} but with the Higgs decaying
+to two photons.
+Processes {\tt 661}--{\tt 667} correspond to processes {\tt 641}--{\tt 647} but with the Higgs decaying
+to two $W$-bosons which subsequently decay leptonically.
+
+\subsection{Dark Matter Processes  Mono-jet and Mono-photon 800-848} 
+
+\begin{center}
+[{\it For more details on this calculation, please see Ref.~\cite{Fox:2012ru}}]
+\end{center}
+
+\textbf{This process is currently only officially supported with version 8.0 and earlier, use at your own risk!}
+
+This section provides an overview of the Dark Matter (DM) processes
+available in \MCFM{}. Since these processes are quite different in the
+range of possible input parameters (reflecting the range of potential
+BSM operators) the majority of the new features are controlled by the
+file {\tt dm\_parameters.DAT} located in the {\tt Bin} directory.  We
+begin this section by describing the inputs in this file.  Note that
+these processes are still controlled, as usual by {\tt input.ini}
+which is responsible for selecting the process, order in perturbation
+theory, PDFs and phase space cuts etc. The new file controls only the
+new BSM parameters in the code.
+
+\begin{itemize} 
+\item 
+{\tt [dm mass]} This parameter sets the mass of the dark matter particle $m_{\chi}$. 
+\item 
+{\tt [Lambda]} Controls the mass scale associated with the suppression of the higher dimensional operator in the 
+effective theory approach. Note that each 
+operator has a well defined scaling with respect to Lambda, so cross sections and distributions obtained with one 
+particular value can be readily extended to 
+determine those with different $\Lambda$. 
+\item
+{\tt [effective theory] } Is a logical variable which controls whether or not the effective field theory is used in the 
+calculation of the DM process. If this value is set to 
+{\tt .false.} then one must specify the mass of the light mediator and its width (see below for more details).
+\item
+{\tt [Yukawa Scalar couplings]} Is a logical variable which determines if the scalar and pseudo scalar operators scale 
+with the factor $m_{q}/\Lambda$ ( {\tt. .true.}) 
+or 1  ({\tt .false.}).  
+\item
+{ \tt [Left handed DM couplings] } and { \tt [Right handed DM couplings] } 
+These variables determine the coupling of the
+various flavours of quarks to the DM operators.  The default value is 1. 
+Note that the code uses the fact that vector operators scale as
+$(L+R)$ and axial operators scale as $(L-R)$ in constructing cross
+sections. Therefore you should be careful if modifying these
+parameters. For the axial and pseudo scalar operators the code will
+set the right-handed couplings to be the negative of the left handed
+input couplings (if this is not already the case from the setup) and
+inform the user it has done so. The most likely reason to want to
+change these values is to inspect individual flavour operators
+separately, i.e.\ to investigate an operator which only couples to up
+quarks one would set all couplings to 0d0 apart from {\tt [up type]}
+which would be left as 1d0.
+\item 
+{\tt [mediator mass]} If {\tt [effective theory]} is set to {\tt .false.} this variable controls the mass of the 
+mediating particle.
+\item 
+{\tt [mediator width]} If {\tt [effective theory]} is set to {\tt .false.} this variable controls the width of the 
+mediating particle 
+\item 
+{\tt [g\_x]} If {\tt [effective theory]} is set to {\tt .false.} this variable controls the coupling of the mediating 
+particle to the DM.
+\item 
+{\tt [g\_q]} If {\tt [effective theory]} is set to {\tt .false.} this variable controls the coupling of the mediating 
+particle to the quarks.
+\end{itemize}
+
+We now discuss some details of the specific DM process.
+
+\begin{itemize}
+\item 
+Processes 800 and 820 produce the 
+mono-jet or mono-photon signature through the following vector operator, 
+\begin{eqnarray}
+\mathcal{O}_V&=&\frac{(\overline{\chi}\gamma_{\mu}\chi)(\overline{q}\gamma^{\mu}q)}{\Lambda^2}~,\label{eq:OV}  
+\end{eqnarray}
+These processes are available at NLO and include the usual treatment of photons. See for instance the $V\gamma$ 
+processes ($\sim$ 300) in this 
+manual for more details on photon setup in \MCFM. As discussed above the code will calculate left and right-handed 
+helicity amplitudes and build the 
+vector operators from $(L+R)$. Therefore you should ensure that the Left and right-handed couplings are equal in  {\tt 
+dm\_parameters.DAT}. 
+Processes 840 and 845 represent the production of DM plus two jets or DM plus one jet and one photon and are available 
+at LO. 
+\item 
+Processes 801 and 821 produce the 
+mono-jet or mono-photon signature through the following axial-vector operator, 
+\begin{eqnarray}
+\mathcal{O}_A&=&\frac{(\overline{\chi}\gamma_{\mu}\gamma_5\chi)(\overline{q}\gamma^{\mu}\gamma_5q)}{\Lambda^2}~,\label{eq:OA}
+\end{eqnarray}
+These processes are available at NLO and include the usual treatment
+of photons. See for instance the $V\gamma$ processes ($\sim$ 300) in
+this manual for more details on photon setup in \MCFM. As discussed
+above the code will calculate left and right-handed helicity
+amplitudes and build the axial vector operators from $(L-R)$. By
+default the code will enforce the right handed couplings to equal to
+the negative of the left handed couplings, if this is not
+already the case in {\tt dm\_parameters.DAT}. Therefore the user does
+not have to change this file when switching between vector and axial
+vector operators.  Processes 841 and 846 represent the production of
+DM plus two jets or DM plus one jet and one photon and are available
+at LO.
+\item 
+Processes 802 and 822 produce the 
+mono-jet or mono-photon signature through the following scalar operator, 
+\begin{eqnarray}
+\mathcal{O}_S&=&\frac{\Delta(\overline{\chi}\chi)(\overline{q}q)}{\Lambda^2}~,
+\end{eqnarray}
+These processes are available at NLO and include the usual treatment
+of photons. See for instance the $V\gamma$ processes ($\sim$ 300) in
+this manual for more details on photon setup in \MCFM. As discussed
+above the code will calculate left and right-handed helicity
+amplitudes and build the vector operators from $(L+R)$. Therefore you
+should ensure that the Left and right-handed couplings are equal in
+{\tt dm\_parameters.DAT}. For these processes $\Delta$ is fixed from
+the value of {\tt [Yukawa Scalar Couplings] } if this is {\tt .true.}
+then $\Delta=m_q/\Lambda$ else $\Delta=1$.
+
+Processes 842 and 847 represent the production of DM plus two jets or DM plus one jet and one photon and are available 
+at LO. 
+\item 
+Processes 803 and 823 produce the 
+mono-jet or mono-photon signature through the following pseudo-scalar operator, 
+\begin{eqnarray}
+\mathcal{O}_{PS}&=&\frac{m_q(\overline{\chi}\gamma_5\chi)(\overline{q}\gamma_5q)}{\Lambda^3}\label{eq:OPS}~.
+\end{eqnarray}
+These processes are available at NLO and include the usual treatment
+of photons. See for instance the $V\gamma$ processes ($\sim$ 300) in
+this manual for more details on photon setup in \MCFM. As discussed
+above the code will calculate left and right-handed helicity
+amplitudes and build the pseudo scalar operators from $(L-R)$. By
+default the code will enforce the right handed couplings to equal to
+the negative of the left handed couplings, if this is not
+already the case in {\tt dm\_parameters.DAT}. Therefore the user does
+not have to change this file when switching between scalar and pseudo
+scalar operators.  Processes 841 and 846 represent the production of
+DM plus two jets or DM plus one jet and one photon and are available
+at LO.  For these processes $\Delta$ is fixed from the value of {\tt
+  [Yukawa Scalar Couplings] } if this is {\tt .true.} then
+$\Delta=m_q/\Lambda$ else $\Delta=1$.
+
+Processes 843 and 848 represent the production of DM plus two jets or DM plus one jet and one photon and are available 
+at LO. 
+
+\item 
+Process 804 produces the 
+mono-jet signature through the following gluon induced operator, 
+\begin{eqnarray}
+\mathcal{O}_g&=&\alpha_s\frac{(\chi\overline{\chi})(G^{\mu\nu}_aG_{a,\mu\nu})}{\Lambda^3}~,
+\end{eqnarray}
+This process is available at NLO. Process 844 represents the
+production of DM plus two jets and is available at LO. Since this
+operator is higher dimensional, extensions to a theory in which there
+is a light mediator requires the definition of two new scales (one for
+the EFT in the loop defining the operator). In this version we
+therefore do not consider in a theory with a light mediator.
+\item 
+Process 805 is a separate case of the scalar operator for top quarks
+\begin{eqnarray}
+\mathcal{O}^{m_t}_S&=&\frac{m_t(\overline{\chi}\chi)(\overline{q}q)}{\Lambda^3}~,
+\end{eqnarray}
+This process is available at LO and proceeds through a gluon loop. 
+\end{itemize}

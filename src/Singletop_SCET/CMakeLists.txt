@@ -1,0 +1,25 @@
+target_sources(objlib PRIVATE
+nnlotopdecay.f
+lumxmsq_singletop_decay.f90
+lumxmsq_singletop_prod.f90
+lumxmsq_singletop.f90
+singletop_int.f90
+singletop_lowint.f90
+singletop_virtint.f90
+singletop_realint.f90
+singletop_scetint.f90
+singletop_rvint.f90
+singletop_vvint.f90
+singletop_jet_heavy.f
+singletop_jet_heavy_deps.f
+singletop_jet_decay.f
+singletop_jet.f
+singletop_jet_deps.f
+singletop_interf_lxh.f
+singletop_interf_hxd.f
+singletop_interf_lxd.f
+singletop_phase.f90
+singletop_print.f90
+singletop2_nnlo_vars.f90
+singletop2_nnlo.f90
+)

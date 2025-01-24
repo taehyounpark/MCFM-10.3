@@ -1,0 +1,60 @@
+\begin{longtable}{p{1.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{resummation}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+\begin{minipage}[t]{0.24\columnwidth}\raggedright
+\texttt{usegrid}\strut
+\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+\texttt{.true.} or \texttt{.false.} determines whether pregenerated
+LHAPDF interpolation grids should be used for the resummation beam
+functions.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\raggedright
+\texttt{makegrid}\strut
+\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+If \texttt{.true.}, then MCFM runs in grid generation mode. This
+generates LHAPDF grid files in the directory \texttt{gridoutpath} from
+LHAPDF grids in the directory \texttt{gridinpath}. After the grid
+generation MCFM stops and should be run subsequently with
+\texttt{makegrid = .false.} and \texttt{usegrid = .true.}. When
+\texttt{lhapdf\%dopdferrors=.true.} then also grids for the error sets
+are generated.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\raggedright
+\texttt{gridoutpath}\strut
+\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+Output directory for LHAPDF grid files, for example
+\texttt{/home/tobias/local/share/LHAPDF/}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\raggedright
+\texttt{gridinpath}\strut
+\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+Input directory for LHAPDF grid files, for example
+\texttt{/home/tobias/local/share/LHAPDF/}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\raggedright
+\texttt{res\_range}\strut
+\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+Integration range of purely resummed part, for example \texttt{0.0 80.0}
+for \(q_T\) integration between 0 and 80 GeV.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\raggedright
+\texttt{resexp\_range}\strut
+\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+Integration range of fixed-order expanded resummed part, for example
+\texttt{1.0 80.0} for \(q_T\) integration between 1 and 80 GeV.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\raggedright
+\texttt{fo\_cutoff}\strut
+\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+Lower \(q_T\) cutoff $q_0$ for the fixed-order part. % see eq.~\eqref{eq:matchingmod} below.
+Typically the value should agree with the lower range of \texttt{resexp\_range}.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.24\columnwidth}\raggedright
+\texttt{transitionswitch}\strut
+\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+Parameter passed to the plotting routine to modify the transition
+function, see text.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}

@@ -1,0 +1,1050 @@
+#!/usr/bin/env bash
+# configure script
+# note: has nothing to do with GNU autoconf
+if [[ -z $LOGFILE ]]; then
+  exec 2> /dev/null 3>&1
+else
+  exec 3> >(while read TEXT ; do echo $TEXT ; echo $(date +"%d.%m.%Y %H:%M:%S") $TEXT >> $LOGFILE; done)
+  exec 2>> $LOGFILE
+fi
+
+
+shopt -s nullglob
+export LC_ALL=C
+
+printhelp() {
+cat << EOF
+\`configure' configures handyG to adapt to many kinds of systems.
+
+Usage: ./configure [OPTION]... [VAR=VALUE]...
+
+To assign environment variables (e.g., CC, CFLAGS...), specify them as
+VAR=VALUE.  See below for descriptions of some of the useful variables.
+
+Defaults for the options are specified in brackets.
+
+Installation directories:
+  --prefix=PREFIX         install files in PREFIX [/usr/]
+  --mmprefix=PREFIX       install files in for Mathematica
+                          [\$UserBaseDirectory/Kernel/]
+
+By default, \`make install' will install all the files in
+\`/usr/local/bin', \`/usr/local/lib' etc.  You can specify
+an installation prefix other than \`/usr/local' using \`--prefix',
+for instance \`--prefix=\$HOME'.
+
+For better control, use the options below.
+  --moduledir=DIR         Fortran module files (compiler specific)
+  --quad                  uses quadruple precision (128 bit) as the
+                          working precision. This is not compatible with
+                          the GiNaC interface.
+
+Fine tuning of the installation directories:
+
+System types:
+  --32                    forces 32-bit compilation
+  --64                    forces 64-bit compilation
+  --native                do optimize code for the host machine
+
+Optional Packages:
+  --with-mcc              activates Mathematica interface
+  --with-ginac            activates GiNaC interface for testing
+  --debug                 compile with debug flags and without optimization
+
+Some influential environment variables:
+  FC          Fortran compiler command
+  FFLAGS      Fortran compiler flags
+  LD          linker command
+  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+              nonstandard directory <lib dir>
+  CC          C compiler command
+  CFLAGS      C compiler flags
+  CXX         C++ compiler command
+  CXXFLAGS    C++ compiler flags
+  FPATH       Path to put Fortran modules
+  PKG_CONFIG_PATH
+              directories to add to pkg-config's search path
+
+Use these variables to override the choices made by \`configure' or to help
+it to find libraries and programs with nonstandard names/locations.
+
+Report bugs to <yannick.ulrich@psi.ch>.
+
+EOF
+exit
+}
+
+CONF_DIR="${0%/*}"
+CONF_OS="`uname -s`"
+HAVE_GINAC=false
+HAVE_MCC=false
+CONF_BITS=
+
+CONF_QUAD=false
+CONF_FFLAGS=$FFLAGS
+CONF_CFLAGS=$CFLAGS
+CONF_CXXFLAGS=$CXXFLAGS
+CONF_LFLAGS=$LDFLAGS
+CONF_FC=$FC
+CONF_CC=$CC
+CONF_CXX=$CXX
+CONF_LD=$LD
+CONF_MODDIR=$FPATH
+
+
+if [ "$CONF_OS" == "Darwin" ]; then
+    CONF_PREFIX=/usr/local/
+else
+    CONF_PREFIX=/usr/
+fi
+
+
+allargs="$@"
+NATIVE=false
+DEBUG=false
+COVERAGE=false
+STATIC=false
+for arg in "$@" ; do
+    case "$arg" in
+        --debug)
+            DEBUG=true ;;
+        --prefix=*)
+            CONF_PREFIX="${arg#--prefix=}" ;;
+        --moduledir=*)
+            CONF_MODDIR="${arg#--moduledir=}" ;;
+        --with-ginac)
+            HAVE_GINAC=true ;;
+        --with-mcc)
+            HAVE_MCC=true ;;
+        --mmprefix=*)
+            CONF_MMPREFIX="${arg#--mmprefix=}" ;;
+        --static)
+            if [ "$CONF_OS" == "Darwin" ]; then
+                echo "--static does not work for macOS"
+                exit 1
+            fi
+            STATIC=true ;;
+        --native)
+            NATIVE=true ;;
+        --32)
+            CONF_BITS="-m32" ;;
+        --64)
+            CONF_BITS="-m64" ;;
+        --quad)
+            CONF_QUAD=true ;;
+        --coverage)
+            COVERAGE=true ;;
+        --ci)
+            echo "Running in CI configuration. Will not perform speed tests!" 1>&3
+            HAVE_MCC=true
+            HAVE_GINAC=true
+            DEBUG=true
+            COVERAGE=true ;;
+        --help )
+            printhelp ;;
+        -*)
+            echo "Warning: $arg is not a valid option." 1>&3
+            printhelp ;;
+        *=*)
+            eval "$arg" ;;
+        *)
+            echo "Warning: $arg is not a valid argument." 1>&3
+            printhelp ;;
+    esac
+done
+
+
+test=test$$
+trap "rm -fr $test* =." 0 1 2 3 15
+
+HAVE_GIT=false
+if type -P git &>/dev/null ; then
+    if [ -d .git ]; then
+        HAVE_GIT=true
+    fi
+    if [ -f .git ]; then
+        HAVE_GIT=true
+    fi
+fi
+
+# This will be set by git-archive
+VTAG="$Format: %D, %h$"
+
+
+if $HAVE_GIT ; then
+    VERSION=`git describe --tag`
+    COMMIT=`git log -1 --pretty=format:"%h"`
+elif [[ "$VTAG" == *"HEAD"* ]]; then
+    VERSION=`echo $VTAG | perl -lpe 's/.*?(, tag: ([^,]*))?,.*? ([a-f\d]+)$/\2/g'`
+    COMMIT=` echo $VTAG | perl -lpe 's/.*?(, tag: ([^,]*))?,.*? ([a-f\d]+)$/\3/g'`
+    if [ -z "$VERSION" ]; then
+        VERSION="untagged-$COMMIT"
+    fi
+else
+    VERSION="v?.?.?"
+    COMMIT="unknown"
+fi
+
+
+
+if $COVERAGE ; then
+  $DEBUG || echo "Warning: --coverage implies --debug!" 1>&3
+  DEBUG=true
+fi
+## look for some programs
+
+findprog() {
+    echo -n "looking for $1... " 1>&3
+    var="$2"
+    set -- ${!var:+"${!var}"} "${@:3}"
+    for prog in "$@" ; do
+        echo "Checking option $prog in path" 1>&2
+        full="`type -P "$prog"`" && {
+            echo "$full" 1>&3
+            printf -v "CONF_$var" "%q" "$full"
+            return 0
+        }
+    done
+    echo "no $@ in your path" 1>&3
+    return 1
+}
+
+findlib() {
+    echo -n "looking for lib$1... " 1>&3
+    for flag in $CONF_LFLAGS ; do
+        case "$flag" in
+            -L* )
+                libfolder=${flag/-L/}
+                echo "Checking folder $libfolder" 1>&2
+                if [ -f "$libfolder/lib$1.so" ] ; then
+                    path=`readlink -f -- "$libfolder/lib$1.so"`
+                    echo "Found SO in folder $libfolder" 1>&2
+                    echo $path 1>&3
+                    printf -v "CONF_$2" "%q" "$path"
+                    return 0
+                fi
+                if [ -f "$libfolder/lib$1.a" ] ; then
+                    path=`readlinf -f -- "$libfolder/lib$1.a"`
+                    echo "Found A in folder $libfolder" 1>&2
+                    echo $path 1>&3
+                    printf -v "CONF_$2" "%q" "$path"
+                    return 0
+                fi
+            ;;
+        esac
+    done
+    echo "not found" 1>&3
+    return 1
+}
+addflag() {
+    eval "CONF_$1=\"${@:2} \${CONF_$1}\""
+}
+
+gnuflags() {
+    eval addflag FFLAGS -cpp                         # C pre-processor
+    eval addflag FFLAGS -pedantic-errors -std=f2008  # folow f08 strictly
+    eval addflag FFLAGS -J build                     # where to put mods
+    eval addflag FFLAGS -Werror -Wall                # make every warning an error
+    eval addflag FFLAGS -Wno-uninitialized -Wno-unused-dummy-argument
+    eval addflag FFLAGS -ffree-line-length-0
+}
+
+
+if [ -z $FC ]; then
+    findprog fortran FC  ifort gfortran  || exit 1
+fi
+
+
+set -- `eval $CONF_FC --version -c | sed '/^$/d;s/([^)]*)//;q' 2>&1`
+case "$1,$2,$3" in
+    GNU,Fortran,[123].*)
+        echo "Only version >= 4 are supported" 1>&3
+        exit
+    ;;
+    GNU,Fortran,4.*)
+    echo "Code optimisation is *not* suported on gfortran 4" 1>&3
+        gnuflags
+        eval addflag $CONF_BITS
+        if $DEBUG ; then
+            eval addflag FFLAGS -g -O0
+            eval addflag FFLAGS -ffpe-trap=invalid,overflow
+            eval addflag FFLAGS -fdump-core -fbacktrace
+            eval addflag FFLAGS -frange-check
+            eval addflag FFLAGS -DDEBUG
+        else
+            eval addflag FFLAGS -DRELEASE
+            $NATIVE && eval addflag FFLAGS -march=native -mtune=native
+        fi
+        if $COVERAGE ; then
+            echo "Coverage analytics is currently only supported for gcc" 1>&3
+            exit 1
+        fi
+    ;;
+    GNU,Fortran,*)
+        gnuflags
+        eval addflag FFLAGS -Wno-maybe-uninitialized
+        eval addflag $CONF_BITS
+        if $DEBUG ; then
+            eval addflag FFLAGS -g -O0
+            eval addflag FFLAGS -ffpe-trap=invalid,overflow
+            eval addflag FFLAGS -fdump-core -fbacktrace
+            eval addflag FFLAGS -fcheck=all -frange-check
+            eval addflag FFLAGS -DDEBUG
+        else
+            eval addflag FFLAGS -DRELEASE -O3
+            $NATIVE && eval addflag FFLAGS -march=native -mtune=native
+        fi
+        if $COVERAGE ; then
+            eval addflag FFLAGS --coverage
+            eval addflag LFLAGS -lgcov
+        fi
+    ;;
+    ifort*)
+        eval addflag FFLAGS -module build
+        eval addflag FFLAGS -fpp
+        eval addflag FFLAGS -stand f03
+        eval addflag $CONF_BITS
+        if $DEBUG ; then
+            eval addflag FFLAGS -g -O0
+            eval addflag FFLAGS -DDEBUG
+        else
+            eval addflag FFLAGS -DRELEASE -O3 -fast
+            $NATIVE && eval addflag FFLAGS -xHost
+        fi
+        if $HAVE_GINAC ; then
+            echo "Option --with-ginac is incompatible with ifort, disabling" 1>&3
+            HAVE_GINAC=false
+        fi
+        if $HAVE_MCC ; then
+            echo "Option --with-mcc is incompatible with ifort, disabling" 1>&3
+            HAVE_MCC=false
+        fi
+        if $COVERAGE ; then
+            echo "Coverage analytics is currently only supported for gcc" 1>&3
+            exit 1
+        fi
+    ;;
+    *)
+        echo "Unknown compiler" 1>&3
+        exit
+    ;;
+esac
+
+echo -n "extracting the Fortran libraries... " 1>&3
+
+rm -fr $test*
+
+echo "Trying the following program as $test.f90" 1>&2
+tee $test.f90 << _EOF_ 1>&2
+    program test
+    integer i
+    common /uscore/ i
+    call exit(i)
+    end
+_EOF_
+
+echo "Executing $CONF_FC `$STATIC && echo "--static" || true` -v -o $test $test.f90" 1>&2
+
+while read line ; do
+  echo "Parsing line $line" 1>&2
+  set -- ${line//[:,()]/ }
+  [[ "$1" =~ (/collect2|/ld|^ld)$ ]] && while test $# -gt 1 ; do
+    shift
+    case "$1" in
+    *.o | -lc*)
+      ;;
+    -l* | -L* | *.a)
+      echo "Found linker flag $1" 1>&2
+      FLDFLAGS+=" $1" ;;
+    -Bstatic | -Bdynamic | *.ld)
+      echo "Found linker flag $1" 1>&2
+      FLDFLAGS+=" -Wl,$1" ;;
+    /*)
+      echo "Found linker flag $1" 1>&2
+      FLDFLAGS+=" -L$1" ;;
+    -rpath*)
+      echo "Found linker flag $1" 1>&2
+      FLDFLAGS+=" -Wl,$1,$2"
+      shift ;;
+    -dynamic-linker)
+      shift ;;
+    esac
+  done
+
+  if [[ "$line" == *"-fintrinsic-modules-path"* ]]; then
+    set -- ${line//[:,()]/ }
+    while test $# -gt 1 ; do
+      shift
+      case "$1" in
+        -fintrinsic-modules-path )
+          echo "Found module path $1" 1>&2
+          CONF_MODPATH=$2
+          ;;
+      esac
+    done
+  fi
+done < <(eval $CONF_FC `$STATIC && echo "--static" || true`  -v -o $test $test.f90 2>&1)
+echo "ok" 1>&3
+
+eval addflag LFLAGS "$LDFLAGS $CONF_LDFLAGS $FLDFLAGS -L$CONF_PREFIX/lib"
+
+if [[ -z "$CONF_MODDIR" ]]; then
+  if [[ ! -z "$CONF_MODPATH" ]]; then
+    echo -n "checking whether module path is in prefix... " 1>&3
+    if [[ "${CONF_MODPATH##$CONF_PREFIX}" != "${CONF_MODPATH}" ]]; then
+        echo " yes" 1>&3
+        CONF_MODDIR=$CONF_MODPATH
+    else
+        echo " no" 1>&3
+        CONF_MODDIR=
+    fi
+  fi
+fi
+
+
+findprog pkg-config PKGCONFIG pkg-config
+if [[ -z "$CONF_MODDIR" ]]; then
+  if [[ -z "$CONF_PKGCONFIG" ]]; then
+    echo "*************************************************" 1>&3
+    echo "Warning! pkg-config not found! This may lead to  " 1>&3
+    echo "difficulties when you try to compile your own    " 1>&3
+    echo "code. You will need to run                       " 1>&3
+    echo "                                                 " 1>&3
+    echo "  $CONF_FC -I$CONF_PREFIX/include                " 1>&3
+    echo "                                                 " 1>&3
+    echo "every time.                                      " 1>&3
+    echo "*************************************************" 1>&3
+  fi
+fi
+
+if ( $HAVE_GINAC || $HAVE_MCC ); then
+    if [ -z $CC ]; then
+        findprog gcc CC clang gcc  || exit 1
+    fi
+    if [ -z $CXX ]; then
+        findprog g++ CXX clang++ g++ || exit 1
+    fi
+    eval addflag CFLAGS "-std=c99"
+
+    ## does Fortran append underscores to symbols?
+
+    echo -n "does $CONF_FC append underscores... " 1>&3
+
+    echo "Trying the following program as $test-c.c" 1>&2
+    tee $test-c.c << _EOF_ 1>&2
+int uscore_ = 95;
+int uscore = 59;
+_EOF_
+
+    for CONF_BITS in ${CONF_BITS:--m64 -m32} ; do
+      echo "Executing $CONF_CC $CONF_CFLAGS $CONF_BITS -c $test-c.c" 1>&2
+      eval $CONF_CC $CONF_CFLAGS $CONF_BITS -c $test-c.c 1>&2 || continue
+      echo "Executing $CONF_FC  -o $test $test.f90 $test-c.o" 1>&2
+      eval $CONF_FC  -o $test $test.f90 $test-c.o 1>&2 && break
+    done
+
+    if [[ ! -x "$test" ]]; then
+        echo "error: linking failed. Please check logfile $LOGFILE." 1>&3
+    fi
+
+    ./$test
+    case $? in
+    95)
+      echo "yes" 1>&3
+      CONF_NOUNDERSCORE=0 ;;
+    59)
+      echo "no" 1>&3
+      CONF_NOUNDERSCORE=1 ;;
+    *)
+      echo "error linking Fortran and C" 1>&3
+      exit 1 ;;
+    esac
+
+else
+    CONF_CC=
+    CONF_CXX=
+    CONF_CFLAGS=
+    CONF_NOUNDERSCORE=
+fi
+
+
+if $HAVE_MCC ; then
+    PATH=$PATH:/Applications/Mathematica.app/Contents/MacOS/ findprog mathematica MATH math MathKernel math10 math11
+    eval addflag FFLAGS -DHAVE_MM
+
+    # Checking Mathematica system id
+
+    echo -n "what is $CONF_MATH SystemID... " 1>&3
+
+    echo "Trying the following program as $test.m" 1>&2
+    tee $test.m << _EOF_ 1>&2
+        Print["SYSID "<>ToString[\$SystemID]];
+        Print["INSTDIR "<>ToString[\$InstallationDirectory]];
+        Print["USERDIR "<>ToString[\$UserBaseDirectory]];
+_EOF_
+    $CONF_MATH < $test.m > $test.log
+    echo "Mathematica returned" 1>&2
+    cat $test.log 1>&2
+    CONF_MATH_SYS=`cat $test.log | grep "SYSID"   | sed 's/.*SYSID //'`
+    CONF_MATH_DIR=`cat $test.log | grep "INSTDIR" | sed 's/.*INSTDIR //'`
+    CONF_MATH_USR=`cat $test.log | grep "USERDIR" | sed 's/.*USERDIR //'`
+    [[ -z "$CONF_MMPREFIX" ]] && \
+       CONF_MMPREFIX=${CONF_MMPREFIX:=$CONF_MATH_USR/Kernel}
+    echo  $CONF_MATH_SYS 1>&3
+
+
+    # Finding mcc
+    CONF_COMPAD=$CONF_MATH_DIR/SystemFiles/Links/MathLink/DeveloperKit/$CONF_MATH_SYS/CompilerAdditions/
+    PATH=$CONF_COMPAD:$PATH findprog mcc MCC mcc
+
+    echo -n "looking for MLDK directory... " 1>&3
+    echo "Running $CONF_MCC --internals" 1>&2
+    $CONF_MCC --internals | sed "s/-lpthread -lrt/-lrt -lpthread -lrt/g" > $test.int
+    cat $test.int 1>&2
+    CONF_MLDK=`cat $test.int | grep "MLDK Directory" | cut -f2 -d":"`
+    echo $CONF_MLDK 1>&3
+
+    arch=`cat $test.int | grep "Library Bit Type:" | cut -f2 -d":"` ; \
+    CONF_MCC_CFLAGS=`cat $test.int | grep "Compile Flags$arch:" | cut -f2 -d":"`
+    CONF_MCC_LFLAGS=`cat $test.int | grep "Linker Libraries" | cut -f2 -d":"`
+    CONF_MCC_LFLAGS="$CONF_MCC_LFLAGS"
+    if [ ! -z $CONF_BITS ]; then
+        if [ "$CONF_BITS" -ne "$MCC_BITS" ]; then
+            echo "mcc wants $MCC_BITS ($arch), $CONF_BITS selected." 1>&3
+            exit 1
+        fi
+    fi
+
+    if [[ $CONF_MCC_LFLAGS == *"uuid"* ]]; then
+        if ! findlib uuid UUID ; then
+            echo -n "improvising uuid... " 1>&3
+            CONF_MLIBDIR=$CONF_MATH_DIR/SystemFiles/Libraries/$CONF_MATH_SYS/
+            if [ -f $CONF_MLIBDIR/libuuid.a ]; then
+                CONF_MCC_LFLAGS="-L$CONF_MLIBDIR $CONF_MCC_LFLAGS"
+                echo "okay" 1>&3
+            else
+                echo "failed" 1>&3
+                exit 1
+            fi
+        fi
+    fi
+
+    # Finding MPREP
+    PATH=$CONF_COMPAD:$PATH findprog mprep MPREP mprep
+
+    ## can we do MathLink compilations
+    echo -n "do we have working MathLink... " 1>&3
+    echo "Trying the following program as $test.tm" 1>&2
+    tee $test.tm << _EOF_ 1>&2
+:Begin:
+:Function: test
+:Pattern: Test[i_Integer]
+:Arguments: {i}
+:ArgumentTypes: {Integer}
+:ReturnType: Integer
+:End:
+
+#include "mathlink.h"
+
+static int test(const int i) {
+  return i + 1;
+}
+
+int main(int argc, char **argv) {
+  return MLMain(argc, argv);
+}
+_EOF_
+    echo "Executing $CONF_MPREP $test.tm" 1>&2
+    $CONF_MPREP $test.tm > $test.tm.c
+    echo "Executing $CONF_CC $CONF_MCC_CFLAGS $CONF_CFLAGS -c $test.tm.c" 1>&2
+    $CONF_CC $CONF_MCC_CFLAGS $CONF_CFLAGS -c $test.tm.c
+    echo "Executing $CONF_CC `$STATIC && echo "--static" || true` -o $test.math $test.tm.o $CONF_MCC_LFLAGS" 1>&2
+    $CONF_CC `$STATIC && echo "--static" || true` -o $test.math $test.tm.o $CONF_MCC_LFLAGS
+    if [[ -x "$test.math" ]] ; then
+        if $STATIC ; then
+            if ldd $test.math | grep -q "/" ; then
+                echo "no, can't compile static binaries" 1>&3
+                CONF_ML=0
+                exit 1;
+            fi
+        fi
+        echo "yes" 1>&3
+        CONF_ML=1
+    else
+        echo "no" 1>&3
+        CONF_ML=0
+        exit 1;
+    fi
+fi
+
+
+CONF_LD=${LD:-$CONF_FC}
+
+
+
+
+
+if $CONF_QUAD ; then
+  echo -n "does $CONF_FC support quad-precision... " 1>&3
+  rm -fr $test*
+  echo "Trying the following program as $test.f90" 1>&2
+  tee $test.f90 << _EOF_ 1>&2
+        program test
+        real(selected_real_kind(30,32)) a, b
+        a = 2D0**(52/2+2)
+        b = a + 1/a
+        if( a .eq. b ) stop 1
+        end
+_EOF_
+  echo "Running $CONF_FC $CONF_FFLAGS -o $test $test.f90" 1>&2
+  $CONF_FC $CONF_FFLAGS -o $test $test.f90 1>&2
+  if [[ ! -x "$test" ]]; then
+    echo "no. Compilation failed."
+  fi
+  ./$test 1>&2 && {
+    echo "yes" 1>&3
+    eval addflag FFLAGS -DKINDREAL=16 -DKINDINT=8
+  } || {
+    echo "no. Running failed" 1>&3
+    exit 1
+  }
+  $HAVE_MCC && eval addflag CFLAGS -DHAVE_QUAD
+fi
+
+
+
+
+
+
+if $HAVE_GINAC ; then
+    eval addflag CXXFLAGS "-std=c++11"
+    if [[ ! -z "$CONF_PKGCONFIG" ]]; then
+        echo -n "Does pkg-config know about GiNaC... " 1>&3
+        if $CONF_PKGCONFIG --atleast-version=1.7.4 ginac ; then
+            echo "yes" 1>&3
+            eval addflag CXXFLAGS `$CONF_PKGCONFIG --cflags ginac`
+            eval addflag LFLAGS `$CONF_PKGCONFIG --libs ginac`
+            FOUND_GINAC=true
+            CONF_GINAC=`$CONF_PKGCONFIG --variable=libdir ginac`
+        else
+            echo "no" 1>&3
+            FOUND_GINAC=false
+        fi
+    fi
+    if ! $FOUND_GINAC ; then
+        findlib ginac GINAC && findlib cln CLN && FOUND_GINAC=true
+        eval addflag LFLAGS "-L`dirname $CONF_GINAC`"
+        eval addflag LFLAGS "-L`dirname $CONF_CLN`"
+        eval addflag LFLAGS "-lginac -lcln"
+    fi
+    if $FOUND_GINAC; then
+        CONF_LD=${LD:-$CONF_CXX}
+        echo -n "Checking if GiNaC works... " 1>&3
+        echo "Trying the following program as $test.ginac.cpp" 1>&2
+        tee $test.ginac.cpp << _EOF_ 1>&2
+#include <ginac/ginac.h>
+#include <iostream>
+#include <cln/cln.h>
+
+
+
+typedef struct {double r,i;} complex_t;
+typedef struct {complex_t c; signed char i0;} inum_t;
+
+complex_t geval_(inum_t * z, int* n) {
+  cln::cl_inhibit_floating_point_underflow = true;
+  GiNaC::lst w,s;
+  for(long i=0;i<(*n)-1;i++)
+  {
+    GiNaC::ex zz;
+    if (abs(z->c.i) < 1e-15)
+      w.append((z->c.r));
+    else
+      w.append((z->c.r)+(z->c.i)*GiNaC::I);
+    s.append(z->i0);
+    z++;
+  }
+  GiNaC::ex ans = GiNaC::G(w,s,z->c.r).evalf();
+  return {
+    .r = GiNaC::ex_to<GiNaC::numeric>(GiNaC::evalf(GiNaC::real_part(ans))).to_double(),
+    .i = GiNaC::ex_to<GiNaC::numeric>(GiNaC::evalf(GiNaC::imag_part(ans))).to_double()
+  };
+
+}
+
+int main() {
+    // Test 1
+    GiNaC::ex ans = GiNaC::G(0.3,0.5,0.7);
+    ans -= 0.2876820724517808812+3.1415926535897932385*GiNaC::I;
+    ans = GiNaC::abs(ans);
+
+    // Test 2
+    inum_t x[] = {
+      { .c = {.r = 0.73, .i=0}, .i0 = -1 },
+      { .c = {.r = 0.00, .i=0}, .i0 = +1 },
+      { .c = {.r = 1.00, .i=0}, .i0 = +1 }
+    };
+    int n=3;
+    complex_t cans = geval_(&x[0],&n);
+    float del = (2.2982889094420660-cans.r)*(2.2982889094420660-cans.r) + (0.98869296399417417-cans.i)*(0.98869296399417417-cans.i);
+
+    if (ans>1e-15) return 1;
+    if (del>1e-15) return 2;
+    return 0;
+}
+_EOF_
+        echo "Running $CONF_CXX $CONF_CXXFLAGS $CONF_BITS -c $test.ginac.cpp" 1>&2
+        $CONF_CXX $CONF_CXXFLAGS $CONF_BITS -c $test.ginac.cpp
+        echo "Running $CONF_LD -o $test.ginac $test.ginac.o $CONF_LFLAGS" 1>&2
+        $CONF_LD -o $test.ginac $test.ginac.o $CONF_LFLAGS
+        if [[ ! -x "$test.ginac" ]]; then
+          echo "error compiling GiNaC" 1>&3
+          exit 1
+        fi
+        ./$test.ginac
+        case $? in
+            0)
+              echo "yes" 1>&3
+              eval addflag FFLAGS "-DHAVE_GINAC" ;;
+            1)
+              echo "no" 1>&3
+              exit 1 ;;
+            2)
+              echo "no. Try updating your GiNaC version" 1>&3
+              exit 1 ;;
+            *)
+              echo "error running GiNaC" 1>&3
+              exit 1 ;;
+        esac
+    else
+        echo "GiNaC could not be found" 1>&3
+        exit 1
+    fi
+fi
+
+
+if $HAVE_GINAC && $HAVE_MCC; then
+  eval addflag LFLAGS -lrt
+fi
+
+if [[ ! -z "$CONF_PKGCONFIG" ]]; then
+cat > handyg.pc <<EOF
+prefix=$CONF_PREFIX
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: handyG
+Description: Numerical evaluation of GPL
+Version: 0.1.0
+Libs: -L\${libdir} -lhandyg
+Cflags: -I\${includedir}
+EOF
+
+fi
+
+if $COVERAGE ; then
+    findprog gcov GCOV gcov gcov-7 gcov-6 gcov-5 gcov-34 || exit 1
+    if ! findlib gcov LGCOV ; then
+      echo "can't perform coverage tests without libgcov. Please specify using \$LFLAGS" 1>&3
+      exit 1
+    fi
+
+    if ! findprog lcov LCOV lcov ; then
+      echo "graphical coverage report won't be supported" 1>&3
+      HAVE_LCOV=false
+    else
+      if ! findprog genhtml GENHTML genhtml ; then
+        echo "graphical coverage report won't be supported" 1>&3
+        HAVE_LCOV=false
+      else
+        HAVE_LCOV=true
+      fi
+    fi
+fi
+
+echo "creating makefile" 1>&3
+
+cat 1>&2 <<EOF
+
+The makefile was created through $0 $allargs on `date` by `whoami`
+
+handyG version $VERSION
+
+The following capabilities are supported:
+EOF
+$HAVE_MCC && echo " * mcc / MathLink interface" 1>&2
+$HAVE_GINAC && echo " * GiNaC test interface" 1>&2
+$COVERAGE && echo " * coverage reporting" 1>&2
+$CONF_QUAD && echo " * quadrouple precision" 1>&2
+$HAVE_LCOV && echo " * lcov coverage reporting" 1>&2
+$DEBUG && echo " * debugging mode" 1>&2
+$NATIVE && echo " * native compilation" 1>&2
+cat 1>&2 <<EOF
+The following compilers are used
+
+> AR=ar rcs
+> FC=$CONF_FC
+> CC=$CONF_CC
+> CXX=$CONF_CXX
+> LD=$CONF_LD
+> MPREP=$CONF_MPREP
+> MATH=$CONF_MATH
+> GCOV=$CONF_GCOV
+> LCOV=$CONF_LCOV
+> GENHTML=$CONF_GENHTML
+
+with the following flags
+
+> FFLAGS=$CONF_FFLAGS
+> CFLAGS=$CONF_CFLAGS
+> CXXFLAGS=$CONF_CXXFLAGS
+> LFLAGS=$CONF_LFLAGS
+> MCFLAGS=$CONF_MCC_CFLAGS
+> MLFLAGS=$CONF_MCC_LFLAGS
+> PREFIX=$CONF_PREFIX
+> MMPREFIX=$CONF_MMPREFIX
+> MODDIR=$CONF_MODDIR
+
+EOF
+
+
+cat  > makefile <<EOF
+# Generated through $0 $allargs on `date` by `whoami`
+
+AR=ar rcs
+FC=$CONF_FC
+CC=$CONF_CC
+CXX=$CONF_CXX
+LD=$CONF_LD
+MPREP=$CONF_MPREP
+MATH=$CONF_MATH
+GCOV=$CONF_GCOV
+LCOV=$CONF_LCOV
+GENHTML=$CONF_GENHTML
+
+FFLAGS=$CONF_FFLAGS
+CFLAGS=$CONF_CFLAGS
+CXXFLAGS=$CONF_CXXFLAGS
+LFLAGS=$CONF_LFLAGS
+MCFLAGS=$CONF_MCC_CFLAGS
+MLFLAGS=$CONF_MCC_LFLAGS
+
+PREFIX=$CONF_PREFIX
+MMPREFIX=$CONF_MMPREFIX
+MODDIR=$CONF_MODDIR
+
+
+files=globals.o ieps.o utils.o shuffle.o maths_functions.o mpl_module.o gpl_module.o handyg.o
+objects = \$(addprefix build/,\$(files))
+
+
+all: libhandyg.a handyg.mod ${CONF_MPREP:+handyG} geval test
+
+EOF
+
+function mkdep ()
+{
+    echo -n "build/$1.o build/$1.mod:" >> makefile
+    shift
+    for item in "$@" ; do
+        echo -n " build/$item.mod" >> makefile
+    done
+    echo >> makefile
+}
+
+mkdep ieps globals
+mkdep shuffle globals ieps
+mkdep utils globals ieps
+mkdep maths_functions globals ieps utils
+mkdep mpl_module globals ieps
+mkdep gpl_module globals ieps utils shuffle maths_functions mpl_module
+mkdep handyg globals ieps gpl_module maths_functions
+mkdep geval handyg
+
+cat >> makefile <<EOF
+
+libhandyg.a:\$(objects)
+		@echo "AR \$@"
+		@\$(AR) \$@ \$^
+
+handyg.mod: build/handyg.mod
+		cp \$< \$@
+
+
+# rules to make object files into /build
+build/%.mod build/%.o: src/%.f90
+		@echo "F90 \$@"
+		@\$(FC) \$(FFLAGS) -c \$< -o \$@
+
+build/ttools.mod build/tools.o: checks/tools.f90 handyg.mod
+		@echo "F90 \$@"
+		@\$(FC) \$(FFLAGS) -Wno-unused-function -c \$< -o \$@
+
+build/%.o: checks/%.f90 handyg.mod build/tools.o
+		@echo "F90 \$@"
+		@\$(FC) \$(FFLAGS) -Wno-unused-function -c \$< -o \$@
+
+build/%.o: src/%.cpp
+		@echo "C++ \$@"
+		@\$(CC) \$(CXXFLAGS) -c \$<  -o \$@
+
+geval: libhandyg.a build/geval.o
+		@echo "LD \$@"
+		@\$(LD) `$STATIC && echo "--static" || true` -o \$@ build/geval.o -L. -lhandyg \$(LFLAGS)
+
+EOF
+
+$HAVE_MCC && cat >> makefile <<EOF
+build/%.tm.c: src/%.tm
+		@echo "MPREP \$@"
+		@cat \$< | sed '/:Begin:/,/:End:/ s/Real/Real$($CONF_QUAD && echo 128)/g' \\
+                 | sed 's/__VERSION__/$VERSION/g' | \$(MPREP) > \$@
+
+build/mathlink.o: build/mathlink.tm.c
+		@echo "CC \$<"
+		@\$(CC) \$(MCFLAGS) \$(CFLAGS) -o \$@ -c \$<
+
+handyG: build/mathlink.o libhandyg.a
+		@echo "LD \$@"
+		@\$(LD)  `$STATIC && echo "--static" || true` \$< libhandyg.a -o \$@ \$(LFLAGS) \$(MLFLAGS)
+
+
+EOF
+
+echo -n "testdep=" >> makefile
+               echo -n "build/tools.o " >> makefile
+               echo -n "build/test-chenref.o " >> makefile
+$HAVE_GINAC && echo -n "build/ginac.o " >> makefile
+$HAVE_GINAC && echo -n "build/test-chen.o " >> makefile
+$HAVE_GINAC && echo -n "build/test-chenff.o " >> makefile
+$HAVE_GINAC && echo -n "build/test-muone.o " >> makefile
+$HAVE_GINAC && echo -n "build/test-muoneNP.o " >> makefile
+
+cat  >> makefile <<EOF
+
+build/test.o: checks/test.f90 \$(testdep)
+
+test: \$(objects) \$(testdep) build/test.o
+		@echo "LD \$@"
+		@\$(LD) -o \$@ \$^ \$(LFLAGS)
+
+install: libhandyg.a handyg.mod ${CONF_MPREP:+handyG} geval
+		mkdir -p \$(PREFIX)
+		mkdir -p \$(PREFIX)/bin
+		cp geval \$(PREFIX)/bin/geval
+		mkdir -p \$(PREFIX)/lib
+		cp libhandyg.a \$(PREFIX)/lib/
+		mkdir -p \$(PREFIX)/include
+		cp handyg.mod \$(PREFIX)/include/
+EOF
+$HAVE_MCC && cat >> makefile <<EOF
+		mkdir -p \$(MMPREFIX)
+		cp handyg \$(MMPREFIX)
+EOF
+if [[ ! -z "$CONF_PKGCONFIG" ]]; then
+cat >> makefile <<EOF
+		mkdir -p \$(PREFIX)/lib/pkgconfig
+		cp handyg.pc \$(PREFIX)/lib/pkgconfig
+EOF
+fi
+if [[ ! -z "$CONF_MODDIR" ]]; then
+cat >> makefile <<EOF
+		mkdir -p \$(MODDIR)
+		cp handyg.mod \$(MODDIR)
+EOF
+fi
+
+
+echo "uninstall:" >> makefile
+echo -ne "\t\trm -i " >> makefile
+echo -n "\$(PREFIX)/lib/libhandyg.a " >> makefile
+echo -n "\$(PREFIX)/include/handyg.mod " >> makefile
+echo -n "\$(PREFIX)/bin/geval " >> makefile
+$HAVE_MCC && echo -n "\$(MMPREFIX)/handyg" >> makefile
+if [[ ! -z "$CONF_PKGCONFIG" ]]; then
+echo -n "\$(PREFIX)/lib/pkgconfig " >> makefile
+fi
+if [[ ! -z "$CONF_MODDIR" ]]; then
+echo -n "\$(MODDIR)/handyg.mod " >> makefile
+fi
+cat  >> makefile <<EOF
+
+
+check-mpl: test
+		./$< -mpl-test
+check-gpl: test
+		./$< -gpl-test
+check-chen: test
+		./$< -chen-test
+EOF
+
+$HAVE_GINAC && cat >> makefile <<EOF
+check-ginac: test
+		./$< -ginac-tests
+check-speed: test
+		./$< -speed-tests 5
+check-hw: test
+		./$< -hw-tests
+check-long: test
+		./$< -long-test
+EOF
+
+$HAVE_GINAC  && echo "check: check-mpl check-gpl check-chen check-ginac" >> makefile \
+             || echo "check: check-mpl check-gpl check-chen"             >> makefile
+
+
+
+if $COVERAGE ; then
+  cat  >> makefile <<EOF
+
+
+report/report.txt: test
+		mkdir -p report
+		./test -report > /dev/null
+		echo "Report generated on \`date\` by `whoami`." > \$@
+EOF
+
+  for i in gpl_module ieps maths_functions mpl_module shuffle utils test
+  do
+    echo -e "\t\t\$(GCOV) build/$i.gcno >> \$@" >> makefile
+    echo -e "\t\tmv $i.f90.gcov report/" >> makefile
+  done
+
+  $HAVE_LCOV && cat >> makefile <<EOF
+report/coverage.full.info: report/report.txt
+		\$(LCOV) --capture --directory build/ --output-file \$@
+report/coverage.info: report/coverage.full.info
+		\$(LCOV) --remove \$< "\$\$(pwd)/checks/test-chenff.f90" -o \$@
+report/lcov.report: report/coverage.info
+		\$(LCOV) --list \$< > \$@
+		cat \$@
+report/index.html: report/coverage.info
+		\$(GENHTML) \$< --output-directory report
+EOF
+#cat \$@ | perl -nle "print \\\$\$1 if /Total:\\|(\\d+\\.?\\d+\\%)/"
+  echo -n "coverage: report/report.txt" >> makefile
+  $HAVE_LCOV && echo -n " report/coverage.info report/lcov.report report/index.html" >> makefile
+  echo >> makefile
+
+
+
+fi
+
+cat  >> makefile <<EOF
+clean:
+		@rm -f build/*.gcda build/*.gcno build/*.gcov
+		@rm -rf report/
+		@rm -f build/*.o build/*.mod build/*.c build/mcc.internals*
+		@rm -f test geval libhandyg.a handyG handyg.mod
+
+distclean:
+		@rm -f build/*.gcda build/*.gcno build/*.gcov
+		@rm -rf report/
+		@rm -f build/*.o build/*.mod build/*.c build/mcc.internals*
+		@rm -f test geval libhandyg.a handyG handyg.mod
+		@rm -f makefile handyg.pc
+EOF
+
+
+echo "Configuration of handyG $VERSION done. Now type \"make\"." 1>&3

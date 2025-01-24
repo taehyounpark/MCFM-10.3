@@ -1,0 +1,81 @@
+\ProvidesPackage{tex4ht-styles}
+\RequirePackage{minted}
+\RequirePackage{nameref}
+
+\usemintedstyle{lovelace}
+\RequirePackage{xparse}
+
+% formatting commands
+\newcommand\file[1]{\texttt{#1}}
+\newcommand\option[1]{\emph{#1}}
+\newcommand\term[1]{\emph{#1}}
+\newcommand\configuration[1]{\texttt{#1}}
+\newcommand\package[1]{\texttt{#1}}
+\newcommand\extension[1]{\texttt{#1}}
+
+% this trick will enable us to take verbatim arguments
+% https://tex.stackexchange.com/a/45292/2891
+\newmintinline[minttexcommand]{latex}{}
+\newmintinline[mintshellcmd]{shell}{}
+\newmintinline[minthtmlcmd]{html}{}
+% \NewDocumentCommand\texcommand{v}{\texttt{#1}}
+% I already have document full of the following inline commands. I've mapped them 
+% to the commands defined by \newmintinline, in order to support syntax hyghlithting
+% The \fontencoding command is used to prevent ligatures in << or -- 
+% TeX4ht in --lua mode uses T1 fontencoding by default, and it causes ligature forming
+% \NewDocumentCommand\texcommand{v}{\begingroup\fontencoding{OT1}\minttexcommand{#1}\endgroup}
+\NewDocumentCommand\texcommand{v}{\begingroup\fontencoding{OT1}\texttt{#1}\endgroup}
+\NewDocumentCommand\shellcmd{v}{\begingroup\fontencoding{OT1}\texttt{#1}\endgroup}
+\NewDocumentCommand\htmlcommand{v}{\begingroup\fontencoding{OT1}\texttt{#1}\endgroup}
+
+\newenvironment{warning}{\bigskip\noindent\textbf{Warning:}}{\bigskip}
+\newenvironment{acknowledgements}{\section{Acknowledgements}}{}
+\newenvironment{issue}[1]{\bigskip\noindent\textbf{#1}}{\bigskip}
+
+% shortcuts 
+\newcommand\texfourht{\texttt{\TeX4ht}}
+\newcommand\makefourht{\texttt{make4ht}}
+\newcommand\fourhtsty{\file{tex4ht.sty}}
+\newcommand\fourhtfile{\file{.4ht}}
+\newcommand\cfgfile{\term{custom configuration file}}
+\newcommand\HTML{\texttt{HTML}}
+\newcommand\HTMLV{\texttt{HTML5}}
+\newcommand\ProTeX{\texttt{ProTeX}}
+\newcommand\css{\texttt{CSS}}
+\newcommand\xml{\texttt{XML}}
+\newcommand\mathml{\texttt{MathML}}
+\newcommand\svg{\texttt{SVG}}
+\let\latex\LaTeX
+
+
+
+% this was used by CVR in the options page
+\let\chfont\texttt
+
+
+\ifdefined\HCode
+  % don't print page number after nameref with TeX4ht
+  \newcommand\namerefpage[1]{\MakeLowercase{\nameref{#1}}}
+\else
+  \newcommand\namerefpage[1]{\MakeLowercase{\nameref{#1}}, (p.~\pageref{#1})}
+\fi
+
+\newminted[texsource]{latex}{breaklines=true}
+\newminted[htmlsource]{html}{breaklines=true}
+\newminted[luasource]{lua}{breaklines=true}
+\newminted[shellcommand]{shell}{breaklines=true}
+\newminted[textsource]{text}{breaklines=true}
+\newmintedfile[texinput]{latex}{breaklines=true}
+\newmintedfile[htmlinput]{html}{breaklines=true}
+
+% Document \Configure commands. They have variable number of arguments, so it is necessary to process them as a list
+\def\PrintConfigures#1#2\@nil{\{#1\}\allowbreak\ifx\relax#2\relax\else\expandafter\PrintConfigures#2\@nil\fi}
+\def\DocConfigure#1#2\EndDoc{\par\bigskip\noindent\texttt{\textbf{\textbackslash Configure}\{\textit{#1}\}\PrintConfigures#2{}\@nil}}
+\def\DocCommand#1{\par\bigskip\noindent\texttt{\textbf{\textbackslash #1}}}
+
+\DeclareRobustCommand\cmd[1]{\textbf{\texttt{\textbackslash #1}}}
+\DeclareRobustCommand\marg[1]{\{\textit{#1}\}}
+\DeclareRobustCommand\oarg[1]{[\textit{#1}]}
+
+
+\endinput

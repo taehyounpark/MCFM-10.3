@@ -1,0 +1,39 @@
+	\begin{longtable}{p{4.5cm}p{10.5cm}}
+		\hline
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{singletop}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\hline
+		\texttt{c\_phiq} & Sets real Wilson coefficient of $\Qone$ for processes 164 and 169. See \ref{subsec:offstop} 
+		and ref.~\cite{Neumann:2019kvk}. \\
+		\texttt{c\_phiphi} & Sets real and imaginary part of the $\Qtwo$ Wilson coefficient. \\
+		\texttt{c\_tw} & Sets real and imaginary part of the $\Qthree$ Wilson coefficient. \\
+		\texttt{c\_bw} & Sets real and imaginary part of the $\Qfour$ Wilson coefficient. \\
+		\texttt{c\_tg} & Sets real and imaginary part of the $\Qsix$ Wilson coefficient. \\
+		\texttt{c\_bg} & Sets real and imaginary part of the $\Qseven$ Wilson coefficient. \\
+		\texttt{lambda} & Scale $\Lambda$, see \ref{subsec:offstop} and ref.~\cite{Neumann:2019kvk}. \\
+		\texttt{enable\_lambda4} & Enable contributions of order $1/\Lambda^4$ when set to \texttt{.true.}. \\
+		\texttt{disable\_sm} & When set to \texttt{.true.} the pure SM contributions are disabled, and just
+		the SM-EFT interference and EFT contributions are calculated. \\
+		\texttt{mode\_anomcoup} & When set to \texttt{.true.} at LO one can reproduce results obtained
+			without power counting as in the anomalous couplings approach, see \ref{subsec:offstop} and 
+			ref.~\cite{Neumann:2019kvk}. \\
+               \texttt{nnlo\_enable\_light},
+               \texttt{nnlo\_enable\_heavy\_prod},
+               \texttt{nnlo\_enable\_heavy\_decay},
+               \texttt{nnlo\_enable\_interf\_lxh},
+               \texttt{nnlo\_enable\_interf\_lxd},
+               \texttt{nnlo\_enable\_interf\_hxd},
+               \texttt{nnlo\_fully\_inclusive}&
+               At NNLO there are several different contributions from vertex
+               corrections on the light-quark line, heavy-quark line in production, and
+               heavy-quark line in the top-quark decay. Additionally there are one-loop
+               times one-loop interference contributions between all three
+               contributions. For a fully inclusive calculation without decay
+	       \texttt{nnlo\_fully\_inclusive}  has to
+               be set to `.true.` and the decay and decay interference parts have to be
+               removed.	 Additionally jet requirements must be lifted.  For further information see
+	       Section~\ref{single-top-quark-production-and-decay-at-nnlo}.      \\
+    \hline
+	\end{longtable}
+
+ 
+

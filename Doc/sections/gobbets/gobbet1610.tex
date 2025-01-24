@@ -1,0 +1,168 @@
+\midheading{Single-top-quark production and decay at NNLO, process 1610}
+\label{single-top-quark-production-and-decay-at-nnlo}
+
+This calculation is based on ref.~\cite{Campbell:2020fhf}. See also
+ref.~\cite{Campbell:2021qgd} for the role of double-DIS scales and the
+relevancy for PDFs.
+
+This process can be run by using process number 1610. The resulting
+histograms and cross-sections are printed for a strict fixed-order
+expansion as well as for a naive addition of all contributions. The
+fixed-order expansion assembles pieces according to the following
+formula. Please see ref.~\cite{Campbell:2020fhf} for more details.
+
+\[\begin{aligned}
+\mathrm{d}\sigma_{\text{LO}} & = \frac{1}{\Gamma_t^{(0)}}
+\mathrm{d}\sigma^{(0)}\otimes\mathrm{d}\Gamma_t^{(0)} \,,\\
+\mathrm{d}\sigma_{\delta \text{NLO}} & = \frac{1}{\Gamma_t^{(0)}} \Bigg[ 
+\mathrm{d}\sigma^{(1)}\otimes\mathrm{d}\Gamma_t^{(0)} + 
+\mathrm{d}\sigma^{(0)}\otimes\left(\mathrm{d}\Gamma_t^{(1)} 
+- \frac{\Gamma_t^{(1)}}{\Gamma_t^{(0)}} \mathrm{d}\Gamma_t^{(0)}  \right)
+\Bigg] \,,\\
+\mathrm{d}\sigma_{\delta \text{NNLO}} & = \frac{1}{\Gamma_t^{(0)}} \Bigg[
+\mathrm{d}\sigma^{(2)}\otimes\mathrm{d}\Gamma_t^{(0)} + 
+\mathrm{d}\sigma^{(1)}\otimes\left(
+\mathrm{d}\Gamma_t^{(1)} - 
+\right) \\
+& \qquad\qquad  + \mathrm{d}\sigma^{(0)}\otimes \left(
+\mathrm{d}\Gamma_t^{(2)} - 
+\frac{\Gamma_t^{(2)}}{\Gamma_t^{(0)}}\mathrm{d}\Gamma_t^{(0)}
+-\frac{\Gamma_t^{(1)}}{\Gamma_t^{(0)}} \left(
+\mathrm{d}\Gamma_t^{(1)} - \frac{\Gamma_t^{(1)}}{\Gamma_t^{(0)}}
+\mathrm{d}\Gamma_t^{(0)}
+\right)
+\right) \Bigg] \,.
+\end{aligned}\]
+
+At each order a corresponding top-decay width is used throughout all
+parts. The NNLO width is obtained from ref.~\cite{Blokland:2005vq} and at
+LO and NLO from ref.~\cite{Czarnecki:1990kv}. These widths agree with
+numerical results obtained from our calculation of course.
+
+This process can be run with a fixed scale or with dynamic DIS (DDIS)
+scales by setting \texttt{dynamicscale\ =\ DDIS},
+\texttt{renscale\ =\ 1.0} and \texttt{facscale\ =\ 1.0}.
+
+At NNLO there are several different contributions from vertex
+corrections on the light-quark line, heavy-quark line in production, and
+heavy-quark line in the top-quark decay. Additionally there are one-loop
+times one-loop interference contributions between all three
+contributions. These contributions can be separately enabled in the
+\texttt{singletop} block:
+
+\begin{verbatim}
+[singletop]
+    nnlo_enable_light = .true.
+    nnlo_enable_heavy_prod = .true.
+    nnlo_enable_heavy_decay = .true.
+    nnlo_enable_interf_lxh = .true.
+    nnlo_enable_interf_lxd = .true.
+    nnlo_enable_interf_hxd = .true.
+    nnlo_fully_inclusive = .false.
+\end{verbatim}
+
+For a fully inclusive calculation without decay the last setting has to
+be set to \texttt{.true.} and the decay and decay interference parts
+have to be removed. Additionally jet requirements must be lifted, see
+below.
+
+When scale variation is enabled with DDIS scales then automatically also
+a variation around the fixed scale \(\mu=m_t\) is calculated for
+comparison.
+
+This process uses a fixed diagonal CKM matrix with
+\(V_{ud}=V_{cs}=V_{tb}=1\). The setting \texttt{removebr=.true.} removes
+the \(W\to \nu e\) branching ratio.
+
+This process involves complicated phase-space integrals and we have
+pre-set the initial integration calls for precise differential
+cross-sections with fiducial cuts. The number of calls can be tuned
+overall with the multiplier setting
+\texttt{integration\%globalcallmult}. For total fully inclusive
+cross-sections the number of calls can be reduced by a factor of ten by
+setting \texttt{integration\%globalcallmult\ =\ 0.1}, for example.
+
+For scale variation uncertainties and PDF uncertainties we recommend to
+start with the default number of calls and a larger number of warmup
+iterations \texttt{integration\%iterbatchwarmup=10}, for example. For
+the warmup grid no scale variation or PDF uncertainties are calculated
+and this ensures a good Vegas integration grid that can be calculated
+fast. The setting \texttt{integration\%callboost} modifies the number of
+calls for subsequent integration iterations after the warmup. For
+example setting it to \texttt{0.1} reduces the calls by a factor of ten.
+This is typically enough to compute the correlated uncertainties for a
+previously precisely determined central value.
+
+At NNLO the default value for \(\tau_{\text{cut}}\) is \(10^{-3}\), which
+is the value used for all the plots in our publication. We find that
+cutoff effects are negligible at the sub-permille level for this choice.
+We strongly recommend to not change this value.
+
+\paragraph{Using the plotting routine with b-quark
+tagging}\label{using-the-plotting-routine-with-b-quark-tagging}
+
+The calculation has been set up with b-quark tagging capabilities that
+can be accessed in both the \texttt{gencuts\_user.f90} routine and the
+plotting routine \texttt{nplotter\_singletop\_new.f90}. The plotting
+routine is prepared to generate all histograms shown in our publication
+in ref.~\cite{Campbell:2020fhf}. By default the top-quark is
+reconstructed using the leading b-quark jet and the exact W-boson
+momentum, but any reconstruction algorithm can easily be implemented.
+
+The version of the \texttt{gencuts\_user.f90} file
+used for the plots in our paper~\cite{Campbell:2020fhf} is available as
+\href{\mcfmprocs/Files1610/gencuts_user_singletop_nnlo.f90}{{\tt gencuts\_user\_singletop\_nnlo.f90}}.
+It can be used as a guide on how to access the b-quark tagging in the \texttt{gencuts\_user} routine.
+
+See also \texttt{nplotter\_ktopanom.f} (used for the NLO off-shell
+calculation in ref.~\cite{Neumann:2019kvk} for a reconstruction of the
+W-boson. It is based on requiring an on-shell W-boson and selecting the
+solution for the neutrino $z$-component that gives the closest on-shell
+top-quark mass by adding the leading b-quark jet.
+
+\paragraph{Calculating fully inclusive
+cross-sections}\label{calculating-fully-inclusive-cross-sections}
+
+When calculating a fully inclusive cross-section without top-quark decay
+please set \texttt{zerowidth\ =\ .true.},
+\texttt{removebr\ =\ .true.} in the general section of the input file;
+\texttt{inclusive\ =\ .true}, \texttt{ptjetmin\ =\ 0.0},
+\texttt{etajetmax\ =\ 99.0} in the basicjets section;
+\texttt{makecuts\ =\ .false.} in the cuts section; also set
+\texttt{nnlo\_enable\_heavy\_decay\ =\ .false.} and
+\texttt{nnlo\_enable\_interf\_lxd\ =\ .false.},
+\texttt{nnlo\_enable\_interf\_hxd\ =\ .false.} and
+\texttt{nnlo\_fully\_inclusive\ =\ .true.} in the singletop section.
+
+These settings ensure that neither the decay nor any production times
+decay interference contributions are included. The last setting makes
+sure that only the right pieces in the fixed-order expansion of the
+cross-section are included. It also ensures that the b-quark from the
+top-quark decay is not jet-tagged and just integrated over.
+
+\paragraph{Notes on runtimes and demo files}\label{notes-on-runtimes-and-demo-files}
+
+Running the provided input file \\
+\texttt{input\_singletop\_nnlo\_Tevatron\_total.ini} with
+-integration\%globalcallmult=0.1 and without histograms takes about 4-5
+CPU days. So depending on the number of cores, this can be run on a
+single desktop within a few hours.
+
+Running the input file \\
+\texttt{input\_singletop\_nnlo\_LHC\_fiducial.ini} with the default set
+of calls and histograms takes about 3 CPU months (about 3 wall-time
+hours on our cluster with 45 nodes). For the fiducial cross-section
+(without precise histograms) a setting of
+\texttt{-integration\%globallcallmult=0.2} can also be used.
+
+Note that \texttt{-extra\%nohistograms\ =\ .true.} has been set in these
+demonstration files, so no further histograms from
+\texttt{nplotter\_singletop\_new.f90} are generated.
+
+The input file \href{\mcfmprocs/Files1610/input_singletop_nnlo_LHC_fiducial.ini}{{\tt input\_singletop\_nnlo\_LHC\_fiducial.ini}} 
+together with the file \\
+\href{\mcfmprocs/Files1610/gencuts_user_singletop_nnlo.f90}{{\tt gencuts\_user\_singletop\_nnlo.f90}}.
+replacing \texttt{src/User/gencuts\_user.f90} reproduces the fiducial
+cross-sections in ref.~\cite{Campbell:2020fhf} table 6.
+
+

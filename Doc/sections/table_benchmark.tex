@@ -1,0 +1,23 @@
+\begin{table}[]
+	\caption{Benchmark cross-sections at NLO and NNLO, using the parameters
+		and settings described in the text. All numbers are obtained for a numerical 0.2\% precision goal.
+	All NLO numbers are obtained within minutes on a desktop system, except for $Z\gamma$, which requires at the 
+	order of 20-30 minutes. The NNLO CPU time includes the time for the NLO calculation.}
+	\label{NNLObenchmarks} 
+	\vspace{0.5em}
+	\begin{tabular}{lllllll}
+		\hline
+		Process & \texttt{nproc} & $\taucut$ [GeV] & $\sigma^{\text{NLO}}$ & $\sigma^{\text{NNLO}}$ & fitted corr. & CPU time [h]\\
+                \hline 
+	       $W^+$ &  1 &   $6\cdot10^{-3}\, m_W$  &  $4.221$~nb & $4.209\pm 0.005$~nb & $-27\pm 15$~pb  & 7.6 \\	      
+	       $W^-$ &  6 &   $6\cdot10^{-3}\, m_W$ & $3.315$~nb & $3.275\pm 0.004$~nb & $-25\pm 10$~pb & 7.8 \\
+	       $Z$   &  31 &   $6\cdot10^{-3}\, m_Z$ & $885.3$~pb & $875.8\pm 0.9$~nb & $-3.5\pm  2$~fb & 13.0 \\
+	       $H$   &  112 &	$4\cdot10^{-3}\, m_H$ & $1.396$~pb & $1.872\pm 0.002$~pb & $7\pm 6$~fb & 9.7 \\
+	       $\gamma\gamma$	&  285 &   $1\cdot10^{-4}\, m_{\gamma\gamma}$ & $27.91$~pb & $43.54\pm 0.08$~pb & $0.36\pm 0.10$~pb & 83.2 \\
+	       $W^+ H$   &  91 &   $3\cdot10^{-3}\, m_{W^+ H}$ & $2.204$~fb & $2.262\pm 0.004$~fb & $0.002\pm 0.008$~fb & 16.0 \\
+	       $W^- H$   &  96 &   $3\cdot10^{-3}\, m_{W^- H}$ & $1.491$~fb & $1.526\pm 0.003$~fb & $-0.005\pm 0.007$~fb & 13.0 \\
+	       $Z H$   &  110 &   $3\cdot10^{-3}\, m_{Z H}$ & $0.753$~fb & $0.842\pm 0.001$~fb & $-0.005\pm 0.003$~fb & 12.5 \\
+	       $Z \gamma$   &  300 &   $3\cdot10^{-4}\, m_{Z \gamma}$ & $434$~fb & $525.5\pm 1.0$~fb & $4.5\pm 1.7$~fb & 202.5 \\
+	 \hline
+	\end{tabular}
+\end{table}

@@ -1,0 +1,60 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{cuts}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+		{\tt m34transmin} & For general processes, this specifies the
+		minimum transverse mass of particles 3 and 4,
+		\begin{equation}
+		\mbox{general}: \quad 2 p_T(3) p_T(4) \left( 1 - \frac{\vec{p_T}(3) \cdot \vec{p_T}(4)}{p_T(3) p_T(4)} \right) 
+		> {\texttt{m34transmin}} 
+		\end{equation}
+		For the $W(\to \ell \nu)\gamma$ process the role of this cut changes, to become
+		instead a cut on the transverse cluster mass of the $(\ell\gamma,\nu)$ system,
+		\begin{eqnarray}
+		W\gamma: && \left[ \sqrt{m_{\ell\gamma}^2 + |\vec{p_T}(\ell)+\vec{p_T}(\gamma)|^2} + p_T(\nu) \right]^2
+		\nonumber \\ &&
+		-|\vec{p_T}(\ell)+\vec{p_T}(\gamma)+\vec{p_T}(\nu)|^2 >  {\texttt{m34transmin}}^2
+		\end{eqnarray}
+		For the $Z\gamma$ process this parameter specifies a simple invariant mass cut,
+		\begin{equation}
+		Z\gamma: \quad m_{Z\gamma} > {\texttt{m34transmin}}
+		\end{equation}
+		A final mode of operation applies to the $W\gamma$ process and is triggered by a negative value
+		of {\texttt{m34transmin}}. This allows simple access to the cut that was employed in v6.0 of the code:
+		\begin{eqnarray}
+		W\gamma, \mbox{obsolete}: &&
+		\left[ p_T(\ell) +  p_T(\gamma) +  p_T(\nu) \right]^2 \nonumber \\ 
+		&-&|\vec{p_T}(\ell)+\vec{p_T}(\gamma)+\vec{p_T}(\nu)|^2 > |{\texttt{m34transmin}}|
+		\end{eqnarray}
+		In each case the screen output indicates the cut that is applied. \\
+		{\tt Rjlmin} & Using the definition of $\Delta R$ above,
+		requires that all jet-lepton pairs are separated by
+		$\Delta R >$~{\tt R(jet,lept)\_min}. \\
+		
+		{\tt Rllmin} & When non-zero, all lepton-lepton pairs
+		must be separated by $\Delta R >$~{\tt R(lept,lept)\_min}. \\
+		
+		{\tt delyjjmin} & This enforces a pseudo-rapidity
+		gap between the two hardest jets $j_1$ and $j_2$, so that:
+		$|\eta^{j_1} - \eta^{j_2}| >$~{\tt Delta\_eta(jet,jet)\_min}. \\
+		
+		{\tt jetsopphem} & If this parameter is set to {\tt .true.},
+		then the two hardest jets are required to lie in opposite hemispheres,
+		$\eta^{j_1} \cdot \eta^{j_2} < 0$. \\
+		
+		{\tt lbjscheme} & This integer parameter provides no
+		additional cuts when it takes the value {\tt 0}. When equal to
+		{\tt 1} or {\tt 2}, leptons are required to lie between the two
+		hardest jets. With the ordering $\eta^{j_-} < \eta^{j_+}$ for the
+		pseudo-rapidities of jets $j_1$ and $j_2$:
+		{\tt lbjscheme = 1} : 
+		$\eta^{j_-} < \eta^{\mathrm{leptons}} < \eta^{j_+}$;
+		{\tt lbjscheme = 2} :
+		$\eta^{j_-}+{\tt Rcutjet} < \eta^{\mathrm{leptons}} < \eta^{j_+}-{\tt Rcutjet}$. \\
+		
+		{\tt ptbjetmin, etabjetmax} & If a process involving $b$-quarks is being calculated, then these can
+		be used to specify {\em stricter} values of $p_T^{\mathrm{min}}$
+		and $|\eta|^{\mathrm{max}}$ for $b$-jets. Similarly, values for \texttt{ptbjetmax} and \texttt{etabjetmin} can be 
+		specified. \\
+		\bottomrule
+	\end{longtable}

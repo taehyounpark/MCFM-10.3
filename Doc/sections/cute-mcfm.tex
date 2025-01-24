@@ -1,0 +1,169 @@
+\topheading{CuTe-MCFM}
+\includegraphics[width=0.4\textwidth]{./sections/cute-mcfmpic.png}
+\midheading{N$^3$LL and N$^4$LL $q_T^2$ resummation for color-singlet processes in MCFM}
+
+Based on \href{https://arxiv.org/abs/2009.11437}{arXiv:2009.11437} (Becher, Neumann '20).
+
+The $q_T$ resummation in CuTe-MCFM is available for color-singlet processes and based on a 
+factorization theorem in SCET. It is fully differential in the Born kinematics and matches
+to large-$q_T^2$ fixed-order predictions at relative order
+$\alpha_s^2$. It provides an efficient way to estimate uncertainties from
+fixed-order truncation, resummation, and parton distribution
+functions. In addition to $W, Z$ and $H$ production, also the diboson
+processes $\gamma\gamma$, $Z\gamma$, $ZH$, $WH$, $WW$, $WZ$ and $ZZ$ are available, including decays.
+
+While CuTe-MCFM can calculate $q_T$-resummed results without using
+pregenerated beam functions grids, we recommend that LHAPDF grid files are
+generated for the beam functions beforehand for a choice of a PDF set. This
+\emph{significantly} accelerates the evaluation of the beam functions and the
+integration.
+
+CuTe-MCFM ships with pregenerated beamfunction grids for the central
+values of \texttt{CT14nnlo} and \texttt{NNPDF31\_nnlo\_as\_0118}, which
+are included in the \texttt{Bin/PDFs} directory. This path is automatically used
+as the preferred path for LHAPDF grid files. With these pregenerated
+grids the example input files work out of the box. For other PDF sets or
+when using PDF errors, the first run of CuTe-MCFM should be with the
+setting \texttt{makegrid=.true.}. Additionally the input and output
+directories for the PDF grids have to be specified. For example the
+input directory is typically \texttt{/usr/local/share/LHAPDF/} (or the
+\texttt{PDFs/} directory relative to the mcfm executable in \texttt{Bin}) and
+the output directory should be a user-writeable directory like
+\texttt{/home/user/gridout/} (or \texttt{PDFs/}). Note the trailing slashes.
+
+When calling mcfm with \texttt{makegrid=.true.} only the beam function
+grids are written during that run, and mcfm exits afterwards.
+We recommend to use \texttt{PDFs/} as the gridout path, since this
+path is automatically added to the LHAPDF search paths, and you won't have to
+copy the generated grid directories to your LHAPDF grid directory or set the
+\texttt{LHAPDF\_DATA\_PATH} environment variable to the gridout path.
+
+For example for the set CT14nnlo the grid directories
+\texttt{CT14nnlo\_B00}, \texttt{CT14nnlo\_B10}, \texttt{CT14nnlo\_B11},
+\texttt{CT14nnlo\_B20}, \texttt{CT14nnlo\_B21}, \texttt{CT14nnlo\_B22} and \texttt{CT14nnlo\_G10} 
+are written and have to be copied to the
+directory where LHAPDF searches for the grid files. When the gridout path is chosen as 
+\texttt{PDFs/} no further action is necessary. The LHAPDF grid file
+search path can be modified by setting the shell
+environment variable \texttt{LHAPDF\_DATA\_PATH} to the desired
+directory, but the \texttt{PDFs} directory is always used as the preferred directory.
+
+
+The next run of mcfm should be done with \texttt{makegrid=.false.} and \texttt{usegrid=.true.}.
+
+Other important parameters for the resummation are \texttt{res\_range},
+determining the integration range of the purely resummed part,
+\texttt{resexp\_range}, determining the integration range of the
+fixed-order expanded resummed part, and \texttt{fo\_cutoff} which sets
+the lower $q_T$ cutoff for the fixed-order part. Typically this cutoff
+should agree with the lower range of \texttt{resexp\_range}. For example
+for $Z$ production one can integrate up to $m_Z$ with a cutoff of 1 GeV: \texttt{res\_range = 
+0.0 90.0},
+\texttt{resexp\_range = 1.0 90.0}, \texttt{qt\_cutoff = 1.0}.
+
+For details regarding these parameters see the next section. The
+transition function is also discussed below.
+
+\hypertarget{input-file-parameters}{%
+	\midheading{Input file parameters}\label{input-file-parameters}}
+
+The \texttt{[resummation]} section has been added to the input file to
+control the resummation. The following keys are available:
+
+\begin{longtable}[]{@{}ll@{}}
+%	\toprule
+	\begin{minipage}[b]{0.24\columnwidth}\raggedright
+		Key\strut
+	\end{minipage} & \begin{minipage}[b]{0.71\columnwidth}\raggedright
+		Description\strut
+	\end{minipage}\tabularnewline
+%	\midrule
+	\endhead
+	\begin{minipage}[t]{0.24\columnwidth}\raggedright
+		\texttt{usegrid}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		\texttt{.true.} or \texttt{.false.} determines whether pregenerated
+		LHAPDF interpolation grids should be used for the resummation beam
+		functions.\strut
+	\end{minipage}\tabularnewline
+	\begin{minipage}[t]{0.24\columnwidth}\raggedright
+		\texttt{makegrid}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		If \texttt{.true.}, then MCFM runs in grid generation mode. This
+		generates LHAPDF grid files in the directory \texttt{gridoutpath} from
+		LHAPDF grids in the directory \texttt{gridinpath}. After the grid
+		generation MCFM stops and should be run subsequently with
+		\texttt{makegrid = .false.} and \texttt{usegrid = .true.}. When
+		\texttt{lhapdf\%dopdferrors=.true.} then also grids for the error sets
+		are generated.\strut
+	\end{minipage}\tabularnewline
+	\begin{minipage}[t]{0.24\columnwidth}\raggedright
+		\texttt{gridoutpath}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		Output directory for LHAPDF grid files, for example
+		\texttt{/home/tobias/local/share/LHAPDF/}\strut
+	\end{minipage}\tabularnewline
+	\begin{minipage}[t]{0.24\columnwidth}\raggedright
+		\texttt{gridinpath}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		Input directory for LHAPDF grid files, for example
+		\texttt{/home/tobias/local/share/LHAPDF/}\strut
+	\end{minipage}\tabularnewline
+	\begin{minipage}[t]{0.24\columnwidth}\raggedright
+		\texttt{res\_range}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		Integration range of purely resummed part, for example \texttt{0.0 80.0}
+		for $q_T$ integration between 0 and 80 GeV.\strut
+	\end{minipage}\tabularnewline
+	\begin{minipage}[t]{0.24\columnwidth}\raggedright
+		\texttt{resexp\_range}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		Integration range of fixed-order expanded resummed part, for example
+		\texttt{1.0 80.0} for $q_T$ integration between 1 and 80 GeV.\strut
+	\end{minipage}\tabularnewline
+	\begin{minipage}[t]{0.24\columnwidth}\raggedright
+		\texttt{fo\_cutoff}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		Lower $q_T$ cutoff $q_0$ for the fixed-order part, see eq.~\eqref{eq:matchingmod} below. 
+		Typically the value should agree with the lower range of \texttt{resexp\_range}.\strut
+	\end{minipage}\tabularnewline
+	\begin{minipage}[t]{0.24\columnwidth}\raggedright
+		\texttt{transitionswitch}\strut
+	\end{minipage} & \begin{minipage}[t]{0.71\columnwidth}\raggedright
+		Parameter passed to the plotting routine to modify the transition
+		function, see text.\strut
+	\end{minipage}\tabularnewline
+%	\bottomrule
+\end{longtable}
+
+We strongly recommend to calculate resummed results with pregenerated
+grids, see the previous section.
+The integration range for the purely resummed part can be controlled with the key
+\texttt{res\_range} and should typically be between $0$ and some upper
+value. For example for $W^\pm, Z$ or $H$ production this can just be
+the boson mass. For other processes there can be thresholds and this
+number must be selected more carefully to not run into numerical issues,
+see arXiv:2009.11437.
+
+The setting \texttt{resexp\_range} and \texttt{fo\_cutoff} are relevant
+for the matching corrections. The values of the \texttt{resexp\_range}
+determine the integration range for the fixed-order expansion of the
+resummed part. The minimum should typically be at least one GeV for
+numerical stability. For smaller values significantly more time goes
+into the integration, and the minimum number of Vegas calls might need
+to increased. For single boson processes the maximum value can again be
+the boson mass, although it can be set to a value where the implemented
+transition function fully switches to zero. The fixed-order cutoff
+\texttt{fo\_cutoff} determines the minimum $q_T$ for the fixed-order
+calculation. This should typically agree with the lower range of the
+\texttt{resexp\_range}.
+
+Lastly, the parameter \texttt{transitionswitch} is passed for
+convenience to the plotting routines where the transition function is
+implemented. It can be used for for an easy control of the transition
+region as described in the following.
+
+\input{sections/CMplottingandtransition.tex}
+\input{sections/CMmodifyingplotting.tex}
+
+

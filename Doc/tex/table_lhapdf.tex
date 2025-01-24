@@ -1,0 +1,18 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{lhapdf}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+		\texttt{lhapdfset} &
+		Specifies the parton distributions used in case the code has been built with
+		\texttt{PDFROUTINES = LHAPDF}. For a default global installation the PDFs reside
+		in \texttt{/usr/share/LHAPDF/} or \texttt{/usr/local/share/LHAPDF}, and the name
+		equals the set name from \url{https://lhapdf.hepforge.org/pdfsets.html}, which is
+		also the directory name of the sets. Multiple PDF sets separated by a space can be specified. \\
+		\texttt{lhapdfmember} & Specifies the individual members of the parton distribution sets.
+		A value of zero corresponds to the central value for Hessian sets. In case multiple sets
+		have been specifies above, each one needs a member number separated by space. \\
+		\texttt{dopdferrors} & When this is set to \texttt{.true.} PDF uncertainties are calculated
+		for every specified \PDF{} set according to the routines provided by \LHAPDF{}.
+		The \texttt{lhapdfmember} numbers are ignored but must still be set for each member. \\
+		\bottomrule
+	\end{longtable}

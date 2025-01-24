@@ -1,0 +1,14 @@
+\midheading{$W\gamma\gamma$ production, processes 370-371}
+\label{subsec:wgamgam}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with two real photons.
+Since this process includes real photons, the cross section diverges
+when the photon is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt gammptmin} and {\tt gammrapmax}. Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $W \to \ell \nu$ will include
+photon radiation from the lepton, so that a non-zero {\tt R(photon,lept)\_min} should
+also be supplied. This will ensure that the cross section is well-defined.
+
+These processes may be computed at leading order only.

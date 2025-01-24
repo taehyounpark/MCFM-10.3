@@ -1,0 +1,209 @@
+\hypertarget{c-interface}{%
+\section{C++ interface to One-Loop Matrix Elements}\label{c-interface}}
+
+Since version 10.1, MCFM offers a dedicated C++ interface to access its
+analytic one-loop amplitudes. Please cite ref.~\cite{Campbell:2021vlt} in
+addition to the main MCFM references when using the C++ interface.
+
+\hypertarget{available-processes}{%
+\subsection{Available Processes}\label{available-processes}}
+
+The following Standard-Model processes are available:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Process & Order EW & Order QCD \\
+\midrule
+\endhead
+\(pp\to \ell^+\ell^-\) & 2 & 1 \\
+\(pp\to \ell^+\ell^- j\) & 2 & 2 \\
+\(pp\to \ell^+\ell^- j j\) & 2 & 3 \\
+& & \\
+\(pp\to \ell^\pm\nu_\ell\) & 2 & 1 \\
+\(pp\to \ell^\pm\nu_\ell j\) & 2 & 2 \\
+\(pp\to \ell^\pm\nu_\ell j j\) & 2 & 3 \\
+& & \\
+\(pp\to h\) & 1 & 2 \\
+\(pp\to h j\) & 1 & 3 \\
+\(pp\to h j j\) & 1 & 4 \\
+& & \\
+\(pp\to h h\) & 2 & 2 \\
+& & \\
+\(pp\to \ell^+\ell^- h\) & 3 & 1 \\
+\(pp\to \ell^+\ell^- h j\) & 3 & 2 \\
+& & \\
+\(pp\to \ell^\pm\nu_\ell h\) & 3 & 1 \\
+\(pp\to \ell^\pm\nu_\ell h j\) & 3 & 2 \\
+& & \\
+\(pp\to \gamma j\) & 1 & 2 \\
+\(pp\to \gamma j j\) & 1 & 3 \\
+& & \\
+\(pp\to \gamma \gamma\) & 2 & 1 \\
+\(gg\to \gamma \gamma\) & 2 & 1 \\
+\(pp\to \gamma \gamma j\) & 2 & 2 \\
+& & \\
+\(pp\to \gamma \gamma \gamma\) & 3 & 1 \\
+& & \\
+\(pp\to \gamma \gamma \gamma \gamma\) & 4 & 1 \\
+& & \\
+\(pp\to \ell^+\ell^-\gamma\) & 3 & 1 \\
+\(pp\to \ell^\pm\nu_\ell\gamma\) & 3 & 1 \\
+\(pp\to \nu_\ell\bar\nu_\ell\gamma\) & 3 & 1 \\
+& & \\
+\(pp\to \ell^+\ell^{\prime-}\nu_\ell\bar\nu_{\ell'}\) & 4 & 1 \\
+& & \\
+\(pp\to \ell^+\ell^-\nu_{\ell'}\bar\nu_{\ell'}\) & 4 & 1 \\
+\(pp\to \ell^+\ell^-\ell^{\prime+}\ell^{\prime-}\) & 4 & 1 \\
+\(pp\to \ell^+\ell^-\ell^+\ell^-\) & 4 & 1 \\
+& & \\
+\(pp\to \ell^+\ell^-\ell^{\prime\pm}\nu_{\ell'}\) & 4 & 1 \\
+\(pp\to \ell^\pm\nu_\ell\nu_{\ell'}\bar\nu_{\ell'}\) & 4 & 1 \\
+& & \\
+\(pp\to t \bar t\) & 0 & 3 \\
+& & \\
+\(pp\to j j\) & 0 & 3 \\
+\bottomrule
+\end{longtable}
+
+In addition, the following HEFT processes are available (requires
+model=heft):
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Process & Order EW & Order QCD \\
+\midrule
+\endhead
+\(pp\to h\) & 1 & 2 \\
+\(pp\to h j\) & 1 & 3 \\
+\(pp\to h j j\) & 1 & 4 \\
+\bottomrule
+\end{longtable}
+
+All processes are crossing invariant.
+
+Further processes as per the
+{\lstinline!process list <processlist>!} may be
+implemented in the future. Please contact the authors if interested in a
+specific process.
+
+\hypertarget{installation}{%
+\subsection{Installation}\label{installation}}
+
+To use the C++ interface, please enable compiling MCFM as a library by
+adding the {\lstinline!-DWITH_LIBRARY!} flag
+
+\begin{lstlisting}
+cmake .. -DWITH_LIBRARY
+\end{lstlisting}
+
+This will create a shared library {\lstinline!libMCFM.so!}
+in the {\lstinline!lib/!} directory.
+
+\hypertarget{usage}{%
+\subsection{Usage}\label{usage}}
+
+Examples showing the basic usage of the interface and how to fill the
+complete list of parameters with default values are given in
+{\lstinline!src/BLHA/text.cxx!} and
+{\lstinline!src/BLHA/params.cxx!}, respectively.
+
+The MCFM C++ interface is constructed as a C++ class
+
+\begin{lstlisting}[language={C++}]
+CXX_Interface mcfm;
+\end{lstlisting}
+
+included in the header
+
+\begin{lstlisting}[language={C++}]
+#include "MCFM/CXX_Interface.h"
+\end{lstlisting}
+
+It must be initialized on a \(\texttt{std::map}\) of
+\(\texttt{std::string}\), containing all (standard-model) parameters
+
+\begin{lstlisting}[language={C++}]
+bool CXX_Interface::Initialize(std::map<std::string,std::string>& parameters);
+\end{lstlisting}
+
+Prior to use, each process has to be initialized in the interface
+
+\begin{lstlisting}[language={C++}]
+int CXX_Interface::InitializeProcess(const Process_Info &pi);
+\end{lstlisting}
+
+which takes a {\lstinline!Process\_Info!} object as input,
+which in turn contains the defining parameters of a given process,
+i.e.~the PDG IDs, number of incoming particles, and QCD and EW coupling
+orders
+
+\begin{lstlisting}[language={C++}]
+Process_Info(const std::vector<int> &ids, const int nin,const int oqcd, const int oew);
+\end{lstlisting}
+
+Phase space points are defined using the
+{\lstinline!FourVec!} struct, which represents four-vectors
+in the ordering \((E, p_x, p_y, p_z)\)
+
+\begin{lstlisting}[language={C++}]
+FourVec(double e, double px, double py, double pz);
+\end{lstlisting}
+
+Given a list of four-vectors in this format, one-loop matrix elements
+can be calculated either using the process ID returned by the
+{\lstinline!InitializeProcess!} method
+
+\begin{lstlisting}[language={C++}]
+void CXX_Interface::Calc(int procID,const std::vector<FourVec> &p, int oqcd);
+\end{lstlisting}
+
+or using a {\lstinline!Process\_Info!} struct:
+
+\begin{lstlisting}[language={C++}]
+void CXX_Interface::Calc(const Process_Info &pi,const std::vector<FourVec> &p,int oqcd);
+\end{lstlisting}
+
+In the same way, the result of this calculation can be accessed either
+via the process ID
+
+\begin{lstlisting}[language={C++}]
+const std::vector<double>& CXX_Interface::GetResult(int procID);
+\end{lstlisting}
+
+or using the {\lstinline!Process\_Info!} struct:
+
+\begin{lstlisting}[language={C++}]
+const std::vector<double> &CXX_Interface::GetResult(const Process_Info &pi)
+\end{lstlisting}
+
+The result is returned as a list of Laurent series coefficients in the
+format
+\begin{equation*}
+(\mathcal{O}(\varepsilon^0), \mathcal{O}(\varepsilon^{-1}), \mathcal{O}(\varepsilon^{-2}), \mathrm{Born})
+\;.
+\end{equation*}
+However, by default only the \(\mathcal{O}(\varepsilon^0)\) coefficient,
+i.e.~the finite part, is returned.
+
+The calculation of the pole terms and the Born can be enabled by setting
+the following switch to {\lstinline!1!}
+
+\begin{lstlisting}[language={C++}]
+void CXX_Interface::SetPoleCheck(int check);
+\end{lstlisting}
+
+\hypertarget{tests}{%
+\subsection{Tests}\label{tests}}
+
+A set of programs to test MCFM's amplitudes against
+\href{https://openloops.hepforge.org}{OpenLoops},
+\href{https://recola.gitlab.io/recola2/}{Recola}, and
+\href{http://madgraph.phys.ucl.ac.be}{MadLoop} can be compiled. For
+example to compile the OpenLoops test program an additional OpenLoops
+directory {\lstinline!-DOLDIR=$HOME/OpenLoops!} must be
+specified that contains the header files in the
+{\lstinline!include!} subdirectory. For Recola and MadLoops
+the variables {\lstinline!RCLDIR!} and
+{\lstinline!MLDIR!} must be specified, respectively.
+
+

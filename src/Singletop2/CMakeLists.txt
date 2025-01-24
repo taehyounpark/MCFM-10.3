@@ -1,0 +1,16 @@
+target_sources(objlib PRIVATE
+singletop2_decaywidth.f
+singletop2_ints_dd_m.f
+singletop2_ints_new_m.f
+singletop2_ints_new_resc_m.f
+singletop2_ints_nonres_dd_m.f
+singletop2_ints_nonres_m.f
+singletop2_ints_nonres_resc_m.f
+singletop2_m.f
+singletop2_realamps_m.f
+singletop2_realamps_nonres_m.f
+singletop2_scale_m.f
+singletop2_virtamps_m.f
+)
+
+

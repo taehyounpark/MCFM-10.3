@@ -1,0 +1,13 @@
+target_sources(objlib PRIVATE
+qqb_dm_gg_Axamps.f
+qqb_dm_monojet_AxAmp.f
+qqb_dm_monojet_lc_Axamps.f
+qqb_dm_monojet_nf_ax.f
+qqb_dm_monojet_slc_Axamps.f
+qqb_dm_monojet_v_Axamps.f
+qqb_dm_monophot_g_Axamps.f
+qqb_dm_monophot_v_Axamps.f
+qqb_dm_qq_Axamps.f
+)
+
+

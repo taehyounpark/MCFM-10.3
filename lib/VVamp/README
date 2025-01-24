@@ -1,0 +1,10 @@
+An implementation of the two-loop helicity amplitudes for diboson production
+using the results of:
+
+T.~Gehrmann, A.~von Manteuffel and L.~Tancredi,
+``The two-loop helicity amplitudes for $ q\overline{q}^{\prime}\to {V}_1{V}_2\to 4 $ leptons,''
+JHEP \textbf{09}, 128 (2015)
+[arXiv:1503.04812 [hep-ph]].
+
+taken from https://vvamp.hepforge.org/.
+

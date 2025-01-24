@@ -1,0 +1,45 @@
+\midheading{$H+$~jet production, processes 201--210}
+\label{subsec:hjet}
+
+These processes represent the production of a Higgs boson in association
+with a single jet, with the subsequent decay of the Higgs to either
+a pair of bottom quarks (processes {\tt 201,203,206})
+or to a pair of tau's ({\tt 202,204,207}),
+or to a pair of $W$'s which decay leptonically ({\tt 208}),
+or to a pair of $Z$'s which decay leptonically ({\tt 209}),
+or to a pair of photons ({\tt 210}).
+
+\bottomheading{$m_t=$~finite, 201,202,206,207}
+The Higgs boson couples to a pair of gluons via a loop of heavy fermions
+which, in the Standard Model, is accounted for almost entirely by including
+the effect of the top quark alone. For processes {\tt 201,202,206,207}, the
+matrix elements include the full dependence on the top quark mass.
+The calculation can only be performed at LO.
+The LO full $m_t$ dependence calculation implements results of refs.\cite{Ellis:1987xu,Baur:1989cm}.
+However, the Higgs boson can either be the Standard Model one
+(processes {\tt 201,202}) or a pseudoscalar ({\tt 206,207}).
+Note that the pseudoscalar case corresponds, in the heavy top limit, to the effective Lagrangian,
+\begin{equation}
+\mathcal{L} = \frac{1}{8\pi v} \, G^a_{\mu\nu} \widetilde G^{\mu\nu}_a A \;,
+\end{equation}
+where $\widetilde G^{\mu\nu}_a = i\epsilon^{\mu\nu\alpha\beta}
+ G_{\alpha\beta}^a$.
+The interaction differs from the scalar case in by a factor of $3/2$
+and hence the rate is increased by a factor of $(3/2)^2$.
+
+
+\bottomheading{$m_t=\infty$, 203,204,208,209,210}
+For processes {\tt 203,204,208,209,210}, the calculation is performed in the
+limit of infinite top quark mass, so that NLO and NNLO results can be obtained.
+The virtual one-loop matrix elements have been implemented from
+refs~\cite{Ravindran:2002dc} and~\cite{Schmidt:1997wr}.
+Phenomenological results have previously been
+given in refs.~\cite{deFlorian:1999zd},\cite{Ravindran:2002dc}
+and \cite{Glosser:2002gm}.
+Note that the effect of radiation from the bottom quarks in process {\tt 203}
+is not included.
+NNLO corrections have only been implemented for processes {\tt 204} and {\tt 210},
+using the 1-jettiness slicing approach described in  ref.~\cite{Campbell:2019gmd}.
+When {\tt removebr} is true in processes {\tt 201}, {\tt 203}, {\tt 206}, {\tt 208}, {\tt 209}
+and {\tt 210}, the Higgs boson does not decay.
+

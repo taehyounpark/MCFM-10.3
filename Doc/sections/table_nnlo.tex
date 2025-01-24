@@ -1,0 +1,52 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\hline
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{nnlo}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\hline
+		\texttt{taucut} & 
+		Optional. This sets the value of the jettiness variable
+		$\tau_{\text{cut}}$, as a multiple of the invariant mass of the Born system,
+		i.e.
+		\begin{equation}
+		\tau_{\text{cut}} = \texttt{taucut} \times Q
+		\end{equation}
+		This variable separates the resolved and unresolved regions in NNLO
+		calculations that use zero-jettiness. The default value results
+		in total inclusive cross sections with less than $1\%$ residual cutoff effects. \\
+		\texttt{tcutarray} &
+		Optional. Array that specifies multiple taucut values that should be sampled
+		on the fly in addition to the nominal taucut value. Both larger and smaller
+		values than the nominal one can be specified, although uncertainties for
+		smaller values will be large. We generally do not recommend smaller values
+		than the nominal one chosen with \texttt{taucut}. Default values are chosen
+		to be $2,4,8,20,40$ times the nominal choice of \texttt{taucut}.  \\
+		\texttt{dynamictau} &
+		Optional. If \texttt{.false.}, the \texttt{taucut} value specified
+		is not multiplied by the invariant mass of the Born system. Default is \texttt{.true.}. \\
+                \texttt{useqt} & Flag to use $q_T$ slicing, rather than
+		0-jettiness, in the calculation of NNLO contributions.
+		Default is \texttt{.false.} \\
+                \texttt{useGLY} & If \texttt{.true.}, implement non-local $q_T$ subtraction using formulas from Gehrmann et al.(GLY)~\cite{Gehrmann:2014yya}.
+		Default is \texttt{.true.}  when \texttt{useqt} is enabled.  If \texttt{.false},
+		implement non-local $q_T$ subtraction using formulas from Billis et al.(BEMT)~\cite{Billis:2019vxg}. \\
+                \texttt{qtcut} & If \texttt{useqt} is enabled, the value of the slicing parameter, defined
+		in the same way as \texttt{taucut} described above.  \\
+                \texttt{tauboost} & When using 0-jettiness, perform the slicing cut in the
+		centre-of-mass of the color singlet system.  Default is \texttt{.true.} \\
+                \texttt{incpowcorr} & When using 0-jettiness, include leading power corrections
+		in the below-cut calculation. Default is \texttt{.false.} \\
+                \texttt{onlypowcorr} & When using 0-jettiness, only compute the power corrections
+		to the below-cut calculation. Default is \texttt{.false.} \\
+                \texttt{usept} & This flag has two separate uses.  In a fixed-order sliciing calculation,
+		e.g. {\tt part} is equal to {\tt snlo} or {\tt nnlo}, the code uses $p_T^{veto}$ slicing, rather than
+		0-jettiness, in the calculation of higher-order contributions.
+		In a resummed calculation, e.g. {\tt part} is equal to {\tt resNLO} or {\tt resNNLO},
+		it enables the use of $p_T^{veto}$ resummation rather that $q_T$ resummation.
+		In this case the value of the jet veto (\texttt{ptveto}) is set separately in the
+		\texttt{resummation} block.
+		Default is \texttt{.false.} \\
+                \texttt{useBNR} & Implements $p_T^{veto}$ formalism using the refactorized approach of
+		Ref.~\cite{Becher:2013xia}.  Otherwise uses original `$B \times B \times S$' factorization
+		of below-cut cross-section into beam and soft functions (that gives identical results).
+		Default is \texttt{.true.} \\
+		\hline
+	\end{longtable}

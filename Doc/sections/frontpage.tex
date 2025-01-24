@@ -1,0 +1,67 @@
+\midheading*{MCFM - Monte Carlo for FeMtobarn processes}
+
+Authors: John Campbell, Keith Ellis, Tobias Neumann, Ciaran Williams
+
+This is the homepage for the parton-level Monte Carlo program
+MCFM. The program calculates cross-sections for various
+femtobarn-level processes at hadron-hadron colliders. A number of
+processes can be calculated at NNLO order in QCD, while most other
+processes are included at NLO order in QCD. The calculation of some
+processes can also account for next-to-leading order weak effects. For
+more details, look at \href{\mcfmprocs/proclist.html}{list of available processes}
+and view the documentation (PDF) with a full list of references. 
+
+\bottomheading*{Documentation}
+The full~\href{\mcfmprocs/proclist.html}{list of processes} with links to web-pages
+for every process, where examples of input files can be found.
+Manuals can be found in Docs/manual.pdf and Docs/cute-mcfm.pdf bundled with MCFM.
+
+\bottomheading*{Download}
+\href{https://mcfm.fnal.gov/downloads/MCFM-10.2.2.tar.gz}{MCFM-10.2.2.tar.gz} ( May 19th, 2022, updated November 4th, 2022)
+
+Download and changelog for~\href{https://mcfm.fnal.gov/downloads/earlier_versions.html}{earlier versions of MCFM10 and MCFM9}
+and \href{https://mcfm.fnal.gov/downloads/much_earlier_versions.html}{versions prior to MCFM10 and MCFM9}
+
+\bottomheading*{Installation}
+The only prerequisites are GNU gcc/g++/gfortran compilers of version 7 or greater and cmake greater than version 3.
+
+In the simplest case the compilation can be done with (e.g. with gfortran)
+\begin{verbatim}
+tar -zxvf MCFM-10.2.2.tar.gz
+cd mcfm/Bin 
+cmake -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++  ..
+make
+\end{verbatim}
+which uses the bundled LHAPDF. For more options and troubleshooting please see INSTALL and Docs/manual.pdf.
+
+
+\bottomheading*{New features in MCFM-10}
+Since version 10.0 N$^3$LL+NNLO $q_T^2$ resummation for the boson processes $W^+$, $W^-$, $Z$ and $H$ and 
+diboson processes $\gamma \gamma$, $Z\gamma$, $ZH$,$W^+H$ and $W^-H$ are included as \href{https://mcfm.fnal.gov/downloads/cute-mcfm.html}{CuTe-MCFM}
+
+\begin{itemize}
+\item    C++ interface to tree and one-loop amplitudes as a replacement of OpenLoops and Recola \href{https://arxiv.org/abs/2107.04472}{[2107.04472]}
+\item    t-channel single-top-quark production at NNLO \href{https://arxiv.org/abs/2012.01574}{[2012.01574]}, see also \href{https://arxiv.org/abs/2109.10448}{[2109.10448]}
+\item    $q_T^2$ resummation for Diphoton production at N$^3$LL$^\prime$+NNLO \href{https://arxiv.org/abs/2107.12478}{[2107.12478]}
+\item    Optimized one-loop Higgs+2jet amplitudes with full top-quark mass effects \href{https://arxiv.org/abs/2002.04018}{[2002.04018]}
+\item    Off-shell single-top-quark production at NLO including SMEFT contributions \href{https://arxiv.org/abs/1802.02981}{[1802.02981]}
+\item    Higgs+jet production at NLO with finite top-quark mass effects (EFT rescaling, $1/m_t^2$) \href{https://arxiv.org/abs/1608.03356}{[1608.03356]}
+\item    Electroweak one-loop corrections for $Z$, top-pair and di-jet production \href{https://arxiv.org/abs/1605.08011}{[1605.08011]}
+\item    NNLO for $W^+,W^-,Z,H$\href{https://arxiv.org/abs/1605.08011}{[1605.08011]}, $ZH,W^-H,W^+H$ \href{https://arxiv.org/abs/1601.00658}{[1601.00658]},
+$\gamma\gamma$\href{https://arxiv.org/abs/1603.02663}{[1603.02663]}
+\item    NNLO for $Z\gamma$ \href{https://arxiv.org/abs/1708.02925}{[1708.02925]}, $W\gamma$ \href{https://arxiv.org/abs/2105.00954}{[2105.00954]},
+$WW,WZ,WZ,ZZ$ \href{https://arxiv.org/abs/2202.07738}{[2202.07738]}
+\item    Use of 0-jettiness or $q_T^2$ as the resolution variable for color-singlet processes \href{https://arxiv.org/abs/2202.07738}{[2202.07738]}
+\end{itemize}
+
+\subsubsection*{New features in MCFM-10.2.2}
+\begin{itemize}
+\item Analytic implementation of $WW$+1jet, $WZ$+1jet and $ZZ$+1jet amplitudes at one loop, also available through the C++ interface.
+\item Implementation of $WW,WZ,ZZ$ as well as $W\gamma$ processes at NNLO using both $q_T^2$ and jettiness subtraction, see
+\href{https://arxiv.org/abs/2202.07738}{[2202.07738]} and \href{https://arxiv.org/abs/2105.00954}{[2105.00954]}
+\item Implementation of $q_T^2$ subtraction for all other color singlet processes.
+\item OneLOop~\href{https://arxiv.org/abs/1007.4716}{[1007.4716]} as alternative one-loop provider to QCDLoop.
+\item Cleanup of implemention of lepton pair + four parton amplitudes at one loop.
+\item 10.2.1: Fixed bug in use of PDFs (introduced in 10.2); fixed error in calculation of top decay width with zerowidth=.false.
+\end{itemize}
+

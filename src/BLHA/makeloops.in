@@ -1,0 +1,6 @@
+#!/bin/bash
+
+test -d ML5 || mkdir ML5/
+ML5DIR/bin/mg5_aMC < OLP.mg5
+./sconsloops ML5/$(ls -tr --color=never ML5/ | sed -n '$ p')
+scons install

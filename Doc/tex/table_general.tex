@@ -1,0 +1,88 @@
+\begin{longtable}{p{1.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{general}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+		\texttt{nproc} & 
+		The process to be studied is given by
+		choosing a process number, according to Table~\ref{nproctable}
+		in Appendix~\ref{MCFMprocs}.
+		$f(p_i)$ denotes a generic partonic jet. Processes denoted as
+		``LO'' may only be calculated in the Born approximation. For photon
+		processes, ``NLO+F'' signifies that the calculation may be performed
+		both at NLO and also including the effects of photon fragmentation
+		and experimental isolation. In contrast, ``NLO'' for a process involving
+		photons means that no fragmentation contributions are included and isolation
+		is performed according to the procedure of Frixione~\cite{Frixione:1998jh}.	\\
+		\texttt{part} &
+		This parameter has 5 possible values, described below:
+		\begin{itemize}
+			\item {\tt lo} (or {\tt lord}).
+			The calculation is performed at leading order only.
+			\item {\tt virt}.
+			Virtual (loop) contributions to the next-to-leading order result are
+			calculated (+counterterms to make them finite), including also the
+			lowest order contribution.
+			\item {\tt real}.
+			In addition to the loop diagrams calculated by {\tt virt}, the full
+			next-to-leading order results must include contributions from diagrams
+			involving real gluon emission (-counterterms to make them finite).
+			Note that only the sum of the {\tt real} and the {\tt virt} contributions
+			is physical.
+			\item {\tt nlo} (or {\tt tota}).
+			For simplicity, the {\tt nlo} option simply runs the {\tt virt} and
+			{\tt real} real pieces in series before performing a sum to obtain
+			the full next-to-leading order result. For photon processes that include fragmentation,
+			{\tt nlo} also includes the calculation of the fragmentation ({\tt frag})
+			contributions.
+			\item {\tt nlocoeff}.
+			This computes only the contribution of the NLO coefficient;  it is equivalent
+			to running {\tt nlo} and then subtracting the result of {\tt lo}.
+			\item {\tt nlodk} (or {\tt todk}).
+			Processes 114, 161, 166, 171, 176, 181, 186, 141, 146, 149, 233, 238, 501, 511 only, see 
+			sections~\ref{subsec:stop} and
+			\ref{subsec:wt} below.
+			\item {\tt frag}.
+			Processes 280, 285, 290, 295, 300-302, 305-307,  820-823 only, see sections~\ref{subsec:gamgam}, 
+			\ref{subsec:wgamma} and
+			\ref{subsec:zgamma} below.
+			\item {\tt nnlo} (and {\tt nnlocoeff}).
+			The computation of the NNLO prediction (or the NNLO coefficient in the
+			expansion) is described separately below.
+		\end{itemize} \\
+		\texttt{runstring} &
+		When \MCFM{} is run, it will write output to several files. The
+		label {\tt runstring} will be included in the names of these files.
+		\\
+		\texttt{rundir} &
+		Directory for output and snapshot files
+		\\
+		\texttt{sqrts} & Center of mass energy in GeV. \\
+		\texttt{ih1}, \texttt{ih2} &
+		The identities of the incoming hadrons
+		may be set with these parameters, allowing simulations for both
+		$p{\bar p}$ (such as the Tevatron) and $pp$ (such as the LHC). 
+		Setting {\tt ih1} equal to ${\tt +1}$ corresponds to
+		a proton, whilst ${\tt -1}$ corresponds to an anti-proton. \\
+%		Values greater than {\tt 1000d0} represent a nuclear collision,
+%		as described in Section~\ref{sec:nucleus}. \\
+		\texttt{zerowidth} &
+		When set to {\tt .true.} then all vector
+		bosons are produced on-shell. This is appropriate for calculations
+		of {\it total} cross-sections (such as when using {\tt removebr} equal
+		to {\tt .true.}, below). When interested in decay products of the
+		bosons this should be set to {\tt .false.}. \\
+		\texttt{removebr} &
+		When set to {\tt .true.} the branching ratios are 
+		removed for unstable particles such as vector bosons or top quarks. See the
+		process notes in Section~\ref{sec:specific} below for further details. \\
+		\texttt{ewcorr} & 
+		Specifies whether or not to compute EW corrections
+		for the process.  Default is {\tt none}.  May be set to {\tt exact}
+		or {\tt sudakov} for processes {\tt 31} (neutral-current DY),
+		{\tt 157} (top-pair production) and {\tt 190} (di-jet production).
+		For more details see section~\ref{subsec:EW}.		\\
+                {\texttt{vdecayid}}, {\texttt{v34id}}, {\texttt{v56id}} &
+		Flags to manually set the decays of vector bosons (34) and
+		(56) (experimental, not for general use). \\
+		\bottomrule
+	\end{longtable}

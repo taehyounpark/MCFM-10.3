@@ -1,0 +1,183 @@
+\topheading{Histograms}
+\midheading{Output}
+\label{sec:output}
+
+In addition to the direct output of the program to {\tt stdout}, after
+all integration regions have completed the warmup stage and a subsequent
+sweep has been made for each contribution, the program will
+produce additional output files as specified below.
+If a working directory was specified in the command line, then these
+output files will be written to that directory.
+
+The standard output will detail the iteration-by-iteration best estimate
+of each contribution to the total cross-section, together with the
+accompanying error estimate.  Estimates of the total cross-sectio, summing
+over all contributions, will be reported in the form:
+\begin{verbatim}
+ Value of integral is    11.7521       0.58456E-02 nb 
+\end{verbatim}
+
+Other output files may be produced containing various histograms associated
+with the calculated process. The write-out of the different output files
+is controlled by the logical variable {\tt nohistograms} in the {\tt extra}
+section.  The default value of this variable is {\tt .false.}, but setting it
+to {\.true.} may be useful for faster running if no histograms are required.
+
+Histograms are written to a srries of files with the generic naming structure:
+\begin{verbatim}
+procname_part_lhapdfset_scale_facscale_runstring_histoname.txt
+\end{verbatim}
+where {\tt procname} is a label assigned by the program corresponding to
+the calculated process; {\tt histoname} is the name of the histogram specified
+in the plotting routine (see below) and the remaining labels are as input
+by the user in the file {\tt input.ini}.
+
+A default set of histograms is filled for each process.  A snippet of
+the histogram output is repeated below:
+\begin{verbatim}
+# W rapidity
+# underflow	  0.0000000    	  0.0000000
+# overflow	  0.0000000    	  0.0000000
+# sum	  10453523.    	  7919.1419
+# xmin	xmax	cross	numerror
+ -6.0000000    	 -5.8000000    	  0.0000000    	  0.0000000
+ -5.8000000    	 -5.6000000    	  0.0000000    	  0.0000000
+ -5.6000000    	 -5.4000000    	  0.0000000    	  0.0000000
+ -5.4000000    	 -5.2000000    	  0.0000000    	  0.0000000
+ -5.2000000    	 -5.0000000    	  7.1413485    	 0.24680943
+ -5.0000000    	 -4.8000000    	  1289.2697    	  28.436126
+ -4.8000000    	 -4.6000000    	  11218.037    	  211.10230
+ -4.6000000    	 -4.4000000    	  36844.231    	  656.21780
+\end{verbatim}
+The header lines provide the name of the histogram and the accumulated
+cross-section and uncertainty entering the bins ({\tt sum}),
+as well as any underflow or overflow outide the bins (zero in this case).
+The following lines report the results in each bin, in the format:
+bin lower edge, bin upper edge, accumulated cross section, uncertainty.
+The units of the reported cross-sections are femtobarns.
+
+To modify existing, or add new, histograms one must edit the plotting
+routine specified in each process description.  These are found in
+the directory {\tt src/User/} and correspond to the (default) value
+{\tt .false.} for the flag {\tt newstyle} in the {\tt histogram} section.
+
+Additional plotting infrastructure was included in the release
+of CuTe-MCFM, which is enabled by setting {\tt histogram\%newstyle = .true.}
+in the input file.
+At present this is only possible for the processes
+$W^\pm$, $Z$, $H$, $\gamma\gamma$, $Z\gamma$, $ZH$,
+$W^\pm H$, $WW$, $W^\pm Z$ and $ZZ$.
+It is the default for the CuTe-MCFM example input files.
+The predefined plotting routines that can be adjusted in this case are,
+for example for $Z$ production, in the file
+{\tt src/User/nplotter\_Z\_new.f90}, and similarly for the other processes.
+
+A brief description of the two alteratives for the plotting routines is
+provided in the  subsections below.
+
+\bottomheading{Traditional histograms}
+\label{sec:oldhistos}
+Traditional histograms are selected with {\tt newstyle = .false.}
+
+
+Modifying the plotting routines in the files \texttt{src/User/nplotter*.f} allows for modification of the pre-defined 
+histograms and addition of any number of arbitrary observables. 
+One can also edit the subroutine {\tt nplotter\_user} in the file \texttt{src/User/nplotter.f},
+which is also called for every
+process in order to allow the user to bin their own histograms. 
+Similar to the other routines, the routine is called as:
+\begin{verbatim}
+      subroutine nplotter_user(p, wt,wt2, nd)
+      ....
+      include 'mxpart.f'
+      ....
+      real(dp), intent(in) :: p(mxpart,4),wt,wt2
+      integer, intent(in) :: nd
+\end{verbatim}
+The variables passed to this routine are:
+\label{user}
+\begin{itemize}
+\item {\tt p(1,:)}:  4-momenta of incoming partons $(i=1,2)$, outgoing leptons and jets $(i=3,4,....)$ in the format p(i,4) with the particles 
+numbered according to the input file and components labelled by (px,py,pz,E).  
+\item  {\tt wt}:  weight of this event
+\item  {\tt wt2}:  weight$^2$ of this event
+\item  {\tt nd}:  an integer specifying the dipole number of this contribution (if applicable), otherwise equal to zero.
+\end{itemize}
+
+Extra histograms may be added to the plotting files in
+a fairly straightforward manner. Each histogram is filled by making
+a call to the routine {\tt bookplot} and updating the histogram
+counter {\tt n} by 1. For example, the pseudorapidity of particle $3$
+may be plotted using the following code fragment:
+
+\begin{verbatim}
+      eta3=etarap(3,p)
+      call bookplot(n,tag,'eta3',eta3,wt,wt2,-4d0,4d0,0.1d0,'lin')
+      n=n+1
+\end{verbatim}
+The first two arguments of the call should not be changed. The third
+argument is a string which is used as the title of the plot in the
+output files. The fourth argument carries the variable to
+be plotted, which must have been previously calculated. The arguments {\tt
+	wt} and {\tt wt2} contain information about the phase-space weight and
+should not be changed. The
+last arguments tell the histogramming routine to use bins of size {\tt
+	0.1} which run from {\tt -4} to {\tt 4}, and use a linear scale for
+the plot. A logarithmic scale may be used by changing the final
+argument to {\tt 'log'}.
+
+
+\bottomheading{New style histograms}
+\label{sec:newhistos}
+
+New style histograms are selected with {\tt newstyle = .true.}
+
+The routine {\tt setup} first allocates the required space to store
+all histograms.  For instance, space for 2 histograms is requested with:
+\begin{verbatim}
+      allocate(histos(2))
+\end{verbatim}
+Following this, the histograms can be defined either with uniform binning
+or custum bin sizes.  For example, the line:
+\begin{verbatim}
+      histos(1) = plot_setup_uniform(0._dp,500._dp,10._dp,'mZZ')
+\end{verbatim}
+initializes the first histogram with bins from 0 to 500, of width 10, named
+{\tt mZZ}.  The second histogram could be initialized with:
+\begin{verbatim}
+      histos(2) = plot_setup_custom([0d0,25d0,50d0,75d0,100d0,150d0,200d0],'ptZZ')
+\end{verbatim}
+This time the first argument sets up the array of bin edges -- 7 edges
+to define 6 bins -- and the histogram is named {\tt ptZZ}.
+
+After setup, the routine {\tt book} is called for each phase space
+point.  The plotting routine is provided the momentum configuration ({\tt p})
+and associated Vegas weight ({\tt wt}).  Given these, it returns the array of
+histograms ({\tt ids}), calculated observables in the
+{\tt vals} array, and Vegas weights in {\tt wts}.
+For instance, for the example above this could be accomplished by:
+\begin{verbatim}
+      ptZZ = ptfour(3,4,5,6,p)
+      mZZ = puremass(p(3,:)+p(4,:)+p(5,:)+p(6,:))
+      ids = histos
+      vals = [ptZZ, mZZ]
+      wts = [wt, wt]
+\end{verbatim}
+The specification of weights for individual histograms allows 
+the original Vegas weights to be reweighted for particular distributions,
+for instance with the output of the transition function in the case of
+resummed calculations.
+
+\midheading{User modifications to cuts and reweighting}
+
+The routine \texttt{gencuts\_user} can be adjusted  in 
+the file
+\texttt{src/User/gencuts\_user.f90} for additional cuts after the jet algorithm has performed the 
+clustering.
+
+In the same file the routine \texttt{reweight\_user} can be modified to include a manual re-weighting
+for all integral contributions. This can be used to obtain improved uncertainties in, for example, tails of 
+distributions.
+One example is included in the subdirectory \texttt{mcfm/src/User/examplesmcfm/src/User/examples}, where the \texttt{reweight\_user} function approximately
+flattens the Higgs transverse momentum distribution, leading to equal relative uncertainties even in the tail at 
+1~TeV.

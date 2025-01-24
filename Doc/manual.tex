@@ -1,0 +1,92 @@
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+%\pdfoutput=1
+\documentclass[letterpaper,parskip=half]{scrartcl}
+
+\makeatletter
+\DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
+\DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
+\DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\texttt}
+\DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
+\DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
+\DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
+\DeclareOldFontCommand{\sc}{\normalfont\scshape}{\@nomath\sc}
+\makeatother
+
+\usepackage[top=2.5cm, bottom=2.5cm, left=3.2cm, right=3cm]{geometry}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+%\usepackage[numbers,sort&compress]{natbib}
+\usepackage[sorting=none,style=numeric-comp,backend=biber,eprint=true,url=true]{biblatex}
+%\DeclareFieldFormat[article]{title}{}
+\renewbibmacro{in:}{}
+\addbibresource{manual.bib}
+
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue,citecolor=red]{hyperref}
+%\usepackage[separate-uncertainty = true,multi-part-units=single]{siunitx}
+%\usepackage{microtype}
+%\usepackage{csquotes}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{braket}
+\usepackage{slashed}
+\usepackage{longtable}
+\usepackage{subcaption}
+\usepackage{multirow}
+
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_US
+%\pdfoutput=1
+\input macro.tex
+
+%Needed to allow pdf article and html book
+\def\topheading{\section}
+\def\midheading{\subsection}
+\def\bottomheading{\subsubsection}
+
+% Attempt to add consistent spacing for section names in TOC
+\RedeclareSectionCommand[tocnumwidth=1.6em]{section}
+\RedeclareSectionCommand[tocindent=2.1em,tocnumwidth=2.7em]{subsection}
+\RedeclareSectionCommand[tocindent=4.1em,tocnumwidth=3.7em]{subsubsection}
+
+\begin{document}
+\begin{titlepage}
+	\centering
+	{\huge\bfseries MCFM-10.3 manual\par\vspace{0.3em}}
+	{\large\bfseries A Monte Carlo for FeMtobarn processes at Hadron Colliders}
+	
+	John M. Campbell ({\tt johnmc@fnal.gov}) \\
+	R. Keith Ellis ({\tt ellis@fnal.gov}) \\
+	Tobias Neumann ({\tt tneumann@fnal.gov}) \\
+	Ciaran Williams ({\tt ciaranwi@buffalo.edu}) \\	
+	
+	{\par\vspace{1em} Updated January 2023}
+        \abstract{
+\noindent
+MCFM is a parton-level Monte Carlo program that gives predictions for a
+wide range of processes at hadron colliders. Almost all processes are
+available at NLO, but some processes are also available at NNLO
+or N$^3$LO in QCD. The calculation of some processes can also account for
+NLO electroweak effects. Transverse momentum and jet veto resummation
+is available for the production of color singlet final states.
+Please look at the {\href{\mcfmprocs/proclist.html}{list of available processes}}.
+This document is available as a {\href{\mcfmweb}{series of webpages}} and as a {\href{\mcfmpdf}{pdf file}}.
+Download and installation instructions are in Section~\ref{overview}.
+}
+\tableofcontents
+\end{titlepage}
+\tableofcontents
+\input body.tex
+\printbibliography
+\end{document}

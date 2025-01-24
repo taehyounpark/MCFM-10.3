@@ -1,0 +1,12 @@
+This directory was cloned from
+
+https://bitbucket.org/hameren/oneloop/
+
+on April 12, 2022, commit 3762b8b.
+
+Three files have been added to facilitate installation of OneLoop
+by cmake along with MCFM:
+
+Config.orig       a copy of the original Config file
+config.sh         to edit Config with the cmake compiler and flags
+install.sh        to install library and mod file in standard locations

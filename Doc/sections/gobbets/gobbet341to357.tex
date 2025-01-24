@@ -1,0 +1,32 @@
+\midheading{$Z+Q+$jet production, processes 341--357}
+\label{subsec:ZQj}
+
+These processes represent the production of a $Z$
+boson that decays into a pair of electrons,
+in association with a heavy quark, $Q$ and an untagged jet.
+For more details on this calculation, please see Ref.~\cite{Campbell:2005zv}.
+
+For processes {\tt 341} and {\tt 351} the initial state at lowest
+order is the heavy quark and a gluon and the calculation may be
+performed at NLO.  Thus in these processes the quark $Q$ occurs as
+parton PDF in the initial state.  As for $H+b$ and $Z+Q$ production,
+the matrix elements are divided into two sub-processes at NLO. Thus
+the user must sum over these after performing more runs than usual. At
+lowest order one can proceed as normal, using {\tt nproc=341} (for
+$Zbj$) or {\tt nproc=351} (for $Zcj$).  For a NLO calculation, the
+sequence of runs is as follows:
+\begin{itemize}
+\item Run {\tt nproc=341} (or {\tt 351}) with {\tt part=virt} and
+{\tt part=real} (or, both at the same time using {\tt part=tota});
+\item Run {\tt nproc=342} (or {\tt 352}) with {\tt part=real}.
+\end{itemize}
+The sum of these yields the cross-section with one identified heavy
+quark and one untagged jet in the final state when {\tt inclusive} is
+set to {\tt .false.} . To calculate the rate for at least one heavy
+quark and one jet (the remaining jet may be a heavy quark, or
+untagged), {\tt inclusive} should be {\tt .true.}.
+
+Processes {\tt 346,347} and {\tt 356,357} are the lowest order processes that enter
+the above calculation in the real contribution. They can be computed only at LO.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.

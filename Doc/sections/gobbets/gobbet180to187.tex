@@ -1,0 +1,42 @@
+\midheading{$Wt$ production, processes 180--187}
+\label{subsec:wt}
+
+These processes represent the production of a $W$ boson that decays leptonically
+in association with a top quark. The lowest order diagram involves a gluon and
+a bottom quark from the PDF, with the $b$-quark radiating a $W$ boson and
+becoming a top quark. The calculation can be performed up to NLO.
+For more details on this calculation, please see Ref.~\cite{Campbell:2005bb}.
+
+Processes {\tt 180} and {\tt 185} produce a top quark that does not decay,
+whilst in processes {\tt 181} and {\tt 186} the top quark decays leptonically.
+Consistency with
+the simpler processes ({\tt 180,185}) can be demonstrated by running process
+{\tt 181,186} with {\tt removebr} set to true.
+
+At next-to-leading order, the calculation includes contributions from diagrams
+with two gluons in the initial state, $gg \rightarrow Wtb$. The $p_T$ of the
+additional $b$ quark is vetoed according to the value of the parameter
+{\tt ptmin\_bjet} which is specified in the input file. The contribution from
+these diagrams when the $p_T$ of the $b$ quark is above {\tt ptmin\_bjet}
+is zero. The values of this parameter and the factorization scale ({\tt facscale})
+set in the input file should be chosen carefully. Appropriate values for both
+(in the range $30$-$100$~GeV) are discussed in the associated paper~\cite{Campbell:2005bb}.
+
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false.
+The LO calculation proceeds as normal. At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams. This process can only be performed at NLO with
+{\tt zerowidth = .true}. This should be set automatically.
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+The contribution from radiation in the decay may be calculated separately using
+processes {\tt 182,187}. These process numbers can be used with {\tt part=virt,real}
+only. To ensure consistency, it is far simpler to use {\tt 181,186}
+and this is the recommended approach.

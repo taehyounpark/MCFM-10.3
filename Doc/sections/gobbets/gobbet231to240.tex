@@ -1,0 +1,32 @@
+\midheading{$t$-channel single top with an explicit $b$-quark, processes 231--240}
+\label{subsec:stopb}
+
+These represent calculations of the $t$-channel single top~({\tt 231}) and anti-top~({\tt 231})
+processes in a scheme with four flavours of quark in the proton, so that $b$-quarks are not present in the proton.
+The $b$-quark is instead explicitly included in the final state.
+For more details on this calculation, please see Ref.~\cite{Campbell:2009ss}.
+
+Processes {\tt 232} and {\tt 236} represent $t$-channel single top production in association
+with a further jet and may be calculated at LO only.
+
+Processes {\tt 233} and {\tt 238} are the complete four-flavour scheme $t$-channel single top production processes.
+These are therefore the processes that should be used for most physics applications.
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false in processes {\tt 233} and {\tt 236}.
+The LO calculation proceeds as normal. At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams.
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+
+Processes {\tt 234} and {\tt 239} give the extra contribution due to radiation
+in top decay. These processes are mainly of theoretical interest.
+
+Processes {\tt 235} and {\tt 240} are the leading order single top processes with an
+extra radiated parton. These processes do not includes jets produced in the decay process.

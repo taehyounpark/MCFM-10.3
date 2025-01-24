@@ -1,0 +1,27 @@
+This directory contains routines for the calculation of amplitudes
+representing the process:
+
+pi + pj -> h + pk + pl
+
+where pi, pj, pk, pl are all possible combinations of q, q~ and g.
+
+The main steering routines are:
+
+gg_hgg_mass_nodecay.f         (top quark loop only)
+gg_hgg_mass_tb_nodecay.f      (top and bottom quarks in the loop)
+
+Both routines allow for the possibility of a Yukawa coupling that is
+not equal to the mass circulating in the loop.
+
+The routines representing the essential amplitudes for this process:
+
+hgggg_mass
+haqgg_mass
+haqaq_mass
+
+(and their _tb extensions) take the spinor products za, zb as arguments.
+The amplitudes will be computed with the same precision as that of
+the spinor products (quad precision or double precision).  The spinor
+products of a given precision can themselves be computed by supplying
+the routine spinoru (defined in the module 'spinor' in this directory) 
+with a momentum array of the same precision.

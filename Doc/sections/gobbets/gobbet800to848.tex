@@ -1,0 +1,62 @@
+\midheading{Dark Matter Processes  Mono-jet and Mono-photon 800-848} 
+
+\textbf{This process is currently only officially supported with version 8.0 and earlier, use at your own risk!}
+
+This section provides an overview of the Dark Matter (DM) processes
+available in MCFM. For more details on this calculation, please see Ref.~\cite{Fox:2012ru}.
+Since these processes are quite different in the
+range of possible input parameters (reflecting the range of potential
+BSM operators) the majority of the new features are controlled by the
+file {\tt dm\_parameters.DAT} located in the {\tt Bin} directory.  We
+begin this section by describing the inputs in this file.  Note that
+these processes are still controlled, as usual by {\tt input.ini}
+which is responsible for selecting the process, order in perturbation
+theory, PDFs and phase space cuts etc. The new file controls only the
+new BSM parameters in the code.
+
+\begin{itemize} 
+\item 
+{\tt [dm mass]} This parameter sets the mass of the dark matter particle $m_{\chi}$. 
+\item 
+{\tt [Lambda]} Controls the mass scale associated with the suppression of the higher dimensional operator in the 
+effective theory approach. Note that each 
+operator has a well defined scaling with respect to Lambda, so cross sections and distributions obtained with one 
+particular value can be readily extended to 
+determine those with different $\Lambda$. 
+\item
+{\tt [effective theory] } Is a logical variable which controls whether or not the effective field theory is used in the 
+calculation of the DM process. If this value is set to 
+{\tt .false.} then one must specify the mass of the light mediator and its width (see below for more details).
+\item
+{\tt [Yukawa Scalar couplings]} Is a logical variable which determines if the scalar and pseudo scalar operators scale 
+with the factor $m_{q}/\Lambda$ ( {\tt. .true.}) 
+or 1  ({\tt .false.}).  
+\item
+{ \tt [Left handed DM couplings] } and { \tt [Right handed DM couplings] } 
+These variables determine the coupling of the
+various flavours of quarks to the DM operators.  The default value is 1. 
+Note that the code uses the fact that vector operators scale as
+$(L+R)$ and axial operators scale as $(L-R)$ in constructing cross
+sections. Therefore you should be careful if modifying these
+parameters. For the axial and pseudo scalar operators the code will
+set the right-handed couplings to be the negative of the left handed
+input couplings (if this is not already the case from the setup) and
+inform the user it has done so. The most likely reason to want to
+change these values is to inspect individual flavour operators
+separately, i.e.\ to investigate an operator which only couples to up
+quarks one would set all couplings to 0d0 apart from {\tt [up type]}
+which would be left as 1d0.
+\item 
+{\tt [mediator mass]} If {\tt [effective theory]} is set to {\tt .false.} this variable controls the mass of the 
+mediating particle.
+\item 
+{\tt [mediator width]} If {\tt [effective theory]} is set to {\tt .false.} this variable controls the width of the 
+mediating particle 
+\item 
+{\tt [g\_x]} If {\tt [effective theory]} is set to {\tt .false.} this variable controls the coupling of the mediating 
+particle to the DM.
+\item 
+{\tt [g\_q]} If {\tt [effective theory]} is set to {\tt .false.} this variable controls the coupling of the mediating 
+particle to the quarks.
+\end{itemize}
+

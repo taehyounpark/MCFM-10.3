@@ -1,0 +1,66 @@
+\midheading{$W\gamma$ production, processes 290-299, 2941, 2991}
+\label{subsec:wgamma}
+
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with a real photon.
+Since this process includes a real photon, the cross section diverges
+when the photon is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt gammptmin} and {\tt gammrapmax}. Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $W \to \ell \nu$ will include
+photon radiation from the lepton, so that a non-zero $R(\gamma,\ell)_{min}$
+({\tt Rgalmin}) should
+also be supplied. This will ensure that the cross section is well-defined.
+Virtual amplitudes are taken from ref.~\cite{Dixon:1998py}.
+
+The calculation of processes {\tt 290} and {\tt 295} may be performed
+at NLO and NNLO using the Frixione algorithm~\cite{Frixione:1998jh} or standard isolation. 
+The phenomenology of these processes at NNLO has been treated in ref.~\cite{Campbell:2021mlr}.
+The one-loop virtual diagrams are taken from \cite{Dixon:1998py} and the two-loop virtual diagrams
+are taken from \cite{Gehrmann:2011ab}.
+For processes {\tt 290} and {\tt 295} the role of {\tt mtrans34cut} changes to become a cut 
+on the transverse mass on the $M_{345}$ system, i.e. the photon is included with the leptons in the cut. 
+
+Processes {\tt 292} and {\tt 297} represent the $W\gamma$+jet production
+processes.  They may be computed to NLO. 
+
+Processes {\tt 294} and {\tt 299} represent the photon-induced reactions,
+$p + \gamma \to e \nu \gamma j$ and should be computed at NLO. 
+Processes {\tt 2941} and {\tt 2991} represent the photon-induced reactions,
+$p + \gamma \to e \nu \gamma j j$ and should be computed at NLO. 
+
+\bottomheading{Anomalous $WW\gamma$ couplings}
+Processes {\tt 290}-{\tt 297} may also be computed including the effect of anomalous $WW\gamma$ couplings, making
+use of the amplitudes calculated in Ref.~\cite{DeFlorian:2000sg}. Including only dimension 6 operators
+or less and demanding gauge, $C$ and $CP$ invariance gives the general form of the anomalous 
+vertex~\cite{DeFlorian:2000sg},
+\begin{eqnarray}
+ \Gamma^{\alpha \beta \mu}_{W W \gamma}(q, \bar q, p) &=& 
+  {\bar q}^\alpha g^{\beta \mu} 
+    \biggl( 2 + \Delta\kappa^\gamma + \lambda^\gamma {q^2\over M_W^2} \biggr) 
+ - q^\beta g^{\alpha \mu}
+    \biggl( 2 + \Delta\kappa^\gamma + \lambda^\gamma {{\bar q}^2\over M_W^2}
+\biggr) \nonumber \\  
+&& \hskip 1 cm
+ + \bigl( {\bar q}^\mu - q^\mu \bigr) 
+ \Biggl[ - g^{\alpha \beta} \biggl( 
+   1 + {1\over2} p^2 \frac{\lambda^\gamma}{M_W^2} \biggr) 
+ +\frac{\lambda^\gamma}{M_W^2} p^\alpha p^\beta \Biggr] \,,
+\end{eqnarray}
+where the overall coupling has been chosen to be $-|e|$. The parameters that
+specify the anomalous couplings, $\Delta\kappa^\gamma$ and $\lambda^\gamma$, are
+specified in the input file as already discussed in Section~\ref{subsec:diboson}.
+If the input file contains a negative value for the form-factor scale $\Lambda$
+then no suppression factors are applied to the anomalous couplings.
+Otherwise, the couplings are included
+in MCFM only after suppression by dipole form factors,
+\begin{equation}
+\Delta \kappa^{\gamma} \rightarrow
+ \frac{\Delta \kappa_1^{\gamma}}{(1+\hat{s}/\Lambda^2)^2}, \qquad
+\lambda^{\gamma} \rightarrow
+ \frac{\Delta \lambda^{\gamma}}{(1+\hat{s}/\Lambda^2)^2} \;,
+\end{equation}
+where $\hat{s}$ is the $W\gamma$ pair invariant mass.
+
+The Standard Model cross section is obtained by setting $\Delta\kappa^\gamma = \lambda^\gamma = 0$.
+

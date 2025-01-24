@@ -1,0 +1,70 @@
+\midheading{References}
+The program has been
+developed over a number of years and results have been presented in
+a number of published papers.  The papers describing the original
+code and the most significant developments in the NLO implementation are:
+\begin{itemize}
+\item J.~M.~Campbell and R.~K.~Ellis, \\
+  {\it ``An update on vector boson pair production at hadron colliders,''} \\
+  Phys.\ Rev.\ D {\bf 60}, 113006 (1999)
+  \href{https://arxiv.org/abs/hep-ph/9905386}{arXiv:hep-ph/9905386}.
+\item J.~M.~Campbell, R.~K.~Ellis and C.~Williams, \\
+  {\it ``Vector boson pair production at the LHC,''} \\
+  JHEP {\bf 1107}, 018 (2011)
+  \href{https://arxiv.org/abs/1105.0020}{arXiv:1105.0020 [hep-ph]}. 
+\item J.~M.~Campbell, R.~K.~Ellis and W.~Giele, \\
+  {\it ``A Multi-Threaded Version of MCFM''}, \\
+    EPJ {\bf C75}, 246 (2015)
+    \href{https://arxiv.org/abs/1503.06182}{arXiv:1503.06182 [hep-ph]}.
+\end{itemize}
+ 
+As of \textbf{v8.0} MCFM can also compute selected color-singlet processes through NNLO in 
+QCD perturbation theory.  The processes available at this precision, as well as
+benchmark numbers, are detailed in Section~\ref{sec:scetqt}.  When using MCFM 8.0 or newer
+for NNLO calculations please refer to:
+\begin{itemize}
+\item 
+  R.~Boughezal, J.~M.~Campbell, R.~K.~Ellis, \\
+   C.~Focke, W.~Giele, X.~Liu,~F. Petriello and  C.~Williams, \\
+  {\it ``Color singlet production at NNLO in MCFM''},
+  \href{https://arxiv.org/abs/1605.08011}{arXiv:1605.08011}.
+\end{itemize}
+
+A significant overhaul of MCFM was undertaken in \textbf{v9.0} of MCFM. If you use
+this version or newer please cite
+\begin{itemize}
+\item    John M. Campbell and Tobias Neumann,\\
+  {\it ``Precision Phenomenology with MCFM''},
+  \href{https://arxiv.org/abs/1909.09117}{arXiv:1909.09117}
+\end{itemize}
+
+Version \textbf{10.0} includes SCET-based $q_T$ resummation and is called CuTe-MCFM when this
+feature is used. When you use the $q_T$ resummation please cite
+\begin{itemize}
+\item Thomas Becher and Tobias Neumann,\\
+{\it ``Fiducial $q_T^2$ resummation of color-singlet processes at N$^3$LL+NNLO''},
+\href{https://arxiv.org/abs/2009.11437}{arXiv:2009.11437}
+\end{itemize}
+The manual for the resummation functionality can be found in \texttt{cute-mcfm.pdf}.
+
+Version \textbf{10.1} includes a C++ interface to many of the 1-loop matrix elements
+included in the code. When you use this functionality please cite
+\begin{itemize}
+\item
+  John M. Campbell, Stefan H{\"o}che and Christian T. Preuss,\\
+  {\it Accelerating LHC phenomenology with analytic one-loop amplitudes: A C++ interface to MCFM},
+  \href{https://arxiv.org/abs/2107.04472}{arXiv:2107.04472}
+\end{itemize}
+A guide to the structure of the interface is included in this paper.
+
+Version \textbf{10.2} includes a more complete treatment of color singlet production
+processes at NNLO, expecially colour singlet processes involving pairs of bosons.
+\begin{itemize}
+\item
+    John M. Campbell, R. Keith Ellis and Satyajit Seth,\\
+    {\it ``Non-local slicing approaches for NNLO QCD in MCFM''},
+    \href{https://arxiv.org/abs/2202.07738}{arXiv:2202.07738 [hep-ph]}
+\end{itemize}
+%Other relevant references, corresponding to publications associated with the
+%implementation of specific processes at NLO and NNLO, are listed
+%in \ref{MCFMrefs}.

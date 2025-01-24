@@ -1,0 +1,18 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{integration}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+		\texttt{usesobol} & When \texttt{.true.} and the number of \MPI{} processes is a power of two, the Sobol 
+		sequence is used, see ref.~\cite{MCFM9}, otherwise the {\abbrev MT19937} pseudo random number generator. \\
+		\texttt{seed} & Initialization seed for {\abbrev MT19937} pseudo random number generator. \\
+		\texttt{precisiongoal} & Relative precision goal for the integration. \\
+		\texttt{readin} & When \texttt{.true.} the automatically written snapshot from a previous run will be read-in
+		to resume the integration. \\
+		\texttt{writeintermediate} & When \texttt{.true.} histograms are written after each Vegas iteration. \\
+		\texttt{warmupprecisiongoal} & Sets the relative precision goal for the warmup run. Unless this precision
+		is reached, the number of calls for the warmup is increased. \\
+		\texttt{warmupchisqgoal} & Sets the $\chi^2$ per iteration goal for the warmup run. Unless the 
+		$\chi^2/\text{it.}$ of the warmup is below this target, the number of calls for the warmup is increased. \\
+		\bottomrule
+	\end{longtable}
+\clearpage

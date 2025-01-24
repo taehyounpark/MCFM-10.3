@@ -1,0 +1,67 @@
+The external requirements for (CuTe-)MCFM are
+  - cmake (>= 3.13)
+  - gcc/g++/gfortran (>= 7)
+
+Optional external dependencies:
+  - LHAPDF (6.2.X)
+  - MPI implementation (We recommend OpenMPI) or Coarrays implementation
+
+To compile with default options just run "cmake .." in the Bin directory or a
+new "build" directory, then run make to compile the MCFM program. If you
+compile in a directory different than "Bin", please run "make install" to copy
+some required files over from the Bin directory. The Bin directory contains
+several example input files that can be used as an argument to mcfm.
+
+The following parameters can be added to choose a custom compiler. For example
+with MPI the wrapper mpifort will have to be chosen as the Fortran compiler:
+    -DCMAKE_C_COMPILER=gcc-8
+    -DCMAKE_CXX_COMPILER=g++-8
+    -DCMAKE_Fortran_COMPILER=gfortran-8
+
+Thus to compile at Fermilab on the Wilson cluster (wc.fnal.gov):-
+cd MCFM-10.3/Bin/
+cmake -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++  ..
+make -j
+
+On the lxplus machine at CERN (lxplus.cern.ch):-
+cd MCFM-10.3/Bin/
+cmake3 -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++  ..
+make -j
+
+The following parameter specifies the use of LHAPDF (internal, external):
+    -Duse_internal_lhapdf=ON (default)
+and can be set to OFF to link against an external LHAPDF library.
+
+When an external LHAPDF is used, cmake might not find the library. A library
+search path can be added with -DCMAKE_PREFIX_PATH=/usr/local, for example.
+Additionally, the LHAPDF include path can be set with
+-Dlhapdf_include_path=/usr/local/include if it deviates from a standard
+location.
+
+For the bundled LHAPDF, PDF sets go into the directory Bin/PDFs. This
+installation includes the central PDF members of CT14nnlo and
+NNPDF31_nnlo_as_0118 with their resummation grids. Additional PDFs can be
+downloaded from https://lhapdf.hepforge.org/pdfsets.html and untar'ed in the
+PDFs directory.
+
+Additional PDF directories can be added to the LHAPDF search path by using
+    export LHAPDF_DATA_PATH=/usr/local/share/LHAPDF
+for example.
+
+The following flag enables MPI:
+    -Duse_mpi=ON
+
+Alternatively also a Fortran Coarray implementation can be used with:
+    -Duse_coarray=ON
+This option experimental and cannot be used together with MPI.
+
+The processes WW,WZ and ZZ at NNLO require compilation of the VVamp amplitudes,
+which is about 100MB of additional sourcecode and adds significant additional
+compilation time. The following flag disables these amplitudes:
+    -Dwith_vvamp=OFF
+
+For most recent installation information, process information and
+troubleshooting see https://mcfm.fnal.gov. The documents Docs/cute-mcfm.pdf and
+Docs/manual.pdf also provide further information but are superseded by the
+online documentation. The document cute-mcfm.pdf includes a quick-start guide
+with information regarding the resummation features and implementation.

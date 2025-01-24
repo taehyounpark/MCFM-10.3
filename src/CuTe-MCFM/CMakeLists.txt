@@ -1,0 +1,10 @@
+target_sources(objlib PRIVATE
+mod_Beamfunctions3L.f90
+mod_Quadpack.f90
+mod_Resummation.f90
+mod_ResummationHardEvolution.f90
+mod_ResummationFourier.f90
+mod_ResummationGrid.f90
+mod_Resummation_params.f90
+)
+

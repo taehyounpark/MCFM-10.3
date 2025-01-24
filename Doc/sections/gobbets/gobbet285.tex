@@ -1,0 +1,70 @@
+\midheading{Diphoton production}
+
+\label{subsec:gamgam}
+Process 285 represents the production of a pair of real photons. Since     
+this process includes two real photons, the cross section diverges when    
+one of the photons is very soft or in the direction of the beam. Thus in   
+order to produce sensible results, the input file must supply values for  
+both ptmin$_{photon}$ and etamax$_{photon}$. This will ensure that the cross   
+section is well-defined.
+
+The calculation of process 285 may be performed using either the           
+Frixione algorithm or standard cone isolation. Since version 10.1 also a   
+fixed cone size can be specificed as well as a simple hybrid cone          
+isolation, see ref.~\cite{Neumann:2021zkb}.           
+
+This process also includes the one-loop gluon-gluon contribution as        
+given in ref.~\cite{Bern:2002jx}. The 
+production of a photon via parton fragmentation is included at NLO and     
+can be run separately by using the frag option in part. This option        
+includes the contributions from the integrated photon dipole subtraction   
+terms and the LO QCD matrix element multiplied by the fragmentation        
+function.
+
+The phase space cuts for the final state photons are defined in
+{\tt{input.ini}}, for multiple photon processes such as {\tt 285 -
+287} the $p_T$'s of the individual photons (hardest, second hardest
+and third hardest or softer) can be controlled independently.The
+remaining cuts on $R_{\gamma j}$, $\eta_{\gamma}$ etc. are applied
+universally to all photons. Users wishing to alter this feature should
+edit the file {\tt{photon\_cuts.f}} in the directory {\tt{src/User}}.
+
+This process can be calculated at LO, NLO, and NNLO.
+NLO calculations can be performed by subtraction, zero-jettiness slicing and $q_T$-slicing. 
+NNLO calculations can be performed by  zero-jettiness slicing and $q_T$-slicing. 
+Input files for these 6 possibilities are given in the  link below.
+
+The fixed-order NNLO calculation has been implemented in ref.
+\cite{Campbell:2016yrh}. Transverse
+momentum resummation at the level of $\text{N}^3\text{LL}+\text{NNLO}$
+has been implemented in ref. \cite{Becher:2020ugp}. By including the three-loop hard
+\cite{Caola:2020dfu} and beam functions
+\cite{Luo:2020epw},\cite{Ebert:2020yqt},\cite{Luo:2019szz} it has been upgraded to $\text{N}^3\text{LL}'$ in ref. \cite{Neumann:2021zkb}.
+
+
+
+\subsection{Transverse momentum resummation}
+
+Transverse momentum resummation can be enabled for process {\tt 285} at
+highest order $\text{N}^3\text{LL}'+\text{NNLO}$ with `part=resNNLOp`.
+The setting `part=resNNLO` resums to order
+$\text{N}^3\text{LL}+\text{NNLO}$ ($\alpha_s^2$ accuracy in improved
+perturbation theory power counting) and `part=resNLO` to order
+$\text{N}^3\text{LL}+\text{NLO}$. Note that process 285 with resummation
+only includes the $q\bar{q}$ channel. The $gg$ channel enters at an
+increased relative level of $\alpha_s$, so has to be added with process
+number 2851 at order `part=resNLO` for overall
+$\text{N}^3\text{LL}'+\text{NNLO}$ precision. For an overall consistent
+precision of $\text{N}^3\text{LL}+\text{NNLO}$ the $gg$ channel can be
+added with `part=resLO`.
+
+Note that at fixed-order the $gg$ channel is included at NNLO
+automatically at the level of $\alpha_s^2$.
+
+The fixed-order NNLO calculation has been implemented in ref.
+\cite{Campbell:2016yrh}. Transverse
+momentum resummation at the level of N$^3$LL+NNLO
+has been implemented in ref. \cite{Becher:2020ugp}. By including the three-loop hard
+\cite{Caola:2020dfu} and beam functions
+\cite{Luo:2020epw},\cite{Ebert:2020yqt},\cite{Luo:2019szz} it has been upgraded to N$^3$LL' in ref. \cite{Neumann:2021zkb}.
+

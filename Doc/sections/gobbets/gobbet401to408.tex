@@ -1,0 +1,37 @@
+\midheading{$W+Q$ production in the 4FNS, processes 401--408}
+\label{subsec:wbbfilter}
+These processes represent the production of a $W$ boson and one or more jets,
+at least one of which is a $b$-quark, calculated in the 4-flavour number scheme (4FNS).
+This implies that contributions that explicitly contain a $b$-quark in the initial state
+are not included.
+These processes all use the same matrix
+elements as processes 20 and 25 (see section~\ref{subsec:wbb}), but make different
+cuts on the final state. The final state is specified by the process number and
+the value of the flag {\tt inclusive}, as shown in Table~\ref{table:wbbfilter}.
+An additional flag is hard-coded into the file {\tt src/Cuts/filterWbbmas.f} to control
+the inclusion of the 3-jet configuration, $(b,\overline b,j)$ when {\tt inclusive} is set to {\tt .true.}.
+By default, the statement {\tt veto3jets = .false.} is included in this file. If this flag is set to {\tt .true.}
+then the $(b,\overline b,j)$ contribution
+is not included in processes 401, 402, 406, 407.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|c|} \hline
+ Process ($W^+$/$W^-$) & {\tt inclusive=.false.} & {\tt inclusive=.true.} \\
+\hline
+{\tt 401}/{\tt 406} & $(b)$ or $(\overline b)$ & + ($b,\overline b$) or ($b,j$) or ($\overline b,j$) \\
+{\tt 402}/{\tt 407} & $(B)$ & + ($B,j$) \\
+{\tt 403}/{\tt 408} & $(b,\overline b)$ & \mbox{(no extra configurations)} \\
+\hline
+\end{tabular}
+\caption{The different final states allowed in the calculation of processes 401--408. A jet containing
+both $b$ and $\overline b$ quarks is denoted by $B$ and a light (quark or gluon) jet by $j$. The inclusive
+(right-hand) column also allows the final states in the exclusive (middle) column.}
+\label{table:wbbfilter}
+\end{center}
+\end{table}
+
+As usual, jets may be unobserved as a result of them falling outside the $p_T$
+and rapidity ranges specified in the input file. In addition, the number of jets
+may be different from the number of partons in the matrix element calculation as
+a result of merging in the jet algorithm.

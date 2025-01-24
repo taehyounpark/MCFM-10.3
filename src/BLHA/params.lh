@@ -1,0 +1,54 @@
+! Parameter input for MCFM test programs (test and oltest).
+! Text after '!' or '#' is regarded as comments.
+
+! Model.
+model               sm
+
+! Masses and widths.
+n_flav              5
+down_mass           0.
+up_mass             0.
+strange_mass        0.
+charm_mass          0.
+charm_yukawa        0.
+bottom_mass         0.
+bottom_yukawa       0.
+top_mass            173.21
+top_yukawa          173.21
+top_width           0.
+electron_mass       0.
+muon_mass           0.
+tau_mass            0.
+tau_yukawa          0.
+tau_width           0.0
+H_mass              125.
+H_width             0.
+Z_mass              91.1876
+Z_width             2.4952
+W_mass              80.385
+W_width             2.085
+
+! EW parameters.
+ew_scheme           5
+alpha_EM            7.7676170824406213e-3
+Gf                  0.00001197450526084678
+sin2_thetaW         0.2228972225239183
+
+! Scales and couplings.
+order_alpha_S       1
+alpha_S             0.118
+scale               91.1876
+
+! CKM elements.
+CKM_u_d             1.0
+CKM_u_s             0.0
+CKM_u_b             0.0
+CKM_c_d             0.0
+CKM_c_s             1.0
+CKM_c_b             0.0
+! CKM_u_d             0.97383
+! CKM_u_s             0.2272
+! CKM_u_b             0.00396
+! CKM_c_d             0.2271
+! CKM_c_s             0.97296
+! CKM_c_b             0.04221

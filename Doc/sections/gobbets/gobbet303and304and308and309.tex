@@ -1,0 +1,18 @@
+\midheading{$Z\gamma\gamma j$ and $Z\gamma j j $, 303, 304, 308 and 309}
+
+These processes are available at LO only. The $Z/\gamma^*$ subsequently decays into
+either an $e^+ e^-$ pair ({\tt nproc=303,304}) or neutrinos ({\tt nproc=308,309}).
+Since these processes include a real photon and a jet, the cross section diverges
+when a photon or a jet is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt gammptmin} and {\tt gammrapmax}, and {\tt ptjetmin} and {\tt etajetmax}.
+ Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.} the decay $Z \to e^- e^+$ ({\tt nproc=303, 304})
+will include photon radiation from both leptons, so that a non-zero $R(\gamma,\ell)_{min}$
+({\tt Rgalmin})
+should also be supplied. This will ensure that the cross section is well-defined.
+Anomalous couplings are not currently implemented for these processes.
+
+%Processes {\tt 303} and {\tt 308}  represents the production of a $Z$ boson (or virtual photon)
+%in association with a two photons and and an additional jet. These processes are available at leading order only.
+%These processes do not currently have anomalous couplings implemented.

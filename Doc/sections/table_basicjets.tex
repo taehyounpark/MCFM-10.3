@@ -1,0 +1,46 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\hline
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{basicjets}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\hline
+		\texttt{inclusive} &
+		This logical parameter chooses whether the
+		calculated cross-section should be inclusive in the number of jets
+		found at NLO. An {\em exclusive}
+		cross-section contains the same number of jets at next-to-leading
+		order as at leading order. An {\em inclusive} cross-section may
+		instead contain an extra jet at NLO. \\
+		\texttt{algorithm} &
+		This specifies the jet-finding algorithm that
+		is used, and can take the values
+		{\tt ktal} (for the Run II $k_T$-algorithm), {\tt ankt} (for the
+		``anti-$k_T$'' algorithm~\cite{Cacciari:2008gp}), {\tt cone} (for
+		a midpoint cone algorithm), {\tt hqrk} (for a simplified cone
+		algorithm designed for heavy quark processes) and {\tt none} (to
+		specify no jet clustering at all). The latter option is only a
+		sensible choice when the leading order cross-section is well-defined
+		without any jet definition: e.g. the single top process,
+		$q{\bar q^\prime} \to t{\bar b}$, which is finite as
+		$p_T({\bar b}) \to 0$. \\
+		\texttt{ptjetmin}, \texttt{etajetmax} &
+		These specify the values
+		of $p_{T,{\mathrm{min}}}$ and $|\eta|_{\mathrm{max}}$ for the
+		jets that are found by the algorithm.  \\
+		\texttt{etajetmin} &
+		Optional parameter for setting a minimum jet rapidity $|\eta|_{\mathrm{min}}$. \\
+		\texttt{ptjetmax} &
+		Optional parameter for setting maximum jet $p_{T,{\mathrm{max}}}$\\
+		\texttt{Rcutjet} &
+		If the final state of the chosen process contains
+		either quarks or gluons then for each event an attempt will be made
+		to form them into jets. For this it is necessary to define the
+		jet separation
+                \begin{equation} \label{DeltaRdef}
+                  \Delta R=\sqrt{{\Delta \eta}^2 + {\Delta \phi}^2}
+		\end{equation}
+                so that after jet combination, all jet pairs are separated by
+		$\Delta R >$~{\tt Rcutjet}.\\
+		\texttt{userap} &
+		Optional parameter for using jet rapidity rather than pseudorapidity when
+		performing jet cuts. Default is {\tt .true.}. \\
+		\hline
+	\end{longtable}

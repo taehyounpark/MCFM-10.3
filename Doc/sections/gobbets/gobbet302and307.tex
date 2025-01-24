@@ -1,0 +1,18 @@
+\midheading{$Z\gamma j$, production, processes 302, 307}
+\label{subsec:zgammajet}
+Processes {\tt 302} and {\tt 307} represent the production of a $Z$ boson (or virtual photon)
+in association with a real photon and at least one jet.
+The $Z/\gamma^*$ subsequently decays into
+either an $e^+ e^-$ pair ({\tt nproc=302}) or neutrinos ({\tt nproc=307}).
+Since these processes include a real photon and a jet, the cross section diverges
+when the photon or jet is very soft or in the direction of the beam.
+Thus in order to produce sensible results, the input file must supply values for both
+{\tt gammptmin} and {\tt gammrapmax}, and {\tt ptjetmin} and {\tt etajetmax}.
+ Moreover, when the parameters {\tt zerowidth}
+and {\tt removebr} are set to {\tt .false.}, the decay $Z \to e^- e^+$ ({\tt nproc=302})
+will include photon radiation from both leptons, so that a non-zero $R(\gamma,\ell)_{min}$
+({\tt Rgalmin})
+should also be supplied. This will ensure that the cross section is well-defined.
+The calculation of processes {\tt 302} and {\tt 307} may be performed
+at NLO using the Frixione algorithm~\cite{Frixione:1998jh} or standard isolation.
+Anomalous couplings are not currently implemented for these processes.

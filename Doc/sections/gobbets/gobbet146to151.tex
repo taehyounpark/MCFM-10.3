@@ -1,0 +1,38 @@
+\midheading{$t\bar{t}$ production with one hadronic decay, processes 146--151}
+
+This process is calculable at leading LO and next-to-leading order NLO.
+These processes describe the hadronic production of a pair of top
+quarks, with one quark decaying hadronically and one quark decaying
+semi-leptonically.  For processes {\tt 146--148}, the top quark decays
+semi-leptonically whereas the anti-top quark decays hadronically.  For
+processes {\tt 149--151}, the top quark decays hadronically whereas the
+anti-top quark decays semi-leptonically.  The base processes for
+physics are process {\tt 146} and {\tt 149} which include
+radiative corrections in both production and decay.  Switching {\tt zerowidth} from
+{\tt .true.} to {\tt .false.} only affects the $W$ bosons from the top
+quark decay, because our method of including spin correlations
+requires the top quark to be on shell.
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false in processes {\tt 146} and {\tt 149}.
+The LO calculation proceeds as normal. At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams.
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+
+Processes {\tt 147} and {\tt 150} include only the radiative
+corrections in the decay of the top quark without including
+the radiative corrections in the hadronic decay of the $W$-boson.
+Because of the method that we have used to include the radiation in the decays,
+the inclusion of the corrections in this stage of the decay does not change the
+total cross section.
+Process {\tt 148} ({\tt 151}) includes only the radiative corrections
+in the hadronic decay of the $W$-boson coming from the anti-top (top).
+The inclusion of the corrections in this stage of the decay increases the
+partial width by the normal $\alpha_s/\pi$ factor.

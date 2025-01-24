@@ -1,0 +1,302 @@
+\topheading{New features in previous releases}
+\label{mcfm9plus}
+
+\midheading{New features in MCFM-10.0}
+
+For using the $q_T$ resummation of CuTe-MCFM please refer to \texttt{cute-mcfm.pdf}
+and ref.~\cite{Becher:2020ugp}.
+
+\paragraph{New plotting infrastructure.}
+MCFM-10.0 implements a new plotting infrastructure that allows for much easier setup
+and custom-binned histograms. The new style histograms can be enabled by setting \texttt{newstyle = 
+.true.} in the \texttt{[histogram]} section of the input file. An example for $Z$ production with 
+resummation and custom binning is given in \texttt{src/User/nplotter\_Z\_new.f90}. Each plotter
+implements a new Fortran module with a function \texttt{setup()} that is called once at the 
+beginning of MCFM to set up the histogram binnings. The function 
+\texttt{book(p,wt,ids,vals,wts)} is called for each phase space point, calculates the observables 
+based on the jet four-momenta in \texttt{p} and returns them in the \texttt{vals} array. The 
+\texttt{wts} array is typically filled with \texttt{wt} for each observable, but can be modified to 
+return a different weight to the histogramming routine. This is used in the example file to 
+implement a transition function for the resummed and fixed-order components.
+
+To adopt a new process to the new histograms, the file \texttt{src/Mods/mod\_SetupPlots.f90}
+can be modified. More precisely, the function \texttt{setup\_plots} needs to import the plotting 
+module of the process, call the setup routine for the process, and set the \texttt{pbook} pointer
+to the actual \texttt{book} routine of the new plotting module.
+
+\midheading{Description of new features in MCFM-9.0}
+\label{sec:newfeatures-app}
+
+In this section we present the new and modified features in MCFM-9.0 and describe how to use them on a technical 
+level. This serves mostly as a quick-start for users already familiar with MCFM. With all re-implemented and newly 
+implemented components we strive for Fortran 2008 compliance, making explicit 
+use of its features. Following the Fortran standard furthermore allows us to achieve compatibility with not just the 
+GNU compiler. In previous versions of MCFM the licensing was unclear, since none was specified. We now license all 
+code under the GNU GPL 3 license\footnote{See \url{https://www.gnu.org/licenses/gpl-3.0.en.html}.}. For supporting 
+material we recommend studying the release paper of MCFM-9.0 in ref.~\cite{MCFM9}, from which this section is taken.
+
+\paragraph{Improved input file mechanism.}
+
+We have implemented a new input file mechanism based on the configuration file parser \texttt{config\_fortran} 
+\cite{JTeunis}.
+This INI-like file format no longer depends on a strict ordering of configuration elements, allows easy access to
+configuration elements through a single global configuration object, and makes it easy to add new configuration
+options of scalar and array numerical and string types. Using the parser package also allows one
+to override or specify all configuration options as command line arguments to MCFM, for example running
+MCFM like \texttt{./mcfm\_omp input.ini -general\%nproc=200 -general\%part=nlo}. This is useful for batch
+parameter run scripts. Settings can also be overridden with additional input files that specify just a subset of 
+options.
+
+\paragraph{New histogramming.}
+
+We replaced the previous Fortran77 implementation of histograms, that used routines from 1988 by M. Mangano,
+with a new suite of routines.
+The new histogram implementation allows for any number of histograms with any number of bins,
+each of which is dynamically allocated. Furthermore, everything is also handled in a fully multi-threaded approach with 
+the integration. For each OMP thread temporary 
+histograms are allocated which are then reduced to a single one after each integration iteration, so that
+no OMP locks (critical regions) are required. 
+
+\paragraph{New Vegas integration, part-adaptive and resumable.}
+
+The previous implementation of the Vegas routine was based on Numerical Recipes code. We have re-implemented
+Vegas and the surrounding integration routines. All parts of a NLO or NNLO calculation are now
+chosen adaptively based on the largest absolute numerical uncertainty. A precision goal can be set
+in the input file as well as a $\chi^2/\text{it}$ goal and a precision goal for the warmup run. If
+the goals for the warmup are not reached, the warmup repeats with twice the number of calls. With the
+setting \texttt{writeintermediate} one can control whether histograms are written in intermediate
+stages during the integration. Enabling the setting \texttt{readin} allows one to resume the integration
+from any point from a previous run. Snapshots saving the whole integration state are saved automatically.
+When resuming, the only parameter that the user can safely officially change is the \texttt{precisiongoal}. Further
+tweak configuration options to control the stages of the integration have been introduced, which can provide
+benefits over the default settings in certain situations.
+
+The section \texttt{integration} in the configuration file allows for tweaks in the following way. The precision
+goal can be adjusted by setting \texttt{precisiongoal} to a relative precision that should be reached. Similarly,
+the settings \texttt{warmupprecisiongoal} and \texttt{warmupchisqgoal} control the minimum relative precision and
+$\chi^2/\text{it}$ for the warmup phase of \texttt{iterbatchwarmup} (default 5) iterations. If the warmup criterion
+fails, the number of calls is increased by a factor of two. The calls per iteration get increased by a factor of 
+\texttt{callboost} (default 4) after the warmup. From then on the number of calls per iteration is 
+increased by a factor of \texttt{itercallmult} (default 1.4) for a total of \texttt{iterbatch1} iterations. After these 
+first \texttt{iterbatch1} iterations, the increase happens for every \texttt{iterbatch2} iterations. The setting 
+\texttt{maxcallsperiter} controls the cap for the number of calls per iteration. The 
+number of Vegas grid subdivisions can be controlled with \texttt{ndmx} (default 100).
+
+The purpose of these settings is a fine control in certain situations. For example to compute expensive PDF 
+uncertainties, one wants a relatively precise warmup run (where additional PDF sets are not sampled) and as few 
+calls as necessary afterwards: For the plots in this paper we thus chose a relative warmup precision goal of $10\%$, 
+and set \texttt{callboost} to $0.25$. This means that the first \texttt{iterbatch1} iterations after the warmup run 
+only 
+with a quarter of the calls than during the warmup. This precision is sufficient to compute precise PDF 
+uncertainties, when making use of the strong correlations as in MCFM-9.0. Any further iterations come in batches of 
+\texttt{iterbatch2}, which we set to $1$. It allows for a quick switching to parts of the NNLO cross section that 
+have the largest uncertainty. For normal applications one wants to boost the number of calls after the warmup 
+significantly, so a default value of \texttt{callboost=4} is chosen.
+
+We provide default settings for the initial number of calls per iteration for all components of a NNLO calculation. 
+They can be overridden with the following settings in the \texttt{integration} section: \texttt{initcallslord}, 
+\texttt{initcallsnlovirt}, \texttt{initcallsnloreal}, \texttt{initcallsnlofrag} for parts of a NLO calculations,
+\texttt{initcallssnlobelow}, \texttt{initcallssnloabove} for parts of a SCET based NLO calculation, and 
+\texttt{initcallsnnlobelow}, \texttt{initcallsnnlovirtabove}, as well as \texttt{initcallsnnlorealabove} for the parts 
+of the NNLO coefficient.
+
+\paragraph{Low discrepancy sequence.}
+MCFM-8.0 and prior relied on a linear congruential generator implementation from Numerical Recipes for the 
+generation of a pseudo-random sequence. With newer versions the MT19937 implementation of the C++ standard library is 
+used, and with this version of MCFM we include an implementation of the Sobol low discrepancy sequence based on the 
+code sobseq \cite{Vugt2016} with initialization numbers from ref.~\cite{Joe2010}. The Sobol sequence is 
+used by default and can be toggled using the flag \texttt{usesobol = .true.} in the \texttt{integration} 
+section of 
+the input file, see ref.~\cite{MCFM9}. When running in MPI mode, the number of nodes has to be a power 
+of two for the Sobol sequence, because we use it in a strided manner. Otherwise the code will automatically fall back 
+to 
+using the MT19937 sequence with seed value \texttt{seed} in the integration section of the input file. A \texttt{seed} 
+value of $0$ denotes a randomly initialized seed.
+
+
+\paragraph{Fully parallelized OMP+MPI use of LHAPDF.}
+
+In previous versions of MCFM calls to LHAPDF were forced to access from only a single OMP thread
+through a lock. This is because the interface was based on the old LHAglue interface, part
+of LHAPDF. We have written an interface to LHAPDF from scratch based on the new object oriented treatment
+of PDFs in LHAPDF 6. For each OMP thread we initialize a copy of the used PDF members which
+can be called fully concurrently. The amount of PDF sets with or without PDF uncertainties is only limited
+by the available system memory. The memory usage of MCFM can then range from roughly 20MB when only one central 
+PDF grid is being used, to $\sim 7.4$ GB when 32 OMP threads fully load
+all members of the PDF sets \texttt{CT14nnlo}, \texttt{MMHT2014nnlo68cl}, \texttt{ABMP16als118\_5\_nnlo},
+ \texttt{NNPDF30\_nnlo\_as\_0118}, \texttt{NNPDF31\_nnlo\_as\_0118} and \texttt{PDF4LHC15\_nnlo\_30} for
+ PDF uncertainties. The total number of members for these grids is 371, each loaded for every of the
+ 32 OMP threads.
+ 
+Since each OMP thread allocates its own copy of PDF members and histograms we have no need to introduce
+any OMP locks. On the other hand the memory usage increases and one runs into being CPU cache or DRAM
+bandwidth bound earlier. In practice, we find that this is still faster than having OMP locks, which directly
+decrease the speedup in the spirit of Amdahl's law. Ideally the LHAPDF library should be improved to allow for 
+thread-safe calls with just one memory allocation.
+
+\paragraph{Histograms for additional values of $\taucut$, $\mu_R,\mu_F$ and multiple PDFs.}
+When using the automatic scale variation, in addition to the normal histograms, additional
+histograms with filenames \texttt{\_scale\_XY\_} are generated, where \texttt{X} is a placeholder for the 
+renormalization scale variation and \texttt{Y} for the factorization scale variation. \texttt{X} and \texttt{Y} can 
+either be \texttt{u} for an upwards variation by a factor of two, \texttt{d} for a downwards variation by a factor of 
+two, or just \texttt{-} if no change of that scale was made. The envelope of maximum and minimum can then easily be 
+obtained.
+
+For the sampling of additional values of $\taucut$ for NLO and NNLO calculations using jettiness subtractions, 
+additional histograms with filenames \texttt{\_taucut\_XXX\_} are written. Here \texttt{XXX} is a placeholder for the 
+chosen $\taucut$ values in the optional array \texttt{taucutarray}, if specified, or one of the five automatically 
+chosen values. These additional files 
+only contain the \emph{differences} to the nominal choice of 
+$\taucut$, so that $\Delta\sigma(\tau_{\text{cut,nominal}}) - \Delta\sigma(\tau_{\text{cut,i}})$ is stored. If 
+\texttt{taucutarray} has not 
+been specified, the automatic choice of additional
+$\taucut$ values is enabled based on the default nominal $\taucut$ for the process or the users choice of the nominal 
+$\taucut$ value as specified in \texttt{taucut}.
+In addition a file with \texttt{\_taucutfit\_} is generated, which in addition to the fitted corrections and its 
+uncertainty includes columns for the maximum relative integration uncertainty for the additionally sampled $\taucut$ 
+values and the 
+reduced $\chi^2$ of the fit. % With the procedure in \ref{sec:benchmark}
+The fit, together with the individual $\taucut$ 
+histograms, allows the user to assess the systematic $\taucut$ error and possibly improve results.
+
+When multiple PDF sets are chosen, additional files with the names of the PDF sets are generated. In case
+PDF uncertainties are enabled, the histograms also include the upper and lower bounds of the PDF uncertainties.
+
+\paragraph{User cuts, histograms and re-weighting.}
+
+Modifying the plotting routines in the files \texttt{src/User/nplotter*.f} allows for modification of the pre-defined 
+histograms and addition of any number of arbitrary observables. The routine \texttt{gencuts\_user} can be adjusted  in 
+the file
+\texttt{src/User/gencuts\_user.f90} for additional cuts after the jet algorithm has performed the 
+clustering. In the same file the routine \texttt{reweight\_user} can be modified to include a manual re-weighting
+for all integral contributions. This can be used to obtain improved uncertainties in, for example, tails of 
+distributions.
+One example is included in the subdirectory \texttt{examples}, where the \texttt{reweight\_user} function approximately
+flattens the Higgs transverse momentum distribution, leading to equal relative uncertainties even in the tail at 
+{1}{TeV}.
+
+
+\paragraph{Compatibility with the Intel compiler and benchmarks}
+
+Previous versions of MCFM were developed using \texttt{gfortran} as a compiler. MCFM contained code that did not 
+follow 
+a specific Fortran standard, and was only compatible with using \texttt{gfortran}. We fixed code that did not compile 
+or work with the recent Intel Fortran compiler \texttt{ifort} 19.0.1. This does not mean that we claim to be strictly 
+standards 
+compliant with a specific Fortran version, but we aim to be compliant with Fortran 2008. We now fully support GCC 
+versions newer than $7$ and Intel compilers newer than $19$. There might still be compatibility issues with other 
+Fortran compilers, but we are happy to receive bug reports for any issues regarding compilation, that are not due to a 
+lack of modern Fortran 2008 features. To use the Intel compiler one has to change the USEINTEL flag in the files 
+\texttt{Install} and \texttt{makefile}
+to \texttt{YES}.
+
+To see whether MCFM can make use of potential Intel compiler improvements over the GNU compiler 
+collection (GCC) we benchmarked 
+the double
+real emission component of Higgs production at NNLO. We perform tests on our cluster with
+Intel Xeon 64-bit X5650 2.67 GHz Westmere CPUs, where two six-core CPUs are run in a dual-socket mode with a total
+of twelve cores. Similarly, we have an AMD 6128 HE Opteron 2GHz quad-socket eight-core setup, thus each having
+32 cores per node.
+
+We benchmark both the Intel and GCC compilers on both the Intel and AMD systems. On the Intel system we use 16 MPI 
+processes each with 12 OMP threads, 
+and on the AMD system we have 8 MPI processes using 32 OMP threads. With this we have the same total
+clockrate of {512}{GHz} for each setup. For all benchmarks we find that the scaling is perfect up to this size, that 
+is if we use half the number of MPI or OMP threads we double our run-time.
+
+We first try both the Intel fortran compiler 19.0.1 and GCC 9.1.0 on the Intel system with the highest generic
+optimization flags \texttt{-O3 -xsse4.2} and \texttt{-O3 -march=westmere}, respectively. Furthermore,
+we lower the optimizations to \texttt{-O2} each and remove the processor specific optimization flags
+\texttt{-xsse4.2} and \texttt{-march=westmere}, respectively. All our benchmark run-times in the following are 
+consistent within $\pm 0.5$~seconds.
+
+We do not support enabling unsafe math operations with \texttt{-ffast-math}, since the code 
+relies on the knowledge of NaN values and checks on those. Such checks would be skipped with the meta 
+flag\texttt{-ffast-math} which sets \texttt{-ffinite-math-only}.
+
+
+\begin{table}[]
+	\centering
+	\caption{Benchmark results on the Intel system with $10\cdot25$M calls distributed over 16 MPI processes, each 
+	using 12 
+	OMP 
+	threads. The GCC version is 9.1.0 and the Intel Fortran compiler 19.0.1}
+	\vspace{1em}
+	\begin{tabular}{@{}ll@{}}
+		\hline
+		\multicolumn{1}{c}{\textbf{Compiler/flags}} & \multicolumn{1}{c}{\textbf{wall time $\pm$ 0.5s}} \\ \hline
+		ifort -O3 -xsse4.2                          & 90s                                           \\
+		ifort -O2 -xsse4.2                          & 86s                                           \\
+		ifort -O2									& 90s											\\
+		ifort -O1									& 103s 											\\
+		gfortran -O3 -march=westmere                & 101s                                          \\ 
+		gfortran -O2 -march=westmere		        & 105s											\\
+		gfortran -O2								& 105s											\\
+		gfortran -O1								& 110s											\\
+		\hline
+	\end{tabular}
+	\label{tab:benchintel}
+\end{table}
+
+The benchmark results in \ref{tab:benchintel} show that using the Intel compiler, performance benefits of $\simeq 
+10-20\%$ can be achieved. Our goal here is not to go beyond this and check
+whether exactly equivalent optimization flags have been used in both cases. Enabling optimizations beyond \texttt{-O2} 
+have little impact, but come with a penalty for the Intel compiler and with a slight benefit for gfortran. We also
+notice that processor specific optimizations play no significant role. This might also be in part due to the fact
+that MCFM does not offer much space for (automatic) vectorization optimizations. To summarize, the default 
+optimization flags of 
+\texttt{-O2} should be sufficient in most cases. We do not expect that the conclusions from these benchmarks
+change for different processes. On the other hand if computing PDF uncertainties, the majority of time
+is used by LHAPDF and different optimization flags for LHAPDF might play a role then.
+We performed the same benchmark with an older version of GCC, version 7.1.0 using \texttt{-O2} optimizations, and found 
+that the run-times are the same as for the newer version.
+
+Finally, we performed some benchmarks
+on our AMD setup and found that it is $\simeq 2.5$ times slower for the same total clockrate. Using the Intel compiler
+for the AMD setup decreased the performance by another $\simeq 30\%$. This is likely due to the fact that the Intel
+compiler already optimizes for the general Intel architecture. 
+
+These benchmarks try to give a general impression and might depend in detail on the process, the
+number of histograms and whether to compute PDF uncertainties, for example. Especially when computing
+PDF uncertainties the perfect scaling we tested here might break down since the computation can become
+memory bound. We discuss this caveat in more detail in \ref{subsec:performance}.
+
+
+\paragraph{Remarks on memory bound performance issues}
+\label{subsec:performance}
+To get numerically precise predictions at the per mille level for NNLO cross sections,
+already hundreds of million of calls are necessary. Obtaining PDF uncertainties using
+those NNLO matrix elements significantly increases the computational time. In a simplified view,
+the total computational time composes as $N_{\text{calls}}*(T + N_{PDF}\cdot T_{PDF})$, where $T$ is the
+computational effort for the matrix element piece, and the PDF part is proportional
+to the time calling the PDF evolution $N_{PDF}$ times and code related to performing the convolutions.
+For tree level matrix element evaluations, usually also $T \lll T_PDF$ holds, so the computational cost
+grows linearly with the number of PDFs.
+
+This naive picture breaks down in practice when a lot of PDFs
+are sampled together with a lot of histograms or histogram bins. The total memory necessary
+to store all the histogram information grows like $N_{PDF} \cdot N_{\text{bins}} \cdot N_{\text{thr.}}$,
+where $N_{PDF}$ is the number of PDF members, $N_{\text{bins}}$ the number of histogram bins
+summed over all histograms and $N_{\text{thr.}}$ is the number of OMP threads. The factor $N_{\text{thr.}}$
+enters since we have thread-local storage to avoid OMP locks.
+The values are stored in double precision, so the total memory used is
+$N_{PDF} \cdot N_{\text{bins}} \cdot N_{\text{thr.}} \cdot 8 \text{ bytes}$.
+
+ Assuming for example, 300 PDF members,
+10 histograms with each 20 bins and 12 threads, this sums up to {720}{kb} of memory. For the
+virtual corrections and LO pieces, one has to update this amount of memory once for each call. For the real
+emission matrix elements one has to accumulate all dipole contributions, so this number additionally scales
+with the number of dipole contributions. All the histogram updates are usually fully vectorized for modern 
+superscalar processors with SSE and/or AVX extensions. But if this used memory is too large and does not easily fit 
+into the 
+CPU core caches anymore, a transfer to and from DRAM happens, which now is the limiting factor and significantly slows
+down the computation. Because for that reason, one should work with a minimal number of necessary histograms when 
+working
+with a lot of PDF members. This is especially important for cluster setups that are not optimized towards
+memory bound applications, non-NUMA systems. For example in our cluster we have relatively old AMD Opteron quad-socket 
+eight-core nodes with little CPU cache, and with above numbers we are already limited in wall-time improvements with 
+using $\sim16$ cores. Then reducing 
+the number of histograms will \emph{significantly} improve the performance. In principle one can reduce the histogram 
+precision to single precision and cut memory transfer and storage in half, while doubling the computational speed. This 
+might lead to problems with accumulated rounding errors though, and we have not investigated this further, since in
+practice one can sufficiently limit the number of histograms or PDF sets.

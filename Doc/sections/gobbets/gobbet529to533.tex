@@ -1,0 +1,24 @@
+\midheading{$Zt{\bar t}$ production, processes 529-533}
+\label{subsec:ztt}
+
+These processes represent the production of a $Z$ boson in association
+with a pair of top quarks. These processes are only available at LO.
+For process {\tt 529}, neither the top quarks nor the $Z$-boson
+decays.
+In processes {\tt 530-533}, the top quarks are always
+produced on-shell, which is a necessity for a gauge invariant result
+from this limited set of diagrams.
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects
+the $Z$ and the $W$ bosons from the top quark decay.
+In process {\tt 530} the $Z$ boson decays into an electron pair, whilst
+in {\tt 531} the decay is into a massless bottom quark pair.
+In process {\tt 532--533} the $Z$ boson decays into an electron pair, whilst
+one or other of the top quark or top anti-quark decays hadronically.
+
+For processes {\tt 532} and {\tt 533} the default behaviour is that the hadronic decay products
+are clustered into jets using the supplied jet
+algorithm parameters, but no cut is applied on the number of jets.
+This behaviour can be altered by changing the value of the
+variable {\tt notag} in the file {\tt src/User/setnotag.f}.
+
+When {\tt removebr} is true in process {\tt 530}, the top quarks and the $Z$ boson do not decay.

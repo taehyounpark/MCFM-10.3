@@ -1,0 +1,45 @@
+\midheading{$t\bar{t}$ production with 2 semi-leptonic decays, processes 141--145}
+\label{subsec:ttbar}
+
+These processes describe $t \bar{t}$ production including semi-leptonic
+decays for both the top and the anti-top.
+Since version 6.2 we have updated this to use the one-loop amplitudes of
+ref.~\cite{Badger:2011yu}. The code for the virtual amplitudes now runs
+about three times faster than earlier versions where the virtual
+amplitudes of ref.~\cite{Korner:2002hy} were used.
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects
+the $W$ bosons from the top quark decay, because our method of including spin
+correlations requires the top quark to be on shell.
+
+Process {\tt 141} includes all corrections, i.e.\ both radiative corrections
+to the decay and to the production. This process is therefore the
+basic process for the description of top production where both quarks
+decay semi-leptonically.  When {\tt removebr} is true in process {\tt 141},
+the top quarks do not decay.
+When one wishes to calculate observables related to the decay of the top
+quark, {\tt removebr} should be false in process {\tt 141}.
+The LO calculation proceeds as normal.
+At NLO, there are two options:
+\begin{itemize}
+\item {\tt part=virt, real} or {\tt tota} : final state radiation is included
+in the production stage only
+\item {\tt part = todk} : radiation is included in the decay of the top
+quark also and the final result corresponds to the sum of real and virtual
+diagrams.
+Note that these runs automatically perform an extra integration, so
+will take a little longer.
+\end{itemize}
+
+Process {\tt 142} includes only the corrections in
+the semileptonic decay of the top quark. Thus it is of primary
+interest for theoretical studies rather than for physics applications.
+Because of the method that we have used to include the radiation in the decay,
+the inclusion of the corrections in the decay does not change the
+total cross section. This feature is explained in section 6 of ref.~\cite{Campbell:2012uf}.
+
+In the case of process {\tt 145}, there are no spin correlations in
+the decay of the top quarks. The calculation is performed by
+multiplying the spin summed top production cross section, by the decay
+matrix element for the decay of the $t$ and the $\bar{t}$. These
+processes may be used as a diagnostic test for the importance of the
+spin correlation.

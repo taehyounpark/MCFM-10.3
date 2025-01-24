@@ -1,0 +1,15 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{masscuts}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+		{\tt m34min}, {\tt m34max}, {\tt m56min}, {\tt m56max}, {\tt m3456min}, {\tt m3456max} &
+		These parameters represent a basic set of mass cuts that are be applied
+		to the calculated cross-section. The only events that contribute to
+		the cross-section will have, for example,
+		{\tt m34min} $<$ {\tt m34} $<$ {\tt m34max} where {\tt m34} is the
+		invariant mass of particles 3 and 4 that are specified by {\tt nproc}.
+		{\tt m34min}~$> 0$ is obligatory for processes which can involve a virtual
+		photon, such as {\tt nproc=31}. By default, the maximum settings are set to $\sqrt{s}$.\\
+		\bottomrule
+	\end{longtable}
+\clearpage

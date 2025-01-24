@@ -1,0 +1,37 @@
+\newpage
+
+\topheading{Jet-vetoed cross sections}
+\label{jetvetosec}
+The jet veto scale $p_T^{{\rm veto}}$ can induce large logarithms
+if it is smaller than the hard process scale $Q$, which then mandates
+resummation.
+We consider processes where jets have been defined using
+sequential recombination jet algorithms \cite{Salam:2010nqg} with distance measure
+\begin{equation}\label{jetdef}
+        d_{ij} = \mbox{min}(k_{Ti}^{2n},k_{Tj}^{2n})\,
+        \frac{\Delta y_{ij}^2+\Delta\phi_{ij}^2}{R^2} \,, \qquad
+        d_{iB} = k_{Ti}^{2n} \,,
+\end{equation}
+where the choice $n=-1$ is the anti-$k_T$ algorithm \cite{Cacciari:2008gp},
+$n=0$ is the Cambridge-Aachen algorithm \cite{Dokshitzer:1997in,Wobisch:1998wt},
+and $n=1$ is the $k_T$ algorithm \cite{Catani:1993hr,Ellis:1993tq}.
+$k_{Ti}$ denotes the transverse momentum of (pseudo-)particle $i$ with respect to the beam
+direction,
+and $\Delta y_{ij}$ and $\Delta\phi_{ij}$ are the rapidity and azimuthal angle differences of
+(pseudo-)particles $i$ and $j$.
+
+\midheading{Benchmark results for jet-vetoed cross sections}
+Results for benchmark cross sections for a variety of single-boson processes
+taken from ref.~\cite{CENS} are shown in  Tables~\ref{table:jetveto_H}--\ref{table:jetveto_Z}
+and for diboson processes in
+Tables~\ref{table:jetveto_WW}--\ref{table:jetveto_ZZ}.
+The input files are linked in the tables.
+The uncertainties indicated in these tables
+represent the numerical integration (Monte Carlo) uncertainty.
+
+\input{sections/jetveto_H.tex}
+\input{sections/jetveto_W.tex}
+\input{sections/jetveto_Z.tex}
+\input{sections/jetveto_WW.tex}
+\input{sections/jetveto_WZ-atlas.tex}
+\input{sections/jetveto_ZZ.tex}

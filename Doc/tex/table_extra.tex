@@ -1,0 +1,63 @@
+	\begin{longtable}{p{1.5cm}p{12cm}}
+		\toprule
+		\multicolumn{1}{c}{{\textbf{Section} \texttt{extra}}} & \multicolumn{1}{c}{{\textbf{Description}}} \\ 
+		\midrule
+		{\tt debug} &
+		A logical variable which can be used during a 
+		debugging phase to mandate special behaviours. 
+		Passed by common block {\tt common/debug/debug}. \\
+		
+		{\tt verbose} &
+		A logical variable which can be used during a debugging phase to write 
+		special information. Passed in common block {\tt common/verbose/verbose}. \\
+		
+		{\tt new\_pspace} &
+		A logical variable which can be used during a debugging phase to test alternative versions of the phase space.
+		Passed in common block {\tt common/new\_pspace/new\_pspace}. \\
+		
+		{\tt spira} & 
+		A  variable. If {\tt spira} is true, we calculate the 
+		width of the Higgs boson by interpolating from a table
+		calculated using the NLO code of M. Spira.	Otherwise the LO value valid for low Higgs masses only is used. \\
+		
+		{\tt noglue} &
+		A logical variable. 
+		The default value is false. If set to true, no processes
+		involving initial gluons are included. \\
+		{\tt ggonly} &
+		A logical variable. 
+		The default value is false. If set to true, 
+		only the processes
+		involving initial gluons in both hadrons are included.\\
+		{\tt gqonly} &
+		The default value is false. If set to true, 
+		only the processes
+		involving an initial gluon in one hadron and an initial quark
+		or antiquark in the other hadron (or vice versa) are included.\\
+		{\tt omitgg} &
+		A logical variable. 
+		The default value is false. If set to true, the gluon-gluon
+		initial state is not included.\\
+		
+		{\tt clustering} &
+		This logical parameter determines whether clustering is performed to yield
+		jets. Only during a debugging phase should this variable be set to false. \\
+		
+		{\tt colourchoice} &
+		If colourchoice=0, all colour structure are included ($W,Z+2$~jets).
+		If colourchoice=1, only the leading 
+		colour structure is included ($W,Z+2$~jets). \\
+		
+		{\tt rtsmin} &
+		A minimum value of $\sqrt{s_{12}}$, which ensures that the invariant mass
+		of the incoming partons can never be less than {\tt rtsmin}. \\
+		
+		
+		{\tt cutoff} & Cutoff according to \texttt{src/Need/smallnew.f} and
+		\texttt{src/Need/smalltau.f} \\
+
+                \texttt{reweight} & Flag to set the use of
+		the user-implemented reweighting procedure \texttt{reweight\_user}
+		in the routine \texttt{src/User/gencuts\_user.f90}.\\
+    		\bottomrule
+	\end{longtable}

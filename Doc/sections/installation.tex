@@ -1,0 +1,211 @@
+\topheading{Installation and directories}
+\label{sec:Installation}
+\midheading{Installation}
+
+
+The external requirements for (CuTe-)MCFM are cmake (\textgreater=
+3.13) and gcc/g++/gfortran (\textgreater= 7).
+
+ Optional external dependencies are LHAPDF (6.2.X or 6.5.X) and an MPI
+ implementation (we recommend OpenMPI) or Coarrays implementation
+ 
+ By default MCFM is bundled with LHAPDF 6.5.1. It can optionally be
+ compiled with an external LHAPDF installation. Note that LHAPDF 6.3.X has
+ a multithreading bug and therefore we do not recommend to use it.
+ Either use LHAPDF 6.2.X or 6.5.X. Version 5 of LHAPDF is not supported.
+ 
+ The MCFM package may be downloaded from the MCFM homepage at
+ \url{https://mcfm.fnal.gov}. After extracting, in the simplest case, the
+ source can be compiled by running \texttt{cmake\ ..} in the Bin
+ directory: 
+ \begin{verbatim}
+ 	tar -xzvf MCFM-X.Y.tar.gz
+ 	cd MCFM-X.Y/Bin
+ \end{verbatim}
+ 
+ To compile with default options just run \texttt{cmake\ ..} in the Bin
+ directory or a new ``build'' directory, then run make to compile the
+ MCFM program. If you compile in a directory different than ``Bin'',
+ please run \texttt{make\ install} to copy some required files over from
+ the Bin directory. The Bin directory contains several example input
+ files that can be used as an argument to mcfm.
+ 
+ By default all necessary dependencies, including LHAPDF, are compiled
+ with the default compiler that \texttt{cmake} detects. The following
+ parameters can be added to choose a custom compiler. For example with
+ MPI the wrapper mpifort will have to be chosen as the Fortran compiler: 
+ \begin{verbatim}
+ 	-DCMAKE_C_COMPILER=gcc-8
+ 	-DCMAKE_CXX_COMPILER=g++-8
+ 	-DCMAKE_Fortran_COMPILER=gfortan-8
+ \end{verbatim}
+ 
+ Please ensure that your compiler is working and can produce executable
+ program files. Please also ensure that it is at least version 7
+ (e.g.~\texttt{gfortran\ --version}). For example when your compiler
+ has been installed into a non-standard location you probably need to
+ append the compiler library path to \texttt{LD\_LIBRARY\_PATH}
+ (\texttt{DYLD\_FALLBACK\_LIBRARY\_PATH} on OS X). This can be achieved,
+ for example, as follows: 
+ \begin{verbatim}
+ 	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/user/local/lib/gcc7
+ \end{verbatim}
+ 
+ Additional complications may arise especially on OS X systems, where by
+ default \texttt{gcc}/\texttt{g++} is linked to the clang compiler. Please
+ make sure to set the compiler names/paths to the correct GNU versions.
+ 
+ If CMake does not report any problems you can start the compilation of
+ MCFM with \texttt{make\ -j4}, where 4 (or more) is the number of
+ compilation threads.
+ 
+ Upon successful compilation, the executable \texttt{mcfm} is produced
+ and can be called with an input file (+path) as argument, for example:
+ \begin{verbatim}
+       ./mcfm input_Z.ini
+ \end{verbatim}
+ 
+ It can happen that the CMake cache gets corrupted with wrong
+ configuration options. If you change options and errors occur, please
+ try to delete the file \texttt{CMakeCache.txt} and directory
+ \texttt{CMakeFiles} and restart \texttt{cmake\ ..} with the appropriate
+ arguments.
+ 
+ \bottomheading{Compiling at Fermilab}
+ 
+ To compile at Fermilab on the Wilson cluster (wc.fnal.gov):
+ \begin{verbatim}
+ cd MCFM-10.3/Bin/
+ cmake -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++  ..
+ make -j
+ \end{verbatim}
+
+ \bottomheading{Compiling at CERN}
+ 
+  On the lxplus machine at CERN (lxplus.cern.ch):
+ \begin{verbatim}
+ cd MCFM-10.3/Bin/
+ cmake3 -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++  ..
+ make -j
+ \end{verbatim}
+
+  
+ \hypertarget{lhapdf}{%
+ 	\bottomheading{LHAPDF}\label{lhapdf}}
+ 
+ The following parameter specifies the use of LHAPDF (internal,
+ external): 
+ \begin{verbatim}
+ 	-Duse_internal_lhapdf=ON (default)
+ \end{verbatim} 
+ and can be set to OFF to link against an external LHAPDF library.
+ 
+ When an external LHAPDF is used, cmake might not find the library. A
+ library search path can be added with
+ \texttt{-DCMAKE\_PREFIX\_PATH=/usr/local}, for example. Additionally,
+ the LHAPDF include path can be set with
+ \texttt{-Dlhapdf\_include\_path=/usr/local/include} if it deviates from
+ a standard location.
+ 
+ For the bundled LHAPDF, PDF sets go into the directory Bin/PDFs. This
+ installation includes the central PDF members of \texttt{CT18NNLO} and
+ \texttt{NNPDF31\_nnlo\_as\_0118} with their resummation grids,
+ as well as the PDF sets for \texttt{LUXqed17\_plus\_PDF4LHC15\_nnlo\_30}. Additional PDFs
+ can be downloaded from \url{https://lhapdf.hepforge.org/pdfsets.html} and
+ untar'ed in the PDFs directory.
+ 
+ Additional PDF directories can be added to the LHAPDF search path by
+ using, for example:
+ \begin{verbatim}
+ 	export LHAPDF_DATA_PATH=/usr/local/share/LHAPDF
+ \end{verbatim} 
+ 
+ \hypertarget{ww-wz-and-zz-with-vvamp}{%
+ 	\bottomheading{WW, WZ and ZZ with VVamp}\label{ww-wz-and-zz-with-vvamp}}
+ 
+ The processes WW,WZ and ZZ at NNLO require compilation of the VVamp
+ amplitudes, which are about 100MB of additional sourcecode and add
+ significant additional compilation time. The following flag disables
+ these amplitudes: 
+ \begin{verbatim}
+ 	-Dwith_vvamp=OFF
+ \end{verbatim}
+ 
+ \hypertarget{openmp-and-mpi}{%
+ 	\bottomheading{OpenMP and MPI}\label{openmp-and-mpi}}
+ 
+ MCFM uses OMP (Open Multi-Processing) to implement multi-threading and
+ automatically adjusts to the number of available CPU threads. The
+ multi-threading is implemented with respect to the integration routine
+ Vegas, which distributes the event evaluations over the threads and
+ combines all events at the end of every iteration.
+ 
+ Two environment variables are useful. On some systems, depending on the
+ OMP implementation, the program will crash when calculating some of the
+ more complicated processes, for example \(W+2\)~jet production at NLO.
+ Then, adjusting \texttt{OMP\_STACKSIZE} may be needed for the program to
+ run correctly. Setting thisvariable to \texttt{16000}, for instance in
+ the Bash shell by using the command
+ \texttt{export\ OMP\_STACKSIZE=16000}, has been found to be sufficient
+ for all processes. The second useful variable \texttt{OMP\_NUM\_THREADS}
+ may be used to directly control the number of threads used during OMP
+ execution (the default is the maximum number of threads available on the
+ system).
+ 
+ To prepare MCFM with MPI support add the argument
+ \texttt{-Duse\_mpi=ON} to the cmake call before running
+ \texttt{make}.. At the same time custom compiler command names must be
+ specified with:
+ \begin{verbatim}
+ 	-DCMAKE_C_COMPILER=mpicc
+ 	-DCMAKE_CXX_COMPILER=mpic++
+ 	-DCMAKE_Fortran_COMPILER=mpifort
+ \end{verbatim}
+ Such commands must be used when
+ compiling with MPI support and their names can depend on the MPI
+ implementation. Please consult the manual of your MPI installation or
+ cluster system. Please ensure again that \texttt{mpifort\ --version}
+ and \texttt{mpic++\ --version} report the GNU compiler and a version
+ greater than 7.
+ 
+ Alternatively also a Fortran Coarray implementation can be used with: 
+ \begin{verbatim}
+ 	-Duse_coarray=ON
+ \end{verbatim} 
+ This option is experimental and cannot be used together with MPI.
+ 
+ \midheading{Directory structure}
+ The directory structure of MCFM is as follows:
+ \begin{itemize}
+ 	\item {\tt Doc}. The source for this document.
+ 	\item {\tt Bin}.
+ 	The directory containing the executable {\tt mcfm}, and various essential files -- notably the 
+ 	options file {\tt input.ini}.
+ 	\item {\tt Bin/Pdfdata}.
+ 	The directory containing the internal PDF data-files.
+ 	\item {\tt Bin/PDFs}.
+ 	Directory for LHAPDF grid files used by bundled LHAPDF.
+ 	\item {\tt src}.
+ 	The Fortran source files in various subdirectories.
+ 	\item {\tt lib/TensorReduction}
+ 	General tensor reduction code based on the work of Passarino and Veltman~\cite{Passarino:1978jh}
+ 	and Oldenborgh and Vermaseren~\cite{vanOldenborgh:1989wn}.
+ 	\item {\tt lib/qcdloop-2.0.5}.
+ 	The source files to the library QCDLoop~\cite{Carrazza:2016gav,Ellis:2007qk}.
+ 	\item {\tt lib/oneloop}.
+ 	The source files to the library OneLOop~\cite{vanHameren:2010cp}.
+ 	\item {\tt lib/qd-2.3.22}.
+ 	Library to support double-double and quad-double precision data types \cite{libqd}.
+ 	\item {\tt lib/AMOS}.
+ 	Library for AMOS, `` A Portable Package for Bessel Functions of a Complex Argument and 
+ 	Nonnegative Order'', taken from
+ 	\href{http://www.netlib.org/amos/}{http://www.netlib.org/amos/}.
+ 	\item {\tt lib/SpecialFns}.
+ 	Library containing the implementation of special functions from a variety of sources.
+ 	\item {\tt lib/VVamp}.
+ 	Library containing the implementation of two-loop helicity
+ 	amplitudes for $q\bar q \to V_1 V_2$, from the results of Ref.~\cite{Gehrmann:2015ora}.
+ 	\item The {\tt lib/handyG}
+ 	Library for the evaluation of generalized polylogarithms~\cite{Naterop:2019xaf}.
+ 	\end{itemize}
+ 

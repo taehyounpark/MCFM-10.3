@@ -1,0 +1,28 @@
+\midheading{$W+t{\bar t}$ processes 500--516}
+\label{subsec:wttdecay}
+
+These processes represent the production of a $W^\pm$ boson which subsequently
+decays leptonically, in association with a $t{\bar t}$ pair. In all except processes
+{\tt 500} and {\tt 510} the decays of the top and anti-top quark are included.
+Processes {\tt 501,502} and {\tt 511,512} refer to the semileptonic decay of the top and antitop quarks,
+with the latter process in each pair giving the radiation in the decay of the top and antitop.
+Process {\tt 503} ({\tt 513}) refers to the semileptonic decay of the top (antitop)
+and the hadronic decay of the antitop (top). Processes {\tt 506}({\tt 516}) gives the semileptonic
+decay of the antitop(top) and the hadronic decay of the top(antitop).  Processes {\tt 506}({\tt 516})
+do not give same sign lepton events, so they may be of less phenomenological importance. For this reason
+we have not yet included radiation in the decay for these processes.
+
+For processes {\tt 503}, {\tt 506}, {\tt 513}
+and {\tt 516} the default behaviour is that the hadronic decay products
+are clustered into jets using the supplied jet
+algorithm parameters, but no cut is applied on the number of jets.
+This behaviour can be altered by changing the value of the
+variable {\tt notag} in the file {\tt src/User/setnotag.f}.
+
+The top quarks are always
+produced on-shell, which is a necessity for a gauge invariant result
+from this limited set of diagrams, but all spin correlations are included.
+Switching {\tt zerowidth} from {\tt .true.} to {\tt .false.} only affects
+the $W$ bosons (both the directly produced one and from the top quark decay).
+Processes {\tt 501} and {\tt 511} may be run at NLO with the option {\tt todk},
+including radiation in the decay of the top quark, see section \ref{subsec:ttbar}.

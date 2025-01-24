@@ -1,0 +1,21 @@
+\midheading{$Z$-boson production, processes 31--33}
+\label{subsec:zboson}
+
+These processes represent the production of a $Z$ boson which subsequently
+decays either into electrons ({\tt nproc=31}), neutrinos ({\tt nproc=32})
+or bottom quarks ({\tt nproc=33}). Where appropriate, the effect of a virtual
+photon is also included. As noted above, for {\tt nproc=31} and {\tt nproc=33} the constraint
+{\tt m34min > 0} is obligatory. The calculation may be performed at LO, NLO
+and NNLO~\cite{Boughezal:2016wmq,Campbell:2022gdq}
+although the NLO and NNLO calculation of process {\tt 33} does not include radiation
+from the bottom quarks (i.e.\ radiation occurs in the initial state only).
+
+This process can be calculated at LO, NLO, and NNLO. NLO calculations
+can be performed by subtraction, zero-jettiness slicing and
+$q_T$-slicing. NNLO calculations can be performed by zero-jettiness
+slicing and $q_T$-slicing.
+
+To calculate the total cross section to on-shell $Z$ bosons, we take 
+process ({\tt nproc=32}), (no $\gamma^{*}$ contribution) and 
+set (zerowidth=.true.) and (removebr =.true.).
+When {\tt removebr} is true in process {\tt 31}, the $Z$ boson does not decay.

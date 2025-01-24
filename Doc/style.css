@@ -1,0 +1,154 @@
+/* 
+Color scheme 
+#bab5a9;
+#d5e1c1 
+
+ */
+
+/* ************** */
+/* *** Fonts  *** */
+/* ************** */
+
+/* Font size tricks from https://www.madebymike.com.au/writing/precise-control-responsive-typography/ 
+ * The font size will be adjusted to the screen size.
+ * */
+:root{
+  font-size: 16px;
+}
+
+/* the min width is calculated as:
+ * font-size / ( number of viewport units / 100 )
+ * it means 16 / (1.5/100)
+ */
+@media (min-width: 1200px){
+  :root {
+    font-size: 1.5vw;
+  }
+}
+
+/* Maximal font size should be 24px, so stop font scalling at some point (24 / (1.5/100)) */
+
+@media (min-width: 1500px){
+  :root {
+    font-size: 20px;
+  }
+}
+
+/* ************** */
+/* *** Layout *** */
+/* ************** */
+
+body{
+  max-width:62rem;
+  /*margin:0;*/
+  /*padding:0;*/
+  display:grid;
+  grid-auto-rows: auto; 
+}
+
+@media screen and (min-width: 60rem) {
+  body{
+    display:grid;
+    grid-template-columns: 15rem 1fr;
+  }
+  main.main-content{max-width:55rem;}
+  nav.TOC{
+    grid-row:1;
+    min-height:100vh;
+  }
+}
+
+
+/* ****************** */
+/* *** Formatting *** */
+/* ****************** */
+
+main.main-content{
+  padding:1rem;
+}
+
+p.indent, p.noindent{text-indent:0}
+/* code{font-size:1.4rem;} */
+/* figure pre.listings{font-size: 1.4rem;} */
+figure.texsource, figure.shellcommand, figure.htmlsource, figure.luasource, figure.textsource{
+  margin:0.5rem 0; 
+  padding-left:0.5rem; 
+  overflow:auto;
+}
+figure pre.listings{font-size: 1em;}
+
+.chapterToc, .sectionToc, .subsectionToc{margin:0;padding:0;}
+nav.TOC{
+  padding:0.5rem;
+  font-size:0; /* trick to remove vertical space above TOC entries */
+}
+
+ .chapterToc ~ .likesectionToc, .chapterToc ~ .sectionToc, .likechapterToc ~ .likesectionToc, .likechapterToc ~ .sectionToc {padding-left:2em;margin-left:0}
+ .chapterToc ~ .likesectionToc ~ .likesubsectionToc, .chapterToc ~ .likesectionToc ~ .subsectionToc, .chapterToc ~ .sectionToc ~ .likesubsectionToc, .chapterToc ~ .sectionToc ~ .subsectionToc, .likechapterToc ~ .likesectionToc ~ .likesubsectionToc, .likechapterToc ~ .likesectionToc ~ .subsectionToc, .likechapterToc ~ .sectionToc ~ .likesubsectionToc, .likechapterToc ~ .sectionToc ~ .subsectionToc {padding-left:4em;margin-left:0;}
+
+nav.TOC span{
+  display:block;
+  margin-top:0;
+  font-size:0.8rem;
+}
+
+nav.TOC a, nav.TOC a:visited{
+  text-decoration:none;
+}
+
+/* ************** */
+/* *** Colors *** */
+/* ************** */
+
+
+/* body{background-color:#dce8d0;} */
+/* It seems that dark background is better to my eyes */
+body{background-color:#95B9C7;} 
+
+main.main-content{
+  background-color:white;
+}
+
+/*a:visited { */
+/*  color:fuchsia; */
+/*} */
+
+/*a:link { */
+/*  color:royalblue; */
+/*} */
+
+nav.TOC,nav.TOC a, nav.TOC a:visited{
+  background-color:#cccccc;
+  color:#333333;
+}
+
+nav.TOC span:hover, nav.TOC span:hover *{
+  background-color:#eeeeee;
+}
+
+
+
+figure.texsource, figure.shellcommand, figure.htmlsource, figure.luasource, figure.textsource{
+  border:1px solid #cec1aa; 
+  background-color:#d5e3c6;
+}
+
+/* ***************** */
+/* *** Dark mode *** */
+/* ***************** */
+
+/* Code from https://ar.al/2021/08/24/implementing-dark-mode-in-a-handful-of-lines-of-css-with-css-filters/ */
+
+@media (prefers-color-scheme: dark) {
+
+  /* Workarounds and optical adjustments. */
+
+  /* Firefox workaround: Set the background colour for the html
+     element separately because, unlike other browsers, Firefox
+     doesn’t apply the filter to the root element’s background. */
+  html {
+    background-color: #111;
+  }
+
+}
+@import url(https://fonts.googleapis.com/css?family=PT+Sans+Caption:300,400,700bold|Over+the+Rainbow);@import url("font-awesome.css");html,body{margin:0;padding:0}body{align:center;background-color:rgb(248,249,250);font-family:"PT Sans Caption",bold;font-size:16px;color:444}h1,h2,h3,h4,h5,h6,p,pre,blockquote,label,ul,ol,dl,fieldset,address{margin:1em 0}li,dd{margin-left:5%}fieldset{padding:.5em}select option{padding:0 5px}select,option{color:black}.hide,.print-logo,.close-button{display:none}.left{float:left}.right{float:right}.clear{clear:both;height:1px;font-size:1px;line-height:1px}a img{border:none}.highbar{height:5px;background:#006652}#header{z-index:999;width:100%}#header .inside{width:600px;padding-top:2.5em}#header h2 a{text-decoration:none;color:#1A9485}#header p{padding:1em 0;margin:0;line-height:1em}.top-menu{background:#006652;background:#617981;background:#96838E;background:#FFF;padding:5px;text-align:center}.menuNav a{color:#96838E;text-decoration:none;font-family:'PT Sans Caption','Roboto';font-size:14px;font-weight:700;padding:0 10px}.name{display:inline-block;width:calc(80% - 5px)}.name h2{margin-bottom:10px}.pageslinks{display:inline-block;width:20%;text-align:right}.pageslinks .active{color:#000;border-bottom:4px solid rgba(136,136,152,0.4)}#header .box{padding-top:2.5em;margin:0 auto;width:960px;padding-left:15px;padding-right:15px}.container-gallery{background:#fff;width:960px;margin:0 auto}.container-gallery .inside,.container-gallery>header{margin:0 auto;padding:0.575em 2.75em}.container-gallery .sidebar{float:right;width:200px;border-left:1px dotted #96838E;padding:2.5em;padding-top:1em;margin:2.1em;text-align:center;min-height:600px}.container-gallery>header>span span:after{width:30px;height:30px;left:-12px;font-size:50%;top:-8px;font-size:75%;position:relative}.container-gallery a{color:#955251;text-decoration:none}.feature_title p{color:#888898;font-family:'Over the Rainbow';font-size:20px;font-style:italic;font-weight:300}#footer{clear:both;color:#939393;padding:2em 0 3em 0;bottom:0;width:100%;font-family:Roboto,sans-serif;font-size:11px}#footer .inside{padding:1em 0;width:calc(100% - 30px);max-width:960px;margin:0 auto}#footer .inside a{text-decoration:none;color:#96838E}#footer p{margin:0;font-size:0.95em}#footer p.copyright{float:left}#footer p.attributes{float:right}#footer p.attributes a{padding:0 0 0 1em;text-decoration:none;color:#525252}#footer p.attributes a:hover{color:#FFF}.grid-wrap{max-width:calc(100% - 7.75em);margin:0 auto;padding:0}

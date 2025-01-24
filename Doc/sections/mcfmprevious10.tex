@@ -1,0 +1,84 @@
+\topheading{New features in MCFM-10}
+\midheading{Downloads of earlier versions, MCFM-10}
+\label{MCFM10download}
+\begin{itemize}
+\item \href{https://mcfm.fnal.gov/downloads/MCFM-10.2.2.tar.gz}{MCFM-10.2.2.tar.gz} (May 19th, 2022, updated November 4th, 2022)
+
+\item \href{https://mcfm.fnal.gov/downloads/MCFM-10.1.tar.gz}{MCFM-10.1.tar.gz} (January 10th, 2022)
+
+\begin{itemize}
+\item C++ interface to tree and one-loop amplitudes as a replacement of OpenLoops and Recola \href{https://arxiv.org/abs/2107.04472}{[2107.04472]}
+\item t-channel single-top-quark production at NNLO \href{https://arxiv.org/abs/2012.01574}{[2012.01574]},
+see also \href{https://arxiv.org/abs/2109.10448}{[2109.10448]}
+\item $q_T^2$ resummation for Diphoton production at N$^3$LL$^\prime$+NNLO \href{https://arxiv.org/abs/2107.12478}{[2107.12478]}
+\end{itemize}
+
+\item \href{https://mcfm.fnal.gov/downloads/MCFM-10.0.1.tar.gz}{MCFM-10.0.1.tar.gz} (March 29th, 2021, updated May 27th, 2021)
+
+\begin{itemize}
+\item N$^3$LL+NNLO $q_T^2$ resummation for the single boson processes $W^+,W^-,Z$ and $H$
+and diboson processes $\gamma\gamma,Z\gamma,ZH\gamma\gamma,Z\gamma,ZH$ and $WH$.
+See the \href{https://mcfm.fnal.gov/downloads/cute-mcfm.html}{CuTe-MCFM} site for further details.
+\item Support for histograms with custom binning.
+\item Streamlined compilation process into single CMake script.
+\end{itemize}
+\end{itemize}
+
+\midheading{New features in MCFM-10.2}
+\label{sec:10x2}
+
+Version 10.2 of the code introduces the ability to compute diboson processes
+to NNLO.  It also allows all NNLO calculations to be performed using two
+variants of slicing: using 0-jettiness (as in previous versions) or $q_T$ (new).
+Benchmark results are reported in Section~\ref{sec:scetqt}.
+
+This version also extends the capabilities of the interface to allow a calculation
+of one-loop amplitudes representing diboson+jet production with
+a variety of $W$ and $Z$ boson decays, including all appropriate interferences.
+The calculation of diboson amplitudes (without the presence of an additional
+jet) has also been extended to include additional processes that include
+interference contributions.
+The new scattering amplitudes available are:
+\begin{verbatim}
+d u~ e- ve~ e+ e-
+u d~ e+ ve e+ e-
+u u~ e- e+ ve ve~
+d u~ e- ve~ a g
+u d~ e+ ve a g
+u u~ e- e+ a g
+u u~ e- ve~ mu+ vmu g
+d u~ e- ve~ mu+ mu- g
+u d~ e+ ve mu+ mu- g
+u u~ e- e+ mu+ mu- g
+u u~ e- e+ e- e+ g
+u u~ e- e+ vmu vmu~ g
+u u~ e- e+ ve ve~ g
+\end{verbatim}
+where, in addition, all relevant combinations of quark flavors are included.
+
+A description of the new features added in recent releases (v9.0 onwards) is 
+given in Section~\ref{mcfm9plus}.
+
+\midheading{New features in MCFM-10.0}
+
+For using the $q_T$ resummation of CuTe-MCFM please refer to \texttt{cute-mcfm.pdf}
+and ref.~\cite{Becher:2020ugp}.
+
+\paragraph{New plotting infrastructure.}
+MCFM-10.0 implements a new plotting infrastructure that allows for much easier setup
+and custom-binned histograms. The new style histograms can be enabled by setting \texttt{newstyle = 
+.true.} in the \texttt{[histogram]} section of the input file. An example for $Z$ production with 
+resummation and custom binning is given in \texttt{src/User/nplotter\_Z\_new.f90}. Each plotter
+implements a new Fortran module with a function \texttt{setup()} that is called once at the 
+beginning of MCFM to set up the histogram binnings. The function 
+\texttt{book(p,wt,ids,vals,wts)} is called for each phase space point, calculates the observables 
+based on the jet four-momenta in \texttt{p} and returns them in the \texttt{vals} array. The 
+\texttt{wts} array is typically filled with \texttt{wt} for each observable, but can be modified to 
+return a different weight to the histogramming routine. This is used in the example file to 
+implement a transition function for the resummed and fixed-order components.
+
+To adopt a new process to the new histograms, the file \texttt{src/Mods/mod\_SetupPlots.f90}
+can be modified. More precisely, the function \texttt{setup\_plots} needs to import the plotting 
+module of the process, call the setup routine for the process, and set the \texttt{pbook} pointer
+to the actual \texttt{book} routine of the new plotting module.
+

@@ -1,0 +1,21 @@
+\bottomheading{Axial vector mediator, processes 801 and 821}
+801~$ A\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)$ [Axial Vector Mediator]  NLO \\
+821~$A\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5) $[Axial Vector Mediator]  NLO + F 
+
+Processes 801 and 821 produce the 
+mono-jet or mono-photon signature through the following axial-vector operator, 
+\begin{eqnarray}
+\mathcal{O}_A=\frac{(\overline{\chi}\gamma_{\mu}\gamma_5\chi)(\overline{q}\gamma^{\mu}\gamma_5q)}{\Lambda^2}~,\label{eq:OA}
+\end{eqnarray}
+These processes are available at NLO and include the usual treatment
+of photons. See for instance the $V\gamma$ processes ($\sim$ 300) in
+this manual for more details on photon setup in MCFM. As discussed
+above the code will calculate left and right-handed helicity
+amplitudes and build the axial vector operators from $(L-R)$. By
+default the code will enforce the right handed couplings to equal to
+the negative of the left handed couplings, if this is not
+already the case in {\tt dm\_parameters.DAT}. Therefore the user does
+not have to change this file when switching between vector and axial
+vector operators.  Processes 841 and 846 represent the production of
+DM plus two jets or DM plus one jet and one photon and are available
+at LO.

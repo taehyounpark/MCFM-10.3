@@ -1,0 +1,31 @@
+\bottomheading{$WW$ production, processes 61-65, 69}
+
+For $WW$ production, both $W$'s can decay leptonically ({\tt nproc=61}) or one
+may decay hadronically ({\tt nproc=62} for $W^-$ and {\tt nproc=64} for $W^+$).
+Corresponding to processes {\tt 62,64}, processes {\tt 63,65} implement radiation in 
+decay from the hadronically decaying W's.
+Process {\tt 69} implements the matrix elements for the leptonic decay of
+both $W$'s but where no polarization information is retained. It is included
+for the sake of comparison with other calculations.
+Processes {\tt 62} and {\tt 64} may be run at NLO with the option {\tt todk},
+including radiation in the decay of the hadronically decaying $W$.
+Processes {\tt 63} and {\tt 65} give the effect of radiation in the decay alone
+by taking the sum of the choices {\tt virt} and {\tt real}, or equivalently {\tt tota}.
+
+Note that, in processes
+{\tt 62} and {\tt 64}, the NLO corrections include radiation from the
+hadronic decays of the $W$.
+
+When {\tt removebr} is true in processes {\tt 61} and {\tt 69},
+the $W$ bosons do not decay.
+
+Process {\tt 61} can be calculated at NNLO.
+The NNLO calculations include contributions from the process $gg \to WW$
+that proceeds through quark loops. The calculation of loops containing the third quark generation
+includes the effect of the top quark mass (but $m_b=0$), while the first two
+generations are considered massless. For numerical stability, a small cut on the
+transverse momentum of the $W$ bosons is applied: $p_T(W)>0.05$~GeV for loops
+containing massless (first or second generation) quarks, $p_T(W)>2$~GeV for $(t,b)$
+loops. This typically removes less than $0.1$\% of the total cross section. The
+values of these cutoffs can be changed by editing \verb|src/WW/gg_ww.f| and recompiling.
+

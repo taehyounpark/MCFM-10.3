@@ -1,0 +1,31 @@
+\midheading{Di-boson production, processes 61--89}
+\label{subsec:diboson}
+
+These processes represent the production of a diboson pair $V_1 V_2$,
+where $V_1$ and $V_2$ may be either a $W$ or $Z/\gamma^*$.
+All the processes in this section may be calculated at NLO with the exception
+of {\tt nproc=69}. There are various
+possibilities for the subsequent decay of the bosons, as specified in the
+sections below. Amplitudes for the $V_1 V_2$ process at $O(\alpha_s)$
+are taken from ref.~\cite{Dixon:1998py}.
+We also include singly resonant diagrams at NLO for all processes
+in the case {\tt zerowidth = .false.}.
+For more details on this calculation, please see
+Refs.~\cite{Campbell:1999ah,Campbell:2011bn}.
+
+For processes {\tt 62}, {\tt 63}, {\tt 64}, {\tt 65}, {\tt 74}
+and {\tt 75} the default behaviour is that the hadronic decay products
+of the bosons are clustered into jets using the supplied jet
+algorithm parameters, but no cut is applied on the number of jets.
+This behaviour can be altered by changing the value of the
+variable {\tt notag} in the file \verb|src/User/setnotag.f|.
+
+Calculations of processes {\tt 61}, {\tt 71}, {\tt 76}, {\tt 81} and {\tt 82}
+can be performed at NLO by subtraction, zero-jettiness slicing and $q_T$-slicing.
+They can be computed at NNLO using  zero-jettiness slicing and $q_T$-slicing,
+as described in 'Non-local slicing approaches for NNLO QCD in MCFM',\cite{Campbell:2022gdq}.
+For processes {\tt 61}, {\tt 81} and {\tt 86} the NNLO corrections
+include glue-glue initiated box diagrams which first contribute at order $\alpha_s^2$.
+Two loop results for virtual diagrams at $O(\alpha_s^2)$ are taken from \cite{Gehrmann:2015ora}.
+
+  

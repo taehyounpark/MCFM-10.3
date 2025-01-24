@@ -1,0 +1,8 @@
+make4ht -usm final -c config  -d html --build-file build.mk4 index.tex "fn-in"
+cp style.css html/
+cp index.css html/
+rm -f *.4ct *.4tc *.lg *.log *.dvi *.idv *.tmp *.toc *.xref *.html
+cd html/
+sed -i -e '/bibliography1/d' index.html
+cd ..
+exit

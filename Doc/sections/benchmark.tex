@@ -1,0 +1,45 @@
+\topheading{NNLO using non-local subtraction}
+We have performed NLO and NNLO calculations using different methods and published the results in ref.~\ref{Campbell:2022gdq}.
+NLO calculations can performed by three methods, (subtraction, zero-jettiness slicing and $q_T$-slicing.
+NNLO calculations can be performed by zero-jettiness slicing and $q_T$-slicing.
+
+\midheading{Benchmark results for NNLO}
+\label{sec:NNLO}
+\label{sec:benchmark}
+We perform benchmark calculations with the default set of EW parameters, (see ref.~\ref{Campbell:2022gdq})
+and for the LHC operating at $\sqrt s = 14$~TeV.  We allow all
+vector bosons to be off-shell ({\tt zerowidth} is {\tt .false.})
+and include their decays ({\tt removebr} is {\tt .false.}).
+For each Higgs boson process we consider the decay $H \to \tau^- \tau^+$.
+For parameters that are set in the input file we use,
+\begin{eqnarray}
+m_H = 125~\mbox{GeV} \,, \quad
+m_t = 173.3~\mbox{GeV} \,, \quad 
+m_b = 4.66~\mbox{GeV} \,, 
+\end{eqnarray}
+and we use the NNLO CT14 pdf set (i.e. {\tt pdlabel} is {\tt CT14.NN}) with
+$\mu_F = \mu_R = Q^2$ (i.e. we set {\tt dynamicscale} equal to
+either {\tt m(34)} or {\tt m(345)} or {\tt m(3456)}, as appropriate).
+Our generic set of cuts is,
+\begin{eqnarray}
+&& p_T(\mbox{lepton}) > 20~\mbox{GeV} \,, \quad
+|\eta(\mbox{lepton})| < 2.4 \,, \quad \nonumber \\
+&& p_T(\mbox{photon 1}) > 40~\mbox{GeV} \,, \quad
+   p_T(\mbox{photon 2}) > 25~\mbox{GeV} \,, \quad \nonumber \\
+&&|\eta(\mbox{photon})| < 2.5 \,, \quad 
+\Delta R(\mbox{photon 1, photon 2}) > 0.4 \,, \quad \nonumber \\
+&& E_T^{\mbox{miss}} > 30~\mbox{GeV} \,, \quad \Delta R(\text{photon}, \text{lepton}) > 0.3 \quad
+\end{eqnarray}
+For $Z$ production we also impose a minimum $Z^*$ virtuality ({\tt m34min})
+of $40$~GeV.
+
+Our benchmark results are shown in Table~\ref{NNLObenchmarks} and were performed on an Intel Xeon X5650 @ 2.67GHz
+system with 16 nodes of 12 cores each. MCFM was compiled with the Intel compiler and default optimizations as well
+as the default MCFM setup including all pre-defined histograms.  The NNLO CPU time includes the time necessary 
+for the NLO calculation. The numbers for the NLO and NNLO results were obtained independently. By tweaking the 
+initial number of calls or the number of iterations per batch it is 
+certainly possible to optimize the runtimes. While the numerical precision is not yet good sufficient for most of the 
+fitted corrections to significantly improve the results, the fits are highly reliable and correctly estimate the 
+residual $\taucut$ dependence.
+
+\input{sections/table_benchmark.tex}

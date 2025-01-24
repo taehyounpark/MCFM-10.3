@@ -1,0 +1,62 @@
+\documentclass{book}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage[tc]{titlepic}
+\usepackage[T1]{fontenc}
+\usepackage{upquote}
+\usepackage{textcomp}
+\usepackage [english]{babel}
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+\usepackage{csquotes}
+\usepackage{glossaries}
+\usepackage{tex4ht-styles}
+\usepackage[executivepaper,margin=1in]{geometry}
+\definecolor{title}{RGB}{180,0,0}
+\definecolor{other}{RGB}{0,0,0}
+\definecolor{name}{RGB}{255,0,0}
+\definecolor{phd}{RGB}{0,0,240}
+\usepackage{hyperref}
+
+\def\topheading{\chapter}
+\def\midheading{\section}
+\def\bottomheading{\subsection}
+\input macro.tex
+
+\begin{document}
+\title{{\LARGE \bf MCFM 10.3} \\[1cm]}
+\author{
+  {John Campbell \href{mailto:johnmc@fnal.gov}{(johnmc@fnal.gov)}} \\[0.2cm]
+  {R. Keith Ellis \href{mailto:keith.ellis@durham.ac.uk}{(keith.ellis@durham.ac.uk)}} \\[0.2cm]
+  {Ciaran Williams \href{mailto:ciaranwi@buffalo.edu}{(ciaranwi@buffalo.edu)}} \\[0.2cm]
+  {Tobias Neumann \href{mailto:tneumann@bnl.gov}{(tneumann@bnl.gov)}} \\[3.0cm] \\
+{\begin{tabular}{l}
+MCFM is a parton-level Monte Carlo program that gives predictions for a \\
+wide range of processes at hadron colliders. Almost all processes are \\
+available at NLO, but some processes are also available at NNLO \\
+or N$^3$LO in QCD. The calculation of some processes can also account for \\
+NLO electroweak effects. Transverse momentum and jet veto resummation \\
+is available for the production of color singlet final states. \\
+Please look at the {\href{\mcfmprocs/proclist.html}{list of available processes}}.\\
+This document is available as a {\href{\mcfmweb}{series of webpages}} and as a {\href{\mcfmpdf}{pdf file}}.\\
+Download and installation instructions are in Section~\ref{overview}.
+\end{tabular}}}
+
+\date{\today}
+
+\maketitle
+
+% Don't introduce table of contents in the HTML mode, as it introduces another page
+\ifdefined\HCode\else\tableofcontents\fi
+
+\input{body.tex}
+
+\cleardoublepage
+\phantomsection
+\bibliography{manual}
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{JHEP}
+
+\end{document}

@@ -1,0 +1,25 @@
+\midheading{$H+b$ production, processes 136--138}
+\label{subsec:Hb}
+
+These processes represent the production of a Standard Model Higgs
+boson that decays into a pair of bottom quarks,
+in association with a further bottom quark. The initial state at lowest order
+is a bottom quark and a gluon.
+The calculation may be performed at NLO, although radiation from the
+bottom quarks in the Higgs decay is not included.
+For more details on this calculation, please see Ref.~\cite{Campbell:2002zm}.
+
+For this process, the matrix elements are divided up into a number of
+different sub-processes, so the user must sum over these after performing
+more runs than usual. At lowest order one can proceed as normal, using
+{\tt nproc=136}. For a NLO calculation, the sequence of runs is as follows:
+\begin{itemize}
+\item Run {\tt nproc=136} with {\tt part=virt} and {\tt part=real} (or, both
+at the same time using {\tt part=tota});
+\item Run {\tt nproc=137} with {\tt part=real}.
+\end{itemize}
+The sum of these yields the cross-section with one identified $b$-quark in
+the final state. To calculate the contribution with two $b$-quarks in the
+final state, one should use {\tt nproc=138} with {\tt part=real}.
+
+When {\tt removebr} is {\tt .true.}, the Higgs boson does not decay.

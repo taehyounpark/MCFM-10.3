@@ -1,0 +1,25 @@
+\midheading{$W+b$ production, processes 12,17}
+\label{subsec:wb}
+
+These processes represent the production of a $W$ boson which
+subsequently decays leptonically, in association with a single bottom
+quark, exploiting the weak transitions $c \to b$ and $u \to b$.
+This is produced at leading order by an initial state which
+contains a charm quark (or the CKM  suppressed $u$ quark) and a
+gluon, e.g
+$ c(-p_1)+g(p_2) \to W^+(\to \nu(p_3)+e^+(p_4))+b(p_5)$
+and
+$ u(-p_1)+g(p_2) \to W^+(\to \nu(p_3)+e^+(p_4))+b(p_5)$
+or the charge conjugate processes for $W^{-}$.
+This process is somewhat analogous to single top production.
+
+The effect of the bottom quark mass is included throughout the calculation.  
+For this case the CKM matrix elements $V_{cb}$ and $V_{ub}$,
+(if they are equal to zero in the input data file, {\tt mdata.f})
+are set equal to $0.041$ and $0.00347$ respectively. 
+Otherwise the non-zero values specified in {\tt mdata.f} are used. 
+The calculation of this process may
+be performed at LO and NLO.
+
+When {\tt removebr} is true, the $W$ boson does not decay.
+

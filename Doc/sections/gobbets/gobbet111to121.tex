@@ -1,0 +1,65 @@
+\midheading{Higgs production, ($m_t=\infty$), processes 111--121}
+\label{subsec:h}
+
+This process is calculable at leading LO, 
+at next-to-leading order NLO, and at next-to-next-to-leading order NNLO. 
+
+These processes represent the production of a Standard Model Higgs
+boson that decays either into a bottom quark
+pair ({\tt nproc=111}), a pair of tau's ({\tt nproc=112}), 
+a $W^+W^-$ 
+pair that further decays leptonically ({\tt nproc=113}) 
+a $W^+W^-$ pair where the $W^-$ decays hadronically ({\tt nproc=114,115}) 
+or a $ZZ$ pair ({\tt nproc=116-118}) . In addition, the loop-level decays of the Higgs 
+into a pair of photons ({\tt nproc=119}) and the $Z\gamma$ decay are included
+({\tt nproc=120,121}).
+
+For the case of $W^+W^-$ process {\tt nproc=115} gives the contribution 
+of radiation from the hadronically decaying $W^-$.
+Process {\tt 114} may be run at NLO with the option {\tt todk},
+including radiation in the decay of the hadronically decaying $W^-$.~\footnote{
+We have not included the case of a hadronically decaying $W^+$; it can
+be obtained from processes {\tt nproc=114,115} by performing the
+substitutions $\nu \to e^-$ and $e^+ \to \bar{\nu}$.}
+For the case of a $ZZ$ decay,
+the subsequent decays can either be into a pair of muons and a pair of electrons
+({\tt nproc=116)}, a pair of muons and neutrinos ({\tt nproc=117}) or
+a pair of muons and a pair of bottom quarks ({\tt nproc=118}).
+
+At LO the relevant diagram
+is the coupling of two gluons to the Higgs via a top quark loop.
+This calculation is performed in the limit of infinite top quark mass, so that 
+the top quark loop is replaced by an effective operator. This corresponds
+to the effective Lagrangian,
+\begin{equation}
+\mathcal{L} = \frac{1}{12\pi v} \, G^a_{\mu\nu} G^{\mu\nu}_a H \;,
+\label{eq:HeffL}
+\end{equation}
+where $v$ is the Higgs vacuum expectation value and $G^a_{\mu\nu}$ the
+gluon field strength tensor.
+The calculation may be performed at NLO, although radiation from the
+bottom quarks in the decay of processes {\tt 111} and {\tt 118} is not yet included.
+
+%At the end of the output the program will also display the cross section rescaled
+%by the constant factor,
+%\begin{equation}
+%\frac{\sigma_{\rm LO}(gg \to H, \mbox{finite}~m_t)}{\sigma_{\rm LO}(gg \to H, m_t \to \infty)} \;.
+%\label{eqn:hrescale}
+%\end{equation}
+%For the LO calculation this gives the exact result when retaining a finite value for $m_t$,
+%but this is only an approximation at NLO. The output histograms are not rescaled in this way.
+
+When {\tt removebr} is true in processes {\tt 111,112,113,118},
+the Higgs boson does not decay.
+
+Process {\tt 119} implements the decay of the Higgs boson into two photons
+via loops of top quarks and $W$-bosons.
+The decay is implemented using the formula Eq.(11.12) from ref.~\cite{Ellis:1991qj}.
+When {\tt removebr} is true in process {\tt 119} the Higgs boson does not decay.
+
+Processes {\tt 120} and {\tt 121} implement the decay of the Higgs boson into an lepton-antilepton
+pair and a photon. As usual the production of a charged lepton-antilepton pair is mediated by a 
+$Z/\gamma^*$ (process {\tt 120}) and the production of three types of neutrinos 
+$\sum  \nu \bar{\nu}$ by a $Z$-boson (process {\tt 121}). These processes are implemented 
+using a generalization of the formula of \cite{Djouadi:1996yq}. (Generalization to take into
+account off-shell $Z$-boson and adjustment of the sign of $C_2$ in their Eq.(4)).

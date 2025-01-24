@@ -1,0 +1,19 @@
+\bottomheading{Scalar mediator, processes 802 and 822}
+802~$ S\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)$ [Scalar Mediator]  NLO \\
+822~$S\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5) $[Scalar Mediator]  NLO + F 
+
+Processes 802 and 822 produce the 
+mono-jet or mono-photon signature through the following scalar operator, 
+\begin{eqnarray}
+\mathcal{O}_S=\frac{\Delta(\overline{\chi}\chi)(\overline{q}q)}{\Lambda^2}~,
+\end{eqnarray}
+These processes are available at NLO and include the usual treatment
+of photons. See for instance the $V\gamma$ processes ($\sim$ 300) in
+this manual for more details on photon setup in MCFM. As discussed
+above the code will calculate left and right-handed helicity
+amplitudes and build the vector operators from $(L+R)$. Therefore you
+should ensure that the Left and right-handed couplings are equal in
+{\tt dm\_parameters.DAT}. For these processes $\Delta$ is fixed from
+the value of {\tt [Yukawa Scalar Couplings] } if this is {\tt .true.}
+then $\Delta=m_q/\Lambda$ else $\Delta=1$.
+

@@ -1,0 +1,75 @@
+\midheading{$H \to ZZ \to e^- e^+ \mu^- \mu^+$ production, ($m_t=$~finite), processes 128-133}
+These processes represent the production of a Higgs boson that decays to $Z Z$,
+with subsequent decay into charged leptons. For process {\tt 128}, the exact form of the triangle
+loop coupling a Higgs boson to two gluons is included, with both top and bottom quarks
+circulating in the loop. This is to be contrasted with process {\tt 116} in which only the
+top quark contribution is included in the effective coupling approach.
+
+Process {\tt 129} includes only the effect of the interference of the
+Higgs and $gg \to ZZ$ amplitudes.
+The calculation is available at LO only. LO corresponds to $O(\alpha_s^2)$ in this case.
+The calculation of loops containing the third quark generation
+includes the effect of both the top quark mass and the bottom quark, while the first two
+generations are considered massless. For numerical stability, a small cut on the
+transverse momentum of the $Z$ bosons is applied: $p_T(Z)>0.05$~GeV.
+This typically removes less than $0.1$\% of the cross section. The
+values of these cutoffs can be changed by editing \verb|src/ZZ/getggZZamps.f| and recompiling.
+
+Process {\tt 130} includes all $gg$-initiated diagrams that have a Higgs boson in the $s$-channel,
+namely the square of the $s$-channel Higgs boson production and the interference with the diagrams
+that do not contain a Higgs boson, (i.e. $gg \to Z/\gamma^*+Z/\gamma^* \to e^- e^+ \mu^- \mu^+$),
+i.e.~$|M_H|^2+2 |M_H^* M_{ZZ}|$.
+
+Process {\tt 131} calculates the full result for this process from  $gg$-intitiated diagrams.
+This includes diagrams that have a Higgs boson in the $s$-channel, the continuum $ Z/\gamma^*+Z/\gamma^*$
+diagrams described above and their interference, i.e.~$|M_H+M_{ZZ}|^2$.
+
+
+Process {\tt 132}  gives the result for the square of the box diagrams alone, i.e. the process
+$gg \to Z/\gamma^*+Z/\gamma^* \to e^- e^+ \mu^- \mu^+$, i.e.~$|M_{ZZ}|^2$.
+
+Process {\tt 133} calculates the interference for the $qg$ initiated process.
+
+For those processes that include contributions from the Higgs boson, the form
+of the Higgs propagator may be changed by editing the file
+{\tt src/Need/sethparams.f}.  If the logical variable {\tt CPscheme} is
+changed from the default value {\tt .false.} to {\tt .true.} then the
+Higgs propagator is computed using the ``bar-scheme'' that is
+implemented in the HTO code of G. Passarino~\cite{Goria:2011wa,Passarino:2010qk}.
+The value of the Higgs boson width has been computed with v1.1 of the
+HTO code, for Higgs masses in the interval $50 < m_H< 1500$~GeV.  These
+values are tabulated, in $0.5$~GeV increments, in the file
+{\tt Bin/hto\_output.dat}.  The widths for other masses in this range
+are obtained by linear interpolation.
+
+% \bottomheading{Specifying other final states}
+% \label{specifyingZdecays}
+% As described above, these processes refer to a final state 
+% $e^- e^+ \mu^- \mu^+$.  It is however possible to specify a final state
+% that corresponds to a different set of $Z$ boson decays.  This is achieved
+% by altering the value of {\tt NPROC} in the input file by appending a
+% period, followed by two 2-character strings that identify each of the decays.
+% Possible values for the strings, and the corresponding decays, are
+% shown in the table below.
+% \begin{center}
+% \begin{tabular}{ll}
+% string & $Z$ decay \\
+% \hline
+% {\tt el,EL} & $(e^-,e^+)$ \\
+% {\tt mu,MU,ml,ML} & $(\mu^-,\mu^+)$ \\
+% {\tt tl,TL} & $(\tau^-,\tau^+)$ \\
+% {\tt nu,NU,nl,NL} & $(\nu,\bar\nu) \times 3$ \\
+% {\tt bq,BQ} & $(b,\bar b)$ \\
+% \end{tabular}
+% \end{center}
+% Note that, for the case of neutrino decays, the sum over three flavours of
+% neutrino is performed.  The labelling of the particles in the output is best
+% understood by example.  Setting {\tt nproc=132.ELNU} corresponds to the
+% process $gg \to Z/\gamma^*+Z/\gamma^* \to e^-(p_3) e^+(p_4) \nu(p_5) \bar\nu(p_6)$.
+% Note that the default process corresponds to the string {\tt ELMU} so that,
+% for instance {\tt nproc=132.ELMU} is entirely equivalent to
+% {\tt nproc=132}.
+% The effect of changing the lepton flavour is only seen in the output
+% of LHE events, where the correct mass is then used when producing the
+% event record.
+

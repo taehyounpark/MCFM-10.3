@@ -1,0 +1,7 @@
+CHAPLIN - Complex Harmonic Polylogarithms in FORTRAN 
+
+The FORTRAN library CHAPLIN enables you to numerically evaluate Harmonic
+polylogarithms up to weight 4 for any complex argument. It is presented in
+arXiv:1106.5739. 
+
+https://chaplin.hepforge.org/

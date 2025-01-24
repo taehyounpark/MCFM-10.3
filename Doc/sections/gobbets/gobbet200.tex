@@ -1,0 +1,38 @@
+\midheading{$H+$~jet production, $m_t=$~finite, process 200}
+\label{subsec:hjetma}
+This process represents the production of a Higgs boson in association
+with a single jet based on
+refs.~\cite{Neumann:2016dny,Neumann:2018bsx,Ellis:1987xu,Baur:1989cm,Ellis:2018hst,Budge:2020oyl}.
+Decay modes are currently unsupported/untested. The top-quark mass is taken
+into account exactly for the Born and real-emission parts, as well as for the singular part of the virtual corrections.
+The real emission calculation is based on the one-loop, Higgs boson + 4 parton calculations
+with full quark masss effects of ref.\cite{Ellis:2018hst,Budge:2020oyl}.
+
+The finite part of the two-loop virtual corrections can be computed in
+different ways by setting the input file parameter {\tt mtex}.
+\begin{itemize}
+    \item In a low energy asymptotic expansion in $1/m_t^k$ up to
+    order $k=2,4$ by setting {\tt mtex} to $2$ or $4$ in the input
+    file. This is recommended for transverse momenta up to $\simeq
+    225$~GeV.
+
+\item In a high energy expansion by setting {\tt mtex}=100 in the input
+    file. This is recommended for transverse momenta beyond $450$~GeV.
+
+\item In a rescaling approach where the finite part of the two-loop virtual
+     amplitude in the effective field theory
+    ($m_t=\infty$) is rescaled pointwise by the ratio of the one-loop
+    amplitude computed with full $m_t$ dependence to the one-loop
+    amplitude for $m_t=\infty$. This mode is the default mode and
+    enabled with {\tt mtex}=0 in the input file.  This is the
+    recommended approach for the intermediate energy region and for
+    estimating top-mass uncertainties in the transition regions
+    between these approaches.
+
+\end{itemize}
+
+This process is therefore calculable at leading LO and at
+next-to-leading order NLO (using an approximation for the two loop
+matrix element). Full NLO calculations (with the exact two-loop matrix
+element) have been performed in refs.~\cite{Jones:2018hbb,Chen:2021azt,Bonciani:2022jmb}.
+

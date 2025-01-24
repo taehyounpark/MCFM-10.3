@@ -1,0 +1,568 @@
+\section{Processes included in MCFM}
+\label{MCFMprocs}
+
+\begin{table}
+\begin{center}
+\hspace*{-1.5cm}
+\begin{tabular}{|l|l|l|}
+\hline
+{\tt nproc} & $f(p_1)+f(p_2) \to \ldots $& Order \\
+\hline
+%  
+1  & $ W^+(\to \nu(p_{3})+e^+(p_{4}))$   & NNLO \\
+2  & $ W^+(\to \nu(p_{3})+e^+(p_{4}))$  [EW+$\gamma(p_5)$]  & NLO \\
+3  & $ W^+(\to \nu(p_{3})+e^+(p_{4}))$  [EW $\gamma$-induced + $q(p_5)$]  & NLO \\
+6  & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))$   & NNLO \\
+7  & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))$  [EW+$\gamma(p_5)$]  & NLO \\
+8  & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))$  [EW $\gamma$-induced + $q(p_5)$]  & NLO \\
+\hline 
+11 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+f(p_{5})$    & NLO \\
+12 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+\bar{b}(p_{5})$   & NLO \\
+13 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+\bar{c}(p_{5})$   & NLO \\
+14 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+\bar{c}(p_{5}) [\mbox{massless}]$   & LO \\
+16 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+f(p_{5})$   & NLO \\
+17 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+b(p_{5})$   & NLO \\
+18 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+c(p_{5})$   & NLO \\
+19 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+c(p_{5}) [\mbox{massless}]$   & LO \\
+\hline 
+20 & $ W^+(\to \nu(p_{3})+e^+(p_{4})) +b(p_{5})+\bar{b}(p_{6}) [\mbox{massive}]$   & NLO \\
+21 & $ W^+(\to \nu(p_{3})+e^+(p_{4})) +b(p_{5})+\bar{b}(p_{6})$   & NLO \\
+22 & $ W^+(\to \nu(p_{3})+e^+(p_{4})) +f(p_{5})+f(p_{6})$   & NLO \\
+23 & $ W^+(\to \nu(p_{3})+e^+(p_{4})) +f(p_{5})+f(p_{6})+f(p_{7})$   & LO \\
+24 & $ W^+(\to \nu(p_{3})+e^+(p_{4})) +b(p_{5})+\bar{b}(p_{6})+f(p_{7})$   & LO \\
+25 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4})) +b(p_{5})+\bar{b}(p_{6}) [\mbox{massive}]$   & NLO \\
+26 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4})) +b(p_{5})+\bar{b}(p_{6})$   & NLO \\
+27 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4})) +f(p_{5})+f(p_{6})$   & NLO \\
+28 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4})) +f(p_{5})+f(p_{6})+f(p_{7})$   & LO \\
+29 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4})) +b(p_{5})+\bar{b}(p_{6})+f(p_{7})$   & LO \\
+\hline 
+31 & $ Z(\to e^-(p_{3})+e^+(p_{4}))$   & NNLO \\
+310 & $ Z(\to e^-(p_{3})+e^+(p_{4}))$ [photon induced]   & LO \\
+32 & $ Z(\to 3\times(\nu(p_{3})+\bar{\nu}(p_{4})))$   & NNLO \\
+33 & $ Z(\to b(p_{3})+\bar{b}(p_{4}))$   & NLO \\
+34 & $ Z(\to 3\times(d(p_{5})+\bar{d}(p_{6})))$   & NLO \\
+35 & $ Z(\to 2\times(u(p_{5})+\bar{u}(p_{6})))$   & NLO \\
+36 & $  Z \to  t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to \bar{b}(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8}))$   & LO \\
+\hline 
+41 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+f(p_{5})$   & NLO \\
+42 & $ Z_0(\to 3\times(\nu(p_{3})+\bar{\nu}(p_{4})))+f(p_{5})$   & NLO \\
+43 & $ Z(\to b(p_{3})+\bar{b}(p_{4}))+f(p_{5})$   & NLO \\
+\hline 
+44 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+f(p_{5})+f(p_{6})$   & NLO \\
+45 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+f(p_{5})+f(p_{6})+f(p_{7})$   & LO \\
+46 & $ Z(\to 3\times(\nu(p_{3})+\bar{\nu}(p_{4}))+f(p_{5})+f(p_{6})$   & NLO \\
+47 & $ Z(\to 3\times(\nu(p_{3})+\bar{\nu}(p_{4}))+f(p_{5})+f(p_{6})+f(p_{7})$   & LO \\
+\hline 
+50 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+\bar{b}(p_{5})+b(p_{6}) [\mbox{massive}]$   & LO \\
+51 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+b(p_{5})+\bar{b}(p_{6})$   & NLO \\
+52 & $ Z_0(\to 3\times(\nu(p_{3})+\bar{\nu}(p_{4})))+b(p_{5})+\bar{b}(p_{6})$   & NLO \\
+53 & $ Z(\to b(p_{3})+\bar{b}(p_{4}))+b(p_{5})+\bar{b}(p_{6})$   & NLO \\
+54 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+b(p_{5})+\bar{b}(p_{6})+f(p_{7})$   & LO \\
+56 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+c(p_{5})+\bar{c}(p_{6})$   & NLO \\
+\hline 
+\end{tabular}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+61 & $ W^+(\to \nu(p_{3})+\mu^+(p_{4})) +W^-(\to e^-(p_{5})+\bar{\nu}(p_{6}))$   & NNLO \\
+62 & $ W^+(\to \nu(p_{3})+\mu^+(p_{4})) +W^-(\to q(p_{5})+\bar{q}(p_{6}))$   & NLO \\
+63 & $ W^+(\to \nu(p_{3})+\mu^+(p_{4})) +W^-(\to q(p_{5})+\bar{q}(p_{6}))[\mbox{rad.in.dk}]$   & NLO \\
+64 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4})) W^+(\to  q(p_{5})+ \bar{q}(p_{6}))$   & NLO \\
+65 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4})) W^+(\to  q(p_{5})+ \bar{q}(p_{6}))[\mbox{rad.in.dk}]$   & NLO \\
+66 & $ W^+(\to \nu(p_{3})+\mu^+(p_{4})) +W^-(\to e^-(p_{5})+\bar{\nu}(p_{6}))+f(p_{7})$   & LO \\
+69 & $ W^+(\to \nu(p_{3})+\mu^+(p_{4})) +W^-(\to e^-(p_{5})+\bar{\nu}(p_{6})) [\mbox{no pol}]$   & LO \\
+\hline 
+71 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+Z(\to \mu^-(p_{5})+\mu^+(p_{6}))$   & NNLO \\
+711& $ W^+(\to \nu(p_{3})+e^+(p_{4}))+Z(\to e^-(p_{5})+e^+(p_{6}))$   & NNLO \\
+72 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+Z(\to 3\times(\nu_\mu(p_{5})+\bar{\nu}_\mu(p_{6})))$   & NLO \\
+73 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+Z(\to b(p_{5})+\bar{b}(p_{6}))$   & NLO \\
+74 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+Z(\to 3\times(d(p_{5})+\bar{d}(p_{6})))$   & NLO \\
+75 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+Z(\to 2\times(u(p_{5})+\bar{u}(p_{6})))$   & NLO \\
+\hline 
+76 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+Z(\to \mu^-(p_{5})+\mu^+(p_{6}))$   & NNLO \\
+761& $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+Z(\to e^-(p_{5})+e^+(p_{6}))$   & NNLO \\
+77 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+Z(\to 3\times(\nu_e(p_{5})+\bar{\nu}_e(p_{6})))$   & NLO \\
+78 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+Z(\to b(p_{5})+\bar{b}(p_{6}))$   & NLO \\
+79 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+Z(\to 3\times(d(p_{5})+\bar{d}(p_{6})))$   & NLO \\
+80 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+Z(\to 2\times(u(p_{5})+\bar{u}(p_{6})))$   & NLO \\
+\hline 
+81 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to \mu^-(p_{5})+\mu^+(p_{6}))$   & NNLO \\
+82 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to \nu_\mu(p_{5})+\bar{\nu}_\mu(p_{6}))$   & NNLO \\
+8211& $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to \nu_e(p_{5})+\bar{\nu}_e(p_{6}))$ [both $WW+ZZ$]  & NNLO \\
+83 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to b(p_{5})+\bar{b}(p_{6}))$   & NLO \\
+84 & $ Z(\to b(p_{3})+\bar{b}(p_{4})) + Z(\to 3\times(\nu(p_{5})+\bar{\nu}(p_{6})))$   & NLO \\
+85 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to 3\times(\nu(p_{5})+\bar{\nu}(p_{6})))+f(p_{7})$   & LO \\
+90 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to e^-(p_{5})+e^+(p_{6}))$   & NLO \\
+\hline 
+900& $ (W^+ + W^-) + H(\to \tau(p_5)+\bar\tau(p_6)) $& NNLO \\
+91 & $ W^+(\to nu(p_3)+e^+(p_4)) + H(\to \tau(p_5)+\bar\tau(p_6)) $& NNLO \\
+92 & $  W^+(\to nu(p_3)+e^+(p_4)) + H(\to b(p_5)+\bar b(p_6)) $& NNLO \\
+920 &$   W^+(\to nu(p_3)+e^+(p_4)) + H(\to b(p_5)+\bar b(p_6)) $ [rad.in.dk] & NLO \\
+93 & $  W^+(\to nu(p_3)+e^+(p_4)) + H(\to \gamma(p_5)+\gamma(p_6)$ & NNLO \\
+94 & $  W^+(\to nu(p_3)+e^+(p_4)) + H(\to W^+(\nu(p_5),e^+(p_6)) W^-(e^-(p_7),\bar\nu(p_8)))$ & NNLO \\
+95 & $ W^+(\to nu(p_3)+e^+(p_4)) + H(\to Z(e^-(p_5),e^+(p_6))+Z(\mu^-(p_7),\mu(p_8))) $& NNLO \\
+96 & $ W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to \tau(p_5)+\bar\tau(p_6)) $& NNLO \\
+97 & $  W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to b(p_5)+\bar b(p_6)) $& NNLO \\
+970 & $  W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to b(p_5)+\bar b(p_6)) $[rad.in.dk] & NLO \\
+98 & $  W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to \gamma(p_5)+\gamma(p_6))$ & NNLO \\
+99 & $ W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to W^+(\nu(p_5),e^+(p_6))W^-(e^-(p_7),\bar\nu(p_8))) $ & NNLO \\
+100 & $ W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to Z(e^-(p_5),e^+(p_6))+Z(\mu^-(p_7),\mu^+(p_8)))$  & NNLO \\
+\hline 
+\end{tabular}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+101 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + H(\to b(p_{5})+\bar{b}(p_{6}))$   & NNLO \\
+1010& $ Z(\to e^-(p_{3})+e^+(p_{4})) + H(\to b(p_{5})+\bar{b}(p_{6})) [rad.in.dk]$   & NLO \\
+102 & $ Z(\to 3\times(\nu(p_{3})+\bar{\nu}(p_{4}))) + H(\to b(p_{5})+\bar{b}(p_{6}))$   & NLO \\
+103 & $ Z(\to b(p_{3})+\bar{b}(p_{4})) + H(\to b(p_{5})+\bar{b}(p_{6}))$        & NLO \\
+104 & $ Z(\to e^-(p_3)+e^+(p_{4})) + H(\to \gamma(p_{5})+\gamma(p_{6}))$ & NNLO \\
+105 & $ Z(\to \to 3\times(\nu(p_3)+\bar{\nu}(p_{4}))) + H(\to \gamma(p_{5})+\gamma(p_{6}))$ & NLO \\
+106 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + H(\to W^+(\nu(p_{5}),e^+(p_{6}))W^-(e^-(p_{7}),\bar{\nu}(p_{8})))$   & NNLO \\
+107 & $ Z(\to 3\times(\nu(p_{3})+\bar{\nu}(p_{4}))) + H(\to 
+W^+(\nu(p_{5}),e^+(p_{6}))W^-(e^-(p_{7}),\bar{\nu}(p_{8})))$   & NLO \\
+108 & $ Z(\to b(p_{3})+\bar{b}(p_{4})) + H(\to W^+(\nu(p_{5}),e^+(p_{6}))W^-(e^-(p_{7}),\bar{\nu}(p_{8})))$        & 
+NLO \\
+109 & $ Z(\to e^-(p_3)+e^+(p_{4})) + H(\to Z(e^-(p_{5}),e^+(p_{6}))+Z(\to\mu^-(p_{7}),\mu^+(p_{8})))$ & NLO \\
+110 & $ Z(\to e^-(p_3)+e^+(p_{4})) + H(\to \tau^-(p_5) \tau^+_(p_6)))$ & NNLO \\
+\hline 
+111 & $ H(\to b(p_{3})+\bar{b}(p_{4}))$   & NNLO \\
+112 & $ H(\to \tau^-(p_{3})+\tau^+(p_{4}))$   & NNLO \\
+113 & $ H(\to  W^+(\nu(p_{3})+e^+(p_{4})) + W^-(e^-(p_{5})+\bar{\nu}(p_{6})))$   & NLO \\
+114 & $ H(\to  W^+(\nu(p_{3})+e^+(p_{4})) + W^-(q(p_{5})+\bar{q}(p_{6})))$   & NLO \\
+115 & $ H(\to  W^+(\nu(p_{3})+e^+(p_{4})) + W^-(q(p_{5})+\bar{q}(p_{6}))) [rad.in.dk]$   & NLO \\
+116 & $ H(\to Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to\mu^-(p_{5})+\mu^+(p_{6}))$   & NLO \\
+117 & $ H(\to Z(\to3\times(\nu(p_{3})+\bar{\nu}(p_{4})))+ Z(\to\mu^-(p_{5})+\mu^+(p_{6}))$   & NLO \\
+118 & $ H(\to Z(\to\mu^-(p_{3})+\mu^+(p_{4})) + Z(\to b(p_{5})+\bar{b}(p_{6}))$   & NLO \\
+119 & $ H(\to \gamma(p_{3})+\gamma(p_{4}))$   & NNLO \\
+120 & $ H(\to Z(\to\mu^-(p_{3})+\mu^+(p_{4})) + \gamma(p_{5}))$   & NLO \\
+121 & $ H(\to Z(\to3\times(\nu(p_{3})+\bar{\nu}(p_{4})))) + \gamma(p_{5}))$   & NLO \\
+\hline 
+123 & $ H(\to  W^+(\nu(p_3)+e^+(p_{4})) + W^-(e^-(p_{5})+\bar{\nu}(p_{6})))$ [t, b loops, exact] & LO \\
+124 & $ H(\to  W^+(\nu(p_3)+e^+(p_{4})) + W^-(e^-(p_{5})+\bar{\nu}(p_{6})))$ [only H, gg$\rightarrow$WW int & LO \\
+125 & $ H(\to  W^+(\nu(p_3)+e^+(p_{4})) + W^-(e^-(p_{5})+\bar{\nu}(p_{6})))$ [$|H|^2$ and H,gg$\rightarrow$WW int] & LO 
+\\
+126 & $ W^+(\nu(p_3)+e^+(p_{4})) + W^-(e^-(p_{5})+\bar{\nu}(p_{6}))$ [gg only, (H + gg$\rightarrow$WW) squared] & LO \\
+127 & $ W^+(\nu(p_3)+e^+(p_{4})) + W^-(e^-(p_{5})+\bar{\nu}(p_{6}))$ [(gg$\rightarrow$WW squared]) & LO \\
+128 & $ H(\to Z(\to \to e^-(p3)+e^+(p4)) + Z(\to \mu^-(p5)+\mu^+(p6))$ [t, b loops, exact]& LO \\
+129 & $ H(\to Z(\to e^-(p3)+e^+(p4)) + Z(\to \mu^-(p5)+\mu^+(p6))$ [only H, gg$\rightarrow$ZZ int] & LO \\
+130 & $ H(\to Z(\to e^-(p3)+e^+(p4)) + Z(\to \mu^-(p5)+\mu^+(p6))$ [$|H|^2$ and H,gg$\rightarrow$ZZ int]& LO \\
+131 & $ Z(\to e^-(p3)+e^+(p4)) + Z(\to \mu^-(p5)+\mu^+(p6)$ [gg only, $|H + gg \rightarrow ZZ|^2$]& LO \\
+132 & $ Z(\to e^-(p3)+e^+(p4)) + Z(\to \mu^-(p5)+\mu^+(p6)$ [(gg$\rightarrow$ZZ) squared]& LO \\
+\hline 
+1281 & $ H(\to e^-(p3)+e^+(p4) \nu_e(p5)+\bar\nu_e(p6)$ [top, bottom loops, exact]& LO \\
+1311 & $ e^-(p3)+e^+(p4)+\nu_e(p5)+\bar\nu_e(p6)$ [gg only, (H + gg$\rightarrow$ZZ) squared]& LO \\
+1321 & $ e^-(p3)+e^+(p4)+\nu_e(p5)+\bar\nu_e(p6)$ [(gg$\rightarrow$ZZ) squared]& LO \\
+\hline 
+1282 & $ H(\to e^-(p3)+e^+(p4)+\nu(p5)+\bar\nu(p6)$ [top, bottom loops, exact]& LO \\
+1312 & $ e^-(p3)+e^+(p4)+\nu(p5)+\bar\nu(p6)$ [gg only, (H + gg$\rightarrow$ZZ) squared]& LO \\
+1322 & $ e^-(p3)+e^+(p4)+\nu(p5)+\bar\nu(p6)$ [(gg$\rightarrow$ZZ) squared]& LO \\
+\hline
+133 & $ H(\to Z(\to e^-(p3)+e^+(p4)) + Z(\to \mu^-(p5)+\mu^+(p6) + f(p7))$ [intf,no $p_7$ cut]& LO \\
+\hline 
+\end{tabular}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+136 & $ H(\to b(p_{3})+\bar{b}(p_{4})) + b(p_{5}) (+g(p_{6}))$   & NLO \\
+137 & $ H(\to b(p_{3})+\bar{b}(p_{4})) + \bar{b}(p_{5}) (+b(p_{6}))$   & (REAL) \\
+138 & $ H(\to b(p_{3})+\bar{b}(p_{4})) + b(p_{5}) + \bar{b}(p_{6}) [\mbox{both observed}]$   & (REAL) \\
+\hline 
+141 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8}))$ & NLO \\
+142 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8}))$ \mbox{\small 
+[rad.in.dk]}& NLO \\
+143 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8}))+f(p_{9})$ & LO \\
+144 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8}))$ \mbox{(uncorr)} & NLO 
+\\
+145 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8}))$ \mbox{\small 
+[rad.in.dk],uncorr} & NLO \\
+146 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+q(p_{7})+\bar{q}(p_{8})) $ & NLO \\
+147 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+q(p_{7})+\bar{q}(p_{8})) $ \mbox{\small 
+[rad.in.top.dk]}& NLO \\
+148 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+q(p_{7})+\bar{q}(p_{8})) $ \mbox{\small 
+[rad.in.$W$.dk]}& NLO \\
+149 & $ t(\to q(p_{3})+\bar{q}(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8})) $ & NLO \\
+150 & $ t(\to q(p_{3})+\bar{q}(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8})) $ \mbox{\small 
+[rad.in.top.dk]}& NLO \\
+151 & $ t(\to q(p_{3})+\bar{q}(p_{4})+b(p_{5}))+\bar{t}(\to b~(p_{6})+e^-(p_{7})+\bar{\nu}(p_{8})) $ \mbox{\small 
+[rad.in.$W$.dk]}& NLO \\
+\hline 
+157 & $ t \bar{t} [\mbox{for total Xsect}]$   & NLO \\
+158 & $ b \bar{b} [\mbox{for total Xsect}]$   & NLO \\
+159 & $ c \bar{c} [\mbox{for total Xsect}]$   & NLO \\
+160 & $ t \bar{t} + g [\mbox{for total Xsect}]$   & LO \\
+\hline 
+161 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+q(p_{6}) [\mbox{t-channel}]$   & NLO \\
+1610& $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+q(p_{6}) [\mbox{t-channel}]$   & NNLO \\
+162 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+q(p_{6}) [\mbox{decay}]$   & NLO \\
+163 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+q(p_{6}) [\mbox{t-channel}] mb>0$   & NLO \\
+164 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+q(p_{6}) [\mbox{full off-shell t-channel}] mb=0$   & NLO \\
+1650& $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+q(p_{6})+g(p_7) [\mbox{t-channel}]$   & NLO \\
+166 & $ \bar{t}(\to e^-(p_{3})+\bar{\nu}(p_{4})+\bar{b}(p_{5}))+q(p_{6}) [\mbox{t-channel}]$   & NLO \\
+167 & $ \bar{t}(\to e^-(p_{3})+\bar{\nu}(p_{4})+\bar{b}(p_{5}))+q(p_{6}) [\mbox{rad.in.dk}]$   & NLO \\
+168 & $ \bar{t}(\to e^-(p_{3})+\bar{\nu}(p_{4})+\bar{b}(p_{5}))+q(p_{6}) [\mbox{t-channel}] mb>0$   & NLO \\
+169 & $ \bar{t}(\to e^-(p_{3})+\bar{\nu}(p_{4})+\bar{b}(p_{5}))+q(p_{6}) [\mbox{full off-shell t-channel}] mb=0$   & 
+NLO \\
+\hline 
+171 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{b}(p_{6})) [\mbox{s-channel}]$   & NLO \\
+172 & $ t(\to \nu(p_{3})+e^+(p_{4})+b(p_{5}))+\bar{b}(p_{6})) [\mbox{decay}]$   & NLO \\
+176 & $ \bar{t}(\to e^-(p_{3})+\bar{\nu}(p_{4})+\bar{b}(p_{5}))+b(p_{6})) [\mbox{s-channel}]$   & NLO \\
+177 & $ \bar{t}(\to e^-(p_{3})+\bar{\nu}(p_{4})+\bar{b}(p_{5}))+b(p_{6})) [\mbox{rad.in.dk}]$   & NLO \\
+\hline 
+180 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+t(p_{5})$   & NLO \\
+181 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+t(\nu(p_{5})+e^+(p_{6})+b(p_{7}))$   & NLO \\
+182 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+t(\nu(p_{5})+e^+(p_{6})+b(p_{7})) [\mbox{rad.in.dk}]$   & NLO \\
+183 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+t(\nu(p_{5})+e^+(p_{6})+b(p_{7}))+b(p_{8})$   & LO \\
+184 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+t(p_{5})+b(p_{6}) [\mbox{massive b}]$   & LO \\
+185 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+\bar{t}(p_{5})$   & NLO \\
+186 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+\bar{t}(e^-(p_{5})+\bar{\nu}(p_{6})+\bar{b}(p_{7})$   & NLO \\
+187 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+\bar{t}(e^-(p_{5})+\bar{\nu}(p_{6})+\bar{b}(p_{7}) [\mbox{rad.in.dk}]$   & NLO \\
+\hline 
+\end{tabular}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline 
+190 & $ f(p_{3})+f(p_{4})$   & LO \\
+191 & $ f(p_{3})+f(p_{4})$ [mixed QCD/EW]  & NLO \\
+\hline
+200 & $ H + f(p_5)$, see section \ref{subsec:hjetma} & NLO \\
+201 & $ H(\to b(p_{3})+\bar{b}(p_{4})) + f(p_{5}) [\mbox{full mt dep.}]$   & LO \\
+202 & $ H(\to \tau^-(p_{3})+\tau^+(p_{4})) + f(p_{5}) [\mbox{full mt dep.}]$   & LO \\
+203 & $ H(\to b(p_{3})+\bar{b}(p_{4})) + f(p_{5})$   & NNLO \\
+204 & $ H(\to \tau^-(p_{3})+\tau^+(p_{4})) + f(p_{5})$   & NNLO \\
+205 & $ H(\to Z(\mu^-(p_3) + \mu^+(p_4)) + \gamma(p_5)) + f(p_5)$ & NLO \\
+206 & $ A(\to b(p_{3})+\bar{b}(p_{4})) + f(p_{5}) [\mbox{full mt dep.}]$   & LO \\
+207 & $ A(\to \tau^-(p_{3})+\tau^+(p_{4})) + f(p_{5}) [\mbox{full mt dep.}]$   & LO \\
+208 & $ H(\to W^+(\nu(p_{3}),e^+(p_{4}))W^-(e^-(p_{5}),\bar{\nu}(p_{6})))+f(p_{7})$   & NLO \\
+209 & $ H(\to Z(\to e^-(p_{3}),e^+(p_{4}))Z(\to \mu^-(p_{5}),\mu^+(p_{6})))+f(p_{7})$   & NLO \\
+210 & $ H(\to \gamma(p_{3})+\gamma(p_{4})) + f(p_{5})$   & NNLO \\
+\hline 
+211 & $ H(\to b(p_{3})+\bar{b}(p_{4}))+f(p_{5})+f(p_{6}) [\mbox{WBF}]$   & NLO \\
+212 & $ H(\to \tau^-(p_{3})+\tau^+(p_{4}))+f(p_{5})+f(p_{6}) [\mbox{WBF}]$   & NLO \\
+213 & $ H(\to W^+(\nu(p_{3}),e^+(p_{4}))W^-(e^-(p_{5}),\bar{\nu}(p_{6})))+f(p_{7})+f(p_{8}) [\mbox{WBF}]$   & NLO \\
+214 & $ H(\to Z(\to e^-(p_3),e^+(p_{4}))+Z(\to \mu^-(p_{5}),\mu^+(p_{6})))+f(p_{7})+f(p_{8}) [\mbox{WBF}]$ & NLO \\
+215 & $ H(\to \gamma(p_3)+\gamma(p_{4}))+f(p_{5})+f(p_{6}) [\mbox{WBF}]$ & NLO \\
+216 & $ H(\to b(p_{3})+\bar{b}(p_{4}))+f(p_{5})+f(p_{6})+f(p_{7}) [\mbox{WBF+jet}]$   & LO \\
+217 & $ H(\to \tau^-(p_{3})+\tau^+(p_{4}))+f(p_{5})+f(p_{6})+f(p_{7}) [\mbox{WBF+jet}]$   & LO \\
+221 & $ \tau^-(\to e^-(p_{3})+\bar{\nu}_e(p_{4})+\nu_\tau(p_{5}))+\tau^+(\to 
+\bar{\nu}_\tau(p_{6})+\nu_e(p_{7})+e^+(p_{8}))$   & LO \\
+\hline 
+220 & $  Z(\to e^-(p_3),e^+(p_4))Z(\to \mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) $ [weak]' & LO \\
+2201 & $  Z(\to e^-(p_3),e^+(p_4))Z(\to \mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) $ [strong]' & LO \\
+222 & $  Z(\to e^-(p_3),e^+(p_4))Z(\to \nu_{\mu}(p_5),\bar{\nu}_{\mu}(p_6)))+f(p_7)+f(p_8) $ [weak]' & LO \\
+2221 & $  Z(\to e^-(p_3),e^+(p_4))Z(\to \nu_{\mu}(p_5),\bar{\nu}_{\mu}(p_6)))+f(p_7)+f(p_8) $ [strong]' & LO \\
+224 & $  W^-(e^-(p_3),\bar{\nu}_e(p_6)))W^+(\nu_{\mu}(p_5),mu^+(p_4))+f(p_7)+f(p_8) $ [weak]' & LO \\
+2241 & $  W^-(e^-(p_3),\bar{\nu}_e(p_6)))W^+(\nu_{\mu}(p_5),mu^+(p_4))+f(p_7)+f(p_8) $ [strong]' & LO \\
+226 & $  e^-(p_3)+e^+(p_4)+\nu_e(p_5)+\bar{\nu}_e(p_6)+f(p_7)+f(p_8) $ [weak]' & LO \\
+228 & $  W^+(\nu_e(p_3),e^+(p_4)))W^+(\nu_{\mu}(p_5),mu^+(p_6))+f(p_7)+f(p_8) $ [weak]' & LO \\
+2281 & $  W^+(\nu_e(p_3),e^+(p_4)))W^+(\nu_{\mu}(p_5),mu^+(p_6))+f(p_7)+f(p_8) $ [strong]' & LO \\
+229 & $  W^-(e^-(p_3),\bar{\nu}_e(p_4)))W^-(mu^-(p_5),\bar{\nu}_{\mu}(p_6))+f(p_7)+f(p_8) $ [weak]' & LO \\
+2291 & $  W^-(e^-(p_3),\bar{\nu}_e(p_4)))W^-(mu^-(p_5),\bar{\nu}_{\mu}(p_6))+f(p_7)+f(p_8) $ [strong]' & LO \\
+223 & $  W^+(\nu_e(p_3),e^+(p_4))Z(\to \mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) $ [weak]' & LO \\
+2231 & $  W^+(\nu_e(p_3),e^+(p_4))Z(\to \mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) $ [strong]' & LO \\
+225 & $  W^-(e^-(p_3),\bar{\nu}_e(p_4))Z(\to \mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) $ [weak]' & LO \\
+2251 & $  W^-(e^-(p_3),\bar{\nu}_e(p_4))Z(\to \mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8) $ [strong]' & LO \\
+\hline 
+\end{tabular}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+231 & $t(p_3)+\bar{b}(p_4)+q(p_5)$ [\mbox{t-channel]} & NLO \\
+232 & $t(p_3)+\bar{b}(p_4)+q(p_5)+q(p_6)$ [\mbox{t-channel]} & LO \\
+233 & $t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{b}(p_6)+q(p_7)$ [\mbox{t-channel]} & NLO \\
+234 & $t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{b}(p_6)+q(p_7)$ [\mbox{t-channel, rad.in.dk]} & NLO \\
+235 & $t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{b}(p_6)+q(p_7)+f(p_8)$ [\mbox{t-channel]} & LO \\
+236 & $\bar{t}(p_3)+b(p_4)+q(p_5)$ [\mbox{t-channel]} & NLO \\
+237 & $\bar{t}(p_3)+b(p_4)+q(p_5)+q(p_6)$ [\mbox{t-channel]} & LO \\
+238 & $\bar{t}(\to e^-(p_3)+\bar{\nu}(p_4)+\bar{b}(p_5))+b(p_6)+q(p_7)$ [\mbox{t-channel]} & NLO \\
+239 & $\bar{t}(\to e^-(p_3)+\bar{\nu}(p_4)+\bar{b}(p_5))+b(p_6)+q(p_7)$ [\mbox{t-channel, rad.in.dk]} & NLO \\
+240 & $\bar{t}(\to e^-(p_3)+\bar{\nu}(p_4)+\bar{b}(p_5))+b(p_6)+q(p_7)+f(p_8)$ [\mbox{t-channel]} & L0 \\
+\hline 
+251 & $ W^+(\to \nu(p_{3})+e^+(p_{4})) + W^+(\to \nu(p_{5})+e^+(p_{6}))+f(p_{7})+f(p_{8})$   & LO \\
+252 & $ W^+(\to \nu(p_{3})+e^+(p_{4})) + W^+(\to \nu(p_{5})+e^+(p_{6}))+f(p_{7})+f(p_{8})+f(p_{9})$   & LO \\
+253 & $W^+(\to\nu(p_3)+e^+(p_4)) + Z(\to e^-(p_5)+e^+(p_6))+f(p_7)+f(p_8)$ & LO  \\
+254 & $W^-(\to e^-(p_3)+\bar{\nu}(p_4))+ Z(\to e^-(p_5)+e^+(p_6))+f(p_7)+f(p_8)$ & LO  \\
+255 & $W^+(\to \nu(p_3)+e^+(p_4)) + Z(\to e^-(p_5)+e^+(p_6))+b(p_7)+f(p_8)$ & LO  \\
+256 & $W^-(\to e^-(p_3)+\bar{\nu}(p_4))+ Z(\to e^-(p_5)+e^+(p_6))+b(p_7)+f(p_8)$ & LO  \\
+259 & $W^+(\to \nu(p_3)+e^+(p_4)) + Z(\to e^-(p_5)+e^+(p_6))+b(p_7)+b~(p_8)$ & LO  \\
+260 & $W^-(\to e^-(p_3)+\bar{\nu}(p_4))+ Z(\to e^-(p_5)+e^+(p_6))+b(p_7)+b~(p_8)$ & LO  \\
+\hline 
+261 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+b(p_{5})$   & NLO \\
+262 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+c(p_{5})$   & NLO \\
+263 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+\bar{b}(p_{5})+b(p_{6}) [\mbox{1 b-tag}]$   & LO \\
+264 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+\bar{c}(p_{5})+c(p_{6}) [\mbox{1 c-tag}]$   & LO \\
+266 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+b(p_{5})(+\bar{b}(p_{6}))$   & NLO \\
+267 & $ Z(\to e^-(p_{3})+e^+(p_{4}))+c(p_{5})(+\bar{c}(p_{6}))$   & NLO \\
+\hline 
+269 & $ H(\gamma(p_{3})+\gamma(p_{4}))+f(p_{5})+f(p_{6}) [\mbox{full mt dep.}]$   & NLO \\
+\hline 
+\end{tabular}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+270 & $ H(\gamma(p_{3})+\gamma(p_{4}))+f(p_{5})+f(p_{6}) [\mbox{in heavy top limit}]$   & NLO \\
+271 & $ H(b(p_{3})+\bar{b}(p_{4}))+f(p_{5})+f(p_{6}) [\mbox{in heavy top limit}]$   & NLO \\
+272 & $ H(\tau^-(p_{3})+\tau^+(p_{4}))+f(p_{5})+f(p_{6}) [\mbox{in heavy top limit}]$   & NLO \\
+273 & $ H(\to W^+(\nu(p_{3}),e^+(p_{4}))W^-(e^-(p_{5}),\bar{\nu}(p_{6})))+f(p_{7})+f(p_{8})$   & NLO \\
+274 & $ H(\to Z(e^-(p_{3}),e^+(p_{4}))Z(\mu^-(p_{5}),\mu^+(p_{6})))+f(p_{7})+f(p_{8})$   & NLO \\
+275 & $ H(b(p_{3})+\bar{b}(p_{4}))+f(p_{5})+f(p_{6})+f(p_{7}) [\mbox{in heavy top limit}]$   & LO \\
+276 & $ H(\tau^-(p_{3})+\tau^+(p_{4}))+f(p_{5})+f(p_{6})+f(p_{7}) [\mbox{in heavy top limit}]$   & LO \\
+278 & $ H(\to W^+(\nu(p_3),e^+(p_4))W^-(e^-(p_5),\bar{\nu}(p_6)))+f(p_7)+f(p_8)+f(p_9)$ & LO \\
+279 & $ H(\to Z(e^-(p_3),e^+(p_4))Z(\mu^-(p_5),\mu^+(p_6)))+f(p_7)+f(p_8)+f(p_9)$ & LO \\
+\hline 
+280 & $ \gamma(p_3)+f(p_{4})$ & NLO+F \\
+282 & $ f(p_{1})+f(p_{2})\to  \gamma(p_{3})+f(p_{4})+f(p_{5})$   & LO \\
+283 & $ f(p_{1})+f(p_{2})\to  \gamma(p_{3})+b(p_{4})$   & LO \\
+284 & $ f(p_{1})+f(p_{2})\to  \gamma(p_{3})+c(p_{4})$   & LO \\
+285 & $ f(p_{1})+f(p_{2})\to  \gamma(p_{3})+\gamma(p_{4})$   & NLO+F, NNLO \\
+2851& $ g(p_{1})+g(p_{2})\to  \gamma(p_{3})+\gamma(p_{4})$   & NLO \\
+286 & $ f(p_{1})+f(p_{2})\to  \gamma(p_{3})+\gamma(p_{4})+f(p_{5})$   & LO \\
+2861& $ g(p_{1})+g(p_{2})\to  \gamma(p_{3})+\gamma(p_{4})+f(p_{5})$   & LO \\
+287 & $ f(p_{1})+f(p_{2})\to  \gamma(p_{3})+\gamma(p_{4})+\gamma(p_{5})$   & NLO+F \\
+289 & $ f(p_{1})+f(p_{2})\to  \gamma(p_{3})+\gamma(p_{4})+\gamma(p_{5})+\gamma(p_{6})$   & NLO+F \\
+\hline 
+290 & $ f(p_{1})+f(p_{2})\to W^+(\to \nu(p_{3})+e^+(p_{4}))+\gamma(p_{5})$   & NNLO \\
+292 & $ f(p_{1})+f(p_{2})\to W^+(\to \nu(p_{3})+e^+(p_{4})) +\gamma(p_{5})+f(p_{6}) $   & NLO \\
+293 & $ f(p_{1})+f(p_{2})\to W^+(\to \nu(p_{3})+e^+(p_{4})) +\gamma(p_{5})+f(p_{6})+f(p_{7}) $   & LO \\
+294 & $ f(p_{1})+\gamma(p_{2})\to W^+(\to \nu(p_{3})+e^+(p_{4})) +\gamma(p_{5})+f(p_{6}) $   & NLO \\
+2941& $ f(p_{1})+\gamma(p_{2})\to W^+(\to \nu(p_{3})+e^+(p_{4})) +\gamma(p_{5})+f(p_{6})+f(p_7) $   & NLO \\
+295 & $ f(p_{1})+f(p_{2})\to W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+\gamma(p_{5})$   & NNLO \\
+297 & $ f(p_{1})+f(p_{2})\to W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+\gamma(p_{5})+f(p_{6}) $   & NLO \\
+298 & $ f(p_{1})+f(p_{2})\to W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+\gamma(p_{5})+f(p_{6})+f(p_{7}) $   & LO \\
+299 & $ f(p_{1})+\gamma(p_{2})\to W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+\gamma(p_{5})+f(p_{6}) $   & NLO \\
+2991& $ f(p_{1})+\gamma(p_{2})\to W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+\gamma(p_{5})+f(p_{6})+f(p_7) $   & NLO \\
+\hline 
+300 & $  Z(\to e ^-(p_3)+e^+(p_4))+\gamma(p_5)$ & NNLO \\
+301 & $ Z(\to e ^-(p_3)+e^+(p_4))+\gamma(p_5)+\gamma(p_6) $& NLO +F \\
+302 &$  Z(\to e ^-(p_3)+e^+(p_4))+\gamma(p_5)+f(p_6) $& NLO \\
+303 &$   Z(\to e ^-(p_3)+e^+(p_4))+\gamma(p_5)+\gamma(p_6)+f(p_7) $& LO \\
+304 & $  Z(\to e ^-(p_3)+e^+(p_4))+\gamma(p_5)+f(p_6)+f(p_7) $ & LO \\
+305 & $  Z(\to 3(\nu(p_3)+\bar{\nu}(p_4)))+\gamma(p_5) $& NNLO \\
+306 & $  Z(\to 3(\nu(p_3)+\bar{\nu}(p_4)))+\gamma(p_5)+\gamma(p_6) $& NLO + F \\
+307 &$  Z(\to 3(\nu(p_3)+\bar{\nu}(p_4)))+\gamma(p_5)+f(p_6) $ & NLO \\
+308 &$   Z(\to 3(\nu(p_3)+\bar{\nu}(p_4)))+\gamma(p_5)+\gamma(p_6)+f(p_7) $  & LO \\
+309 &$  Z(\to 3(\nu(p_3)+\bar{\nu}(p_4)))+\gamma(p_5)+f(p_6)+f(p_7) $ & LO \\
+\hline 
+311 & $ f(p_{1})+b(p_{2}) \to  W^+(\to \nu(p_{3})+e^+(p_{4}))+b(p_{5})+f(p_{6})$   & LO \\
+316 & $ f(p_{1})+b(p_{2}) \to  W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+b(p_{5})+f(p_{6})$   & LO \\
+\hline 
+321 & $ f(p_{1})+c(p_{2}) \to  W^+(\to \nu(p_{3})+e^+(p_{4}))+c(p_{5})+f(p_{6})$   & LO \\
+326 & $ f(p_{1})+c(p_{2}) \to  W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+c(p_{5})+f(p_{6})$   & LO \\
+\hline 
+\end{tabular}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline 
+331 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+c(p_{5})+f(p_{6}) [\mbox{c-s interaction}]$   & LO \\
+336 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+c(p_{5})+f(p_{6}) [\mbox{c-s interaction}]$   & LO \\
+\hline 
+341 & $ f(p_{1})+b(p_{2}) \to  Z(\to e^-(p_{3})+e^+(p_{4}))+b(p_{5})+f(p_{6}) [+f(p_{7})]$   & NLO \\
+342 & $ f(p_{1})+b(p_{2}) \to  Z(\to e^-(p_{3})+e^+(p_{4}))+b(p_{5})+f(p_{6}) [+\bar{b}(p_{7})]$  & (REAL) \\
+346 & $ f(p_{1})+b(p_{2}) \to  Z(\to e^-(p_{3})+e^+(p_{4}))+b(p_{5})+f(p_{6})+f(p_{7})$   & LO \\
+347 & $ f(p_{1})+b(p_{2}) \to  Z(\to e^-(p_{3})+e^+(p_{4}))+b(p_{5})+f(p_{6})+\bar{b}(p_{7})$   & LO \\
+\hline
+351 & $ f(p_{1})+c(p_{2}) \to  Z(\to e^-(p_{3})+e^+(p_{4}))+c(p_{5})+f(p_{6}) [+f(p_{7})]$   & NLO \\
+352 & $ f(p_{1})+c(p_{2}) \to  Z(\to e^-(p_{3})+e^+(p_{4}))+c(p_{5})+f(p_{6}) [+\bar{c}(p_{7})]$  & (REAL) \\
+356 & $ f(p_{1})+c(p_{2}) \to  Z(\to e^-(p_{3})+e^+(p_{4}))+c(p_{5})+f(p_{6})+f(p_{7})$   & LO \\
+357 & $ f(p_{1})+c(p_{2}) \to  Z(\to e^-(p_{3})+e^+(p_{4}))+c(p_{5})+f(p_{6})+\bar{c}(p_{7})$   & LO \\
+\hline 
+361 & $ c(p_{1})+\bar{s}(p_{2}) \to  W^+(\to \nu(p_{3})+e^+(p_{4})) [\mbox{mc=0 in NLO}]$   & NLO \\
+362 & $ c(p_{1})+\bar{s}(p_{2}) \to  W^+(\to \nu(p_{3})+e^+(p_{4})) [\mbox{massless corrections only}]$   & NLO \\
+363 & $ c(p_{1})+\bar{s}(p_{2}) \to  W^+(\to \nu(p_{3})+e^+(p_{4})) [\mbox{massive charm in real}]$   & NLO \\
+\hline 
+370 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+\gamma(p_{5})+\gamma(p_{6})$   & LO \\
+371 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+\gamma(p_{5})+\gamma(p_{6})$   & LO \\
+\hline 
+401 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+b(p_{5}) ~[\mbox{1,2 or 3 jets, 4FNS}]$   & NLO \\
+402 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+(b+\bar{b})(p_{5}) ~[\mbox{1 or 2 jets, 4FNS}]$   & NLO \\
+403 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+b(p_{5})+\bar b(p_{6}) ~[\mbox{2 or 3 jets, 4FNS}]$   & NLO \\
+406 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+b(p_{5}) ~[\mbox{1,2 or 3 jets, 4FNS}]$   & NLO \\
+407 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+(b+\bar{b})(p_{5}) ~[\mbox{1 or 2 jets, 4FNS}]$   & NLO \\
+408 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+b(p_{5})+\bar b(p_{6}) ~[\mbox{2 or 3 jets, 4FNS}]$   & NLO \\
+\hline 
+411 & $  f(p_1)+b(p_2) \to  W^+(\to \nu(p_3)+e^+(p_{4}))+b(p_{5})+f(p_{6})$ ~[\mbox{5FNS}] & NLO \\
+416 & $  f(p_1)+b(p_2) \to  W^-(\to e^-(p_3)+\bar{\nu}(p_{4}))+b(p_{5})+f(p_{6})$ ~[\mbox{5FNS}] & NLO \\
+\hline 
+421 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+b(p_{5}) ~[\mbox{1,2 or 3 jets, 4FNS+5FNS}]$   & NLO \\
+426 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+b(p_{5}) ~[\mbox{1,2 or 3 jets, 4FNS+5FNS}]$   & NLO \\
+\hline 
+431 & $ W^+(\to \nu(p_3)+e^+(p_{4}))+b(p_{5})+\bar b(p_{6})+f(p_{7}) ~[\mbox{massive}]$ & LO \\
+436 & $ W^-(\to e^-(p_3)+\bar{\nu}(p_{4}))+b(p_{5})+\bar b(p_{6})+f(p_{7}) ~[\mbox{massive}]$ & LO \\
+\hline
+461 & $ W^+(\to \nu(p_{3})+\mu^+(p_{4})) +W^-(\to e^-(p_{5})+\bar{\nu}(p_{6}))+f(p_7)$   & NNLO \\
+\hline 
+471 & $ W^+(\to \nu(p_{3})+e^+(p_{4}))+Z(\to \mu^-(p_{5})+\mu^+(p_{6}))+f(p_7)$   & NNLO \\
+\hline 
+476 & $ W^-(\to e^-(p_{3})+\bar{\nu}(p_{4}))+Z(\to \mu^-(p_{5})+\mu^+(p_{6}))+f(p_7)$   & NNLO \\
+\hline 
+481 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to \mu^-(p_{5})+\mu^+(p_{6}))+f(p_7)$   & NNLO \\
+482 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to \nu_\mu(p_{5})+\bar{\nu}_\mu(p_{6}))+f(p_7)$   & NNLO \\
+\hline 
+486 & $ Z(\to \mu^-(p_{3})+\mu^+(p_{4}))+Z(\to e^-(p_{5})+e^+(p_{6}))+f(p_7)[\mbox{no gamma*}]$   & NNLO \\
+487 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + Z(\to \nu_\mu(p_{5})+\bar{\nu}_\mu(p_{6}))+f(p_7)[\mbox{no gamma*}]$   & NNLO \\
+\hline  
+500 & $ W^+(\to \nu(p_3)+e^+(p_4)) +t(p_5)+\bar{t}(p_6) \mbox{[massive]}$ & NLO \\
+501 & $ t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to b~(p_6)+e^-(p_7)+\bar{\nu}(p_8))+W^+(\nu(p_9),\mu^+(p_{10}))$ & NLO 
+\\
+502 & $ \mbox{(same as process 501 but with radiation in decay)}$ & NLO \\
+503 & $ t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to b~(p_6)+q(p_7)+q~(p_8))+W^+(\nu(p_9),\mu^+(p_{10}))$ & NLO \\
+506 & $ t(\to q(p_3)+q~(p_4)+b(p_5))+\bar{t}(\to b~(p_6)+e^-(p_7)+\bar{\nu}(p_8))+W^+(\nu(p_9),\mu^+(p_{10}))$ & NLO \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline 
+510 & $ W^-(\to e^-(p_3)+\bar{\nu}(p_4))+t(p_5)+\bar{t}(p_6) \mbox{[massive]} $ & NLO \\
+511 & $ t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to b~(p_6)+e^-(p_7)+\bar{\nu}(p_8))+W^-(\mu^-(p_9),\bar{\nu}(p_{10}))$ 
+&  NLO \\
+512 & $ \mbox{(same as process 511 but with radiation in decay)}$ & NLO \\
+513 & $ t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to b~(p_6)+q(p_7)+q~(p_8))+W^-(\mu^-(p_9),\bar{\nu}(p_{10}))$ & NLO \\
+516 & $ t(\to q(p_3)+q~(p_4)+b(p_5))+\bar{t}(\to b~(p_6)+e^-(p_7)+\bar{\nu}(p_8))+W^-(\mu^-(p_9),\bar{\nu}(p_{10}))$ & 
+NLO \\ 
+529 & $ Z(\to e^-(p_3)+e^+(p_4))+t(p5)+\bar{t}(p_6)  $ & LO \\
+530 & $ t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to e^-(p_7)+\bar{\nu}(p_8)+b~(p_6))+Z(e^-(p_9),e^+(p_{10}))$ & LO \\
+531 & $ t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to e^-(p_7)+\bar{\nu}(p_8)+b~(p_6))+Z(b(p_9),b~(p_{10}))$ & LO \\
+532 & $ t(\to \nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to q(p_7)+\bar{q}(p_8)+b~(p_6))+Z(e^-(p_9),e^+(p_{10}))$ & LO \\
+533 & $ t(\to q(p_3)+\bar{q}(p_4)+b(p_5))+\bar{t}(\to e^-(p_7)+\bar{\nu}(p_8)+b~(p_6))+Z(e^-(p_9),e^+(p_{10}))$ & LO \\
+\hline
+540 & $H(b(p_3)+\bar{b}(p_4))+t(p_5)+q(p_6)$      & NLO \\
+541 & $H(b(p_3)+\bar{b}(p_4))+\bar{t}(p_5)+q(p_6)$      & NLO \\
+544 & $H(b(p_3)+\bar{b}(p_4))+t(\nu(p_5)+e^+(p_6)+b(p_7))+q(p_9)$      & NLO \\
+547 & $H(b(p_3)+\bar{b}(p_4))+\bar{t}(e^-(p_5)+\bar{\nu}(p_6)+b(p_7))+q(p_9)$      & NLO \\
+\hline
+550 & $H(\gamma(p_3)+\gamma(p_4))+t(p_5)+q(p_6)$      & NLO \\
+551 & $H(\gamma(p_3)+\gamma(p_4))+\bar{t}(p_5)+q(p_6)$      & NLO \\
+554 & $H(\gamma(p_3)+\gamma(p_4))+t(\nu(p_5)+e^+(p_6)+b(p_7))+q(p_9)$      & NLO \\
+557 & $H(\gamma(p_3)+\gamma(p_4))+\bar{t}(e^-(p_5)+\bar{\nu}(p_6)+b(p_7))+q(p_9)$      & NLO \\
+\hline
+560 & $Z(e^-(p_3)+e^+(p_4))+t(p_5)+q(p_6)$      & NLO \\
+561 & $Z(e^-(p_3)+e^+(p_4))+\bar{t}(p_5)+q(p_6)$      & NLO \\
+562 & $Z(e^-(p_3)+e^+(p_4))+t(p_5)+q(p_6)+f(p_7)$       & LO \\
+563 & $Z(e^-(p_3)+e^+(p_4))+\bar{t}(p_5)+q(p_6)+f(p_7)$      & LO \\
+564 & $Z(e^-(p_3)+e^+(p_4))+t(\to\nu(p_5)+e^+(p_6)+b(p_7))+q(p_8)$      & NLO \\
+566 & $Z(e^-(p_3)+e^+(p_4))+t(\to\nu(p_5)+e^+(p_6)+b(p_7))+q(p_8)+f(p_9)$ & LO \\
+567 & $Z(e^-(p_3)+e^+(p_4))+\bar{t}(\to e^-(p_5)+\bar{\nu}(p_6)+\bar{b}(p_7))+q(p_8)$      & NLO \\
+569 & $Z(e^-(p_3)+e^+(p_4))+\bar{t}(\to e^-(p_5)+\bar{\nu}(p_6)+\bar{b}(p_7))+q(p_8)+f(p_9)$  & LO \\
+\hline
+601 & $H(b(p_3)+\bar{b}(p_4))+H(\tau^-(p_5)+\tau^+(p_6)) $ &  LO \\
+602 & $H(b(p_3)+\bar{b}(p_4))+H(\gamma(p_5)+\gamma(p_6)) $ &  LO \\
+\hline
+
+
+
+\hline 
+609& $ (W^+ + W^-) + H(\to \tau(p_5)+\bar\tau(p_6))+g(p_7) $& NLO \\
+610 & $ W^+(\to nu(p_3)+e^+(p_4)) + H(\to \tau(p_5)+\bar\tau(p_6))+g(p_7) $& NLO \\
+611 & $  W^+(\to nu(p_3)+e^+(p_4)) + H(\to b(p_5)+\bar b(p_6))+g(p_7) $& NLO \\
+612 & $  W^+(\to nu(p_3)+e^+(p_4)) + H(\to \gamma(p_5)+\gamma(p_6)+g(p_7)$ & NLO \\
+613 & $  W^+(\to nu(p_3)+e^+(p_4)) + H(\to W^+(\nu(p_5),e^+(p_6)) W^-(e^-(p_7),\bar\nu(p_8)))+g(p_9)$ & NLO \\
+615 & $ W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to \tau(p_5)+\bar\tau(p_6))+g(p_7) $& NLO \\
+616 & $  W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to b(p_5)+\bar b(p_6))+g(p_7) $& NLO \\
+617 & $  W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to \gamma(p_5)+\gamma(p_6))+g(p_7)$ & NLO \\
+618 & $ W^-(\to e^-(p_3)+\bar\nu(p_4)) + H(\to W^+(\nu(p_5),e^+(p_6))W^-(e^-(p_7),\bar\nu(p_8)))+g(p_9) $ & NLO \\
+\hline
+620 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + H(\to tau^-(p_{5})+\tau^+(p_{6}))+g(p_7)$   & NLO \\
+621 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + H(\to b(p_{5})+\bar{b}(p_{6}))+g(p_7)$        & NLO \\
+622 & $ Z(\to e^-(p_3)+e^+(p_{4})) + H(\to \gamma(p_{5})+\gamma(p_{6}))+g(p_7)$ & NLO \\
+623 & $ Z(\to e^-(p_{3})+e^+(p_{4})) + H(\to W^+(\nu(p_{5}),e^+(p_{6}))W^-(e^-(p_{7}),\bar{\nu}(p_{8})))+g(p_9)$   & NLO \\
+\hline
+\end{tabular}
+%\caption{Processes indicated by choice of the variable {\tt nproc}.}
+\end{center}
+\end{table}
+\newpage
+\begin{table}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+640 & $t(p_3)+\bar{t}(p_4)+H(p_5)$ & LO \\
+641 & $t(\to\nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to\bar{\nu}(p_7)+e^-(p_8)+\bar{b}(p_6))+H(b(p_9)+\bar{b}(p_{10}))$ & LO 
+\\
+644 & $t(\to\nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to\bar{q}(p_7)+q(p_8)+\bar{b}(p_6))+H(b(p_9)+\bar{b}(p_{10}))$ & LO \\
+647 & $t(\to q(p_3)+\bar{q}(p_4)+b(p_5))+\bar{t}(\to\bar{\nu}(p_7)+e^-(p_8)+\bar{b}(p_6))+H(b(p_9)+\bar{b}(p_{10}))$ & 
+LO \\
+651 & $t(\to\nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to\bar{\nu}(p_7)+e^-(p_8)+\bar{b}(p_6))+H(\gamma(p_9)+\gamma(p_{10}))$ & 
+LO \\
+654 & $t(\to\nu(p_3)+e^+(p_4)+b(p_5))+\bar{t}(\to\bar{q}(p_7)+q(p_8)+\bar{b}(p_6))+H(\gamma(p_9)+\gamma(p_{10}))$ & LO 
+\\
+657 & $t(\to 
+q(p_3)+\bar{q}(p_4)+b(p_5))+\bar{t}(\to\bar{\nu}(p_7)+e^-(p_8)+\bar{b}(p_6))+H(\gamma(p_9)+\gamma(p_{10}))$ & LO \\
+661 & $t(\to\nu(p_3) e^+(p_4) b(p_5)) 
++\bar{t}(\to\bar{\nu}(p_7)e^-(p_8)\bar{b}(p_6))+H(W^+(p_{9},p_{10})W^-(p_{11},p_{12}))$ & LO \\
+664 & $t(\to\nu(p_3) e^+(p_4) b(p_5)) 
++\bar{t}(\to\bar{q}(p_7)q(p_8)\bar{b}(p_6))+H(W^+(p_{9},p_{10})W^-(p_{11},p_{12}))$ & LO \\
+667 & $t(\to q(p_3) \bar{q}(p_4) b(p_5)) 
++\bar{t}\to(\bar{\nu}(p_7)e^-(p_8)\bar{b}(p_6))+H(W^+(p_{9},p_{10})W^-(p_{11},p_{12}))$ & LO \\
+\hline 
+800 & $ V\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5) $ [Vector Mediator] & NLO \\
+801 & $ A\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)$ [Axial Vector Mediator] & NLO \\
+802 & $ S\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)$ [Scalar Mediator] & NLO \\
+803 &  $ PS\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)$ [Pseudo Scalar Mediator] & NLO \\
+804 &  $ GG\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)$ [Gluonic DM operator]  & NLO \\
+805 & $ S--({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)$ [Scalar Mediator, mt loops] & NLO \\
+\hline
+820 & $V\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5)$ [Vector Mediator] & NLO + F \\
+821 & $A\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5) $[Axial Vector Mediator] & NLO + F \\
+822 & $ S\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5) $[Scalar Mediator] & NLO + F \\
+823 &$ PS\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5) $[Pseudo Scalar Mediator] & NLO + F \\
+\hline
+840 &$ V\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)+f(p_6)$ [Vector Mediator] & LO\\
+841 &$A\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)+f(p_6)$ [Axial Vector Mediator]  & LO\\
+842 &$ S\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)+f(p_6)$ [Scalar Mediator]  & LO\\
+843 &$ PS\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)+f(p_6)$ [Pseudo Scalar Mediator]  & LO\\
+844 &$ GG\to({\chi}(p_3)+\bar{\chi}(p_4)) +f(p_5)+f(p_6)$ [Gluonic DM operator]  & LO\\
+\hline
+845 & $V\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5)+f(p_6)$ [Vector Mediator]  & LO\\
+846 & $A\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5)+f(p_6)$ [Axial Vector Mediator]  & LO\\
+847 & $S\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5)+f(p_6)$ [Scalar Mediator]  & LO\\
+848 & $PS\to({\chi}(p_3)+\bar{\chi}(p_4)) +\gamma(p_5)+f(p_6)$ [Pseudo Scalar Mediator]  & LO\\
+\hline
+902 & Check of Volume of 2 particle phase space & \\  
+903 & Check of Volume of 3 particle phase space & \\  
+904 & Check of Volume of 4 particle phase space & \\  
+905 & Check of Volume of 5 particle phase space & \\  
+906 & Check of Volume of 6 particle phase space & \\  
+908 & Check of Volume of 8 particle phase space & \\  
+909 & Check of Volume of 4 particle massive phase space & \\  
+910 & Check of Volume of 3 particle (2 massive) phase space & \\  
+911 & Check of Volume of 5 particle W+t (with decay) massive phase space & \\  
+912 & Check of Volume of 5 particle W+t (no decay) massive phase space & \\  
+913 & Check of Volume of 5 particle W+t+g (in decay) massive phase space & \\  
+914 & Check of Volume of 5 particle W+t+g (in production) massive phase space & \\  
+\hline
+\end{tabular}
+\caption{Processes indicated by choice of the variable {\tt nproc}.\label{nproctable}}
+\end{center}
+\end{table}

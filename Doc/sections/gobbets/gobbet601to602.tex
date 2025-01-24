@@ -1,0 +1,12 @@
+\midheading{$HH$ production, processes 601--602}
+These processes represent the production of a pair of Higgs bosons.
+The production proceeds through gluon-fusion one-loop diagrams involving loops
+of top quarks. The formulae implemented in the code are taken from ref.~\cite{Glover:1987nx},
+where the two Higgs bosons are treated as being on-shell. To enforce this
+condition, the code sets zerowidth to true, overriding the value set in the input file.
+The calculation can be performed at LO only, (i.e.\ one-loop order only).
+Two decays of the Higgs bosons are currently foreseen, although other decays can easily be implemented.
+In process {\tt 601}, one Higgs boson decays to
+a pair of $b$-quarks, and the other decays to a pair of $\tau$'s.
+In process {\tt 602}, one Higgs boson decays to
+a pair of $b$-quarks, and the other decays to a pair of photons.

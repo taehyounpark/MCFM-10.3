@@ -1,0 +1,30 @@
+\topheading{New features in version 10.3}
+\label{sec:10x3}
+\begin{itemize}
+\item 
+Calculation of Z production at N$^3$LO fixed-order through $q_T$ subtractions and resummation at 
+the level of N$^4$LL. These calculations include the Z+jet process at NNLO using jettiness 
+subtractions. Based on Ref.\cite{Neumann:2022lft}. Detailed documentation can be found in 
+Section~\ref{n3losec}.
+
+\item
+Jet veto resummation added for color singlet final states, achieving
+partial {\mbox{N$^3$LL}} accuracy, as described in Ref.~\cite{CENS}.
+Vetoing energetic jet activity is a crucial tool for suppressing
+backgrounds and enabling new physics searches at the LHC, but the
+introduction of a veto scale can introduce large logarithms that may
+need to be resummed.  We present an implementation of jet-veto
+resummation for color-singlet processes at the level of N$^3$LL$_p$
+matched to fixed-order NNLO predictions.  Resummation is
+implemented for vetos of jet activity in productions of a single
+boson, such as $Z/\gamma^*$, $W^\pm$ or $H$, or of a pair of vector
+bosons, such as $W^+W^-$, $W^\pm Z$ or $ZZ$.  The implementation
+relies on recent calculations of the soft and beam functions in the
+presence of a jet veto over all rapidities, with jets defined using a
+sequential recombination algorithm with jet radius $R$.  However one
+of the ingredients that is required to reach full {N$^3$LL} accuracy is
+only known approximately, hence N$^{3}$LL$_p$.
+
+Benchmark results, taken from Ref.~\cite{CENS}, are
+detailed in Section~\ref{jetvetosec}.
+\end{itemize}

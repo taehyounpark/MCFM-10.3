@@ -1,0 +1,33 @@
+\midheading{$H \to W^+W^-$ production, ($m_t=$~finite), processes 123-127}
+These processes represent the production of a Higgs boson that decays to $W^+ W^-$,
+with subsequent decay into leptons. For process {\tt 123}, the exact form of the triangle
+loop coupling a Higgs boson to two gluons is included, with both top and bottom quarks
+circulating in the loop. This is to be contrasted with process {\tt 113} in which only the
+top quark contribution is included in the effective coupling approach.
+
+Process {\tt 124} includes only the effect of the interference of the
+Higgs and $gg \to W^+W^-$ amplitudes, as described in ref.~\cite{Campbell:2011cu}.
+The calculation is available at LO only. LO corresponds to $O(\alpha_s^2)$ in this case.
+The calculation of loops containing the third quark generation
+includes the effect of the top quark mass (but $m_b=0$), while the first two
+generations are considered massless. For numerical stability, a small cut on the
+transverse momentum of the $W$ bosons is applied: $p_T(W)>0.05$~GeV for loops
+containing massless (first or second generation) quarks, $p_T(W)>2$~GeV for $(t,b)$
+loops. This typically removes less than $0.1$\% of the cross section. The
+values of these cutoffs can be changed by editing \verb|src/HWW/gg_WW_int.f| and recompiling.
+
+Process {\tt 125} includes all $gg$-initiated diagrams that have a Higgs boson in the $s$-channel,
+namely the square of the $s$-channel Higgs boson production and the interference with the diagrams
+that do not contain a Higgs boson, (i.e. $gg \to W^+W^- \to \nu_e e^+ e^- \bar{\nu_e}$),
+i.e.~$|M_H|^2+2 |M_H^* M_{WW}|$.
+
+The result for the square of the box diagrams alone, i.e. the process
+$gg \to W^+W^- \to \nu_e e^+ e^- \bar{\nu_e}$, may be obtained by running process
+{\tt nproc=61} with {\tt part=virt} and {\tt ggonly=.true.}
+
+Process {\tt 126} calculates the full result for this process from  $gg$-initiated diagrams.
+This includes diagrams that have a Higgs boson in the $s$-channel, the continuum $W^+W^-$
+diagrams described above and their interference, i.e.~$|M_{H}+M_{WW}|^2$.
+
+Process {\tt 127} calculates the full result for this process for  $gg$-initiated box
+diagrams alone, $gg \to W^+W^-$, i.e.~$|M_{WW}|^2$.

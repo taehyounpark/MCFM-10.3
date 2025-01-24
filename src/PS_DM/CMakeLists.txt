@@ -1,0 +1,12 @@
+target_sources(objlib PRIVATE
+dmmonojn_pscal.f
+qqb_dm_gg_PSamps.f
+qqb_dm_monojet_lc_PSamps.f
+qqb_dm_monojet_PSamps.f
+qqb_dm_monojet_slc_PSamps.f
+qqb_dm_monojet_v_PSamps.f
+qqb_dm_monophot_g_PSamps.f
+qqb_dm_monophot_v_PSamps.f
+)
+
+

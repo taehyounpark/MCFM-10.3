@@ -1,0 +1,5 @@
+pdflatex  manual.tex
+pdflatex  manual.tex
+biber manual
+pdflatex  manual.tex
+open -a preview manual.pdf

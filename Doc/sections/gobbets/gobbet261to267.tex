@@ -1,0 +1,34 @@
+\midheading{$Z+Q$ production, processes 261--267}
+\label{subsec:ZQ}
+
+These processes represent the production of a $Z$
+boson that decays into a pair of electrons,
+in association with a heavy quark, $Q$.
+For more details on this calculation, please see Ref.~\cite{Campbell:2003dd}.
+
+For processes {\tt 261}, {\tt 262}, {\tt 266} and {\tt 267} the initial
+state at lowest order is the heavy quark and a gluon and
+the calculation may be performed at NLO.
+As for $H+b$ production, the matrix elements are divided into two
+sub-processes at NLO. Thus the user must sum over these after performing
+more runs than usual. At lowest order one can proceed as normal, using
+{\tt nproc=261} (for $Z+b$) or {\tt nproc=262} (for $Z+c$).
+For a NLO calculation, the sequence of runs is as follows:
+\begin{itemize}
+\item Run {\tt nproc=261} (or {\tt 262}) with {\tt part=virt} and
+{\tt part=real} (or, both at the same time using {\tt part=tota});
+\item Run {\tt nproc=266} (or {\tt 267}) with {\tt part=real}.
+\end{itemize}
+The sum of these yields the cross-section with one identified heavy quark in
+the final state when {\tt inclusive} is set to {\tt .false.} . To calculate the
+rate for at least one heavy quark, {\tt inclusive} should be {\tt .true.}.
+
+For processes {\tt 263} and
+{\tt 264}, the calculation uses the matrix elements for the production
+of a $Z$ and a heavy quark pair and demands that one of the heavy quarks
+is not observed. It may either lie outside the range of $p_T$ and $\eta$
+required for a jet, or both quarks may be contained in the same jet.
+Due to the extra complexity (the calculation must retain the full
+dependence on the heavy quark mass), this can only be computed at LO.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.

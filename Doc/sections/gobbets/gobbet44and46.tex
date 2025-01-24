@@ -1,0 +1,33 @@
+\midheading{$Z+2$~jets production, processes 44, 46}
+\label{subsec:z2jets}
+
+These processes represents the production of a $Z$ boson and $2$ jets,
+including also the effect of a virtual photon ({\tt nproc=44} only). The $Z/\gamma^*$ decays
+to an $e^+ e^-$ pair ({\tt nproc=44}) or into three species of neutrino ({\tt nproc=46}).
+Virtual amplitudes are taken from ref.~\cite{Bern:1997sc}.
+For more details on this calculation, please see
+Refs.~\cite{Campbell:2002tg,Campbell:2003hd}.
+
+The calculation may be performed up to NLO.
+For $Z+2$~jet production
+the next-to-leading order matrix elements are
+particularly complex and so they have been divided into two groups.
+The division is according to the lowest order diagrams from which they
+originate:
+\begin{enumerate}
+\item Diagrams involving two external quark lines and two external gluons,
+the ``{\tt Gflag}'' contribution. The real diagrams in this case thus
+involve three external gluons.
+
+\item Diagrams where all four external lines are quarks,
+the ``{\tt Qflag}'' contribution. The real diagrams in this case
+involve only one gluon.
+\end{enumerate}
+
+By specifying {\tt Gflag} and {\tt Qflag} in the file {\tt input.ini} one may
+select one of these options at a time. The full result may be obtained
+by straightforward addition of the two individual pieces, with no
+meaning attached to either piece separately.
+The default is that both of these are set to {\tt .true.} simultaneously.
+
+When {\tt removebr} is true, the $Z$ boson does not decay.

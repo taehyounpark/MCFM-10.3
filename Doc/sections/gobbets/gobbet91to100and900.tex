@@ -1,0 +1,29 @@
+\midheading{$WH$ production, processes 91-100, 900}
+\label{subsec:wh}
+
+This process can be calculated at LO, NLO, and NNLO.
+These processes represent the production of a $W$ boson which subsequently
+decays leptonically, in association with a Standard Model Higgs boson that
+decays into a tau pair ({\tt nproc=91, 96}),
+decays into a $b$-quark pair ({\tt nproc=92, 97}),
+a pair of photons ({\tt nproc=93, 98}),
+or a pair of $W$-bosons ({\tt nproc=94, 99}),
+a pair of $Z$ bosons ({\tt nproc=95, 100}).
+Note that in the cases of Higgs decay to $W$,($Z$) pairs,
+below the $W$,($Z$) pair threshold
+one of the $W$,($Z$) bosons is virtual
+and therefore one must set {\tt zerowidth=.false.}.
+The calculation may be performed at NNLO for these processes.
+
+Radiation from the bottom quarks in the decay, an NLO effect, is included in  ({\tt nproc=920, 970}).
+\texttt{nproc=900} may be used to compute the sum over both W charges in
+one run (with the decay products 3 and 4 representing lepton and antilepton
+respectively). This sum is performed by adjustng the CKM matrix to allow both charges of the $W$ boson.
+
+When {\tt removebr} is {\tt .true.}, neither the $W$ boson nor the Higgs decays.
+
+For more information on this
+process see refs.~\cite{Campbell:2016jau,Boughezal:2016wmq,Campbell:2022gdq}.
+NLO calculations can be performed by subtraction, zero-jettiness
+slicing and $q_T$-slicing.  NNLO calculations can be performed by
+zero-jettiness slicing and $q_T$-slicing.  

@@ -1,0 +1,57 @@
+\midheading{Off-shell single top production in SM and SMEFT, processes 164,169}
+\label{subsec:offstop}
+
+The processes 164 and 169 represent off-shell single-top-quark and anti-top-quark production, respectively.
+The calculations are performed in the complex-mass scheme.
+Both the SM and contributions from the SMEFT can be calculated.
+For more details on this calculation, please refer to ref.~\cite{Neumann:2019kvk}.
+
+Dynamical double deep inelastic scattering scales can be
+consistently used at NLO by setting \texttt{dynamicscale} to `DDIS'
+and \texttt{scale}$=$\texttt{facscale} to 1d0. In this way the
+momentum transfer along the $W$-boson $Q^2$ is used as the scale for
+the light-quark-line corrections $\mu^2=Q^2$, and $\mu^2=Q^2+m_t^2$ for
+the heavy-quark-line corrections. These scales are also consistently
+used for the non-resonant contributions, with QCD corrections on the
+$ud$-quark line, and separate QCD corrections on the bottom-quark
+line.
+
+The new block `Single top SMEFT, nproc=164,169' in the input
+file governs the inclusion of SMEFT operators and corresponding
+orders.  The scale of new physics $\Lambda$ can be separately set, and
+has a default value of $1000$~GeV.  The flag \texttt{enable
+	1/lambda4} enables the $1/\Lambda^4$ contributions, where operators
+$\Qtwo, \Qfour, \Qseven$ and $\Qnine$ can contribute for the first
+time.  For the non-Hermitian operators we allow complex Wilson
+coefficients.  We also have a flag to disable the pure SM
+contribution, leaving only contributions from SMEFT operators
+either interfered with the SM amplitudes or as squared
+contributions at $1/\Lambda^4$.  This can be used to directly and
+quickly extract kinematical distributions and the magnitudes of
+pure SMEFT contributions.
+
+To allow for easier comparisons with previous anomalous couplings
+results, and possibly estimate further higher order effects, we allow
+for an anomalous couplings mode at LO by enabling the corresponding
+flag.  The relations between our operators and the anomalous couplings
+are
+
+\begin{align*}
+	 \delta V_L &= \Cone \frac{m_t^2}{\Lambda^2} ,\,\text{where } V_L = 1 + \delta V_L\,,\\
+	 V_R &= \Ctwo{}^* \frac{m_t^2}{\Lambda^2}\,, \\
+	 g_L &= -4\frac{m_W m_t}{\Lambda^2} \cdot \Cfour\,, \\
+	 g_R &= -4 \frac{m_W m_t}{\Lambda^2} \cdot \Cthree{}^*\,,
+\end{align*}
+
+where $m_W$ is the $W$-boson mass, and $m_W = \frac{1}{2} g_W v$ has
+been used to derive this equivalence.  Note that the minus sign for
+$g_L$ and $g_R$ is different from the literature. See also the publication~~\cite{Neumann:2019kvk} for more information.
+
+For comparisons with on-shell results one needs to add up the contributions
+from processes 161 at NLO and from the virt and real contributions from 162, see above.
+
+The analysis/plotting routine is contained in the file
+`\texttt{src/User/nplotter\_ktopanom.f}', where all observables
+presented in this study are implemented, and the $W$-boson/neutrino
+reconstruction is implemented and can be switched on or off.
+
