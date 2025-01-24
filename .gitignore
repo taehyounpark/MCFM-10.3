@@ -26,6 +26,9 @@ libs/
 *._*
 */*._*
 **/*._*
+**/fort.11
+**/fort.21
+*.swp
 
 # Specific files in QCDLoop to exclude.
 qcdloop-*/build/
@@ -80,6 +83,7 @@ Bin/local/
 Bin/lhapdf-prefix/
 Bin/lib/*
 Bin/lib/*/
+Bin/PDFs/
 Bin/output.rcl
 Bin/output_cll/
 Bin/params.lh
