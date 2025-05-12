@@ -35,8 +35,9 @@ c-------------------------------
       
       subroutine getggHZZamps(p,Mloop_bquark,Mloop_tquark,
      &     Mloop_c6_propagator,Mloop_c6_decay,
-     &     Mloop_c6_production,Mloop_c6_width)
-c--- Returns a series of arrays representing the dressed amp[itudes
+     &     Mloop_c6_production,Mloop_c6_width,
+     &     Mloop_SMEFT)
+c--- Returns a series of arrays representing the dressed amplitudes
 c--- for the process gg->Higgs->ZZ; there are:
 c---        Mloop_bquark(h1,h2,h34,h56)   top quark mass=mt
 c---        Mloop_tquark(h1,h2,h34,h56)   bottom quark mass=mb
@@ -62,7 +63,7 @@ c---
       include 'scale.f'
       include 'anom_higgs.f'
       include 'scalarselect.f'
-      include 'higgs_trilinear.f'
+      include 'bsm_higgs.f'
       integer:: h1,h34,h56
       real(dp):: p(mxpart,4),mb2,mt2,
      &     qhsq, q1sq, q2sq, MH2, MZ2, dB0h, dZh, Z, 
@@ -79,7 +80,9 @@ c---
      & ggHmt_c6(2,2),
      & Mloop_c6_width(2,2,2,2),
      & width_c6, hwidth_c6,
-     & sigmahx 
+     & sigmahx,
+     & ggHin(2,2), Mloop_SMEFT(2,2,2,2)
+
       real(dp):: rescale 
 
 !==== for width studies rescale by appropriate factor 
@@ -95,6 +98,7 @@ c---
       Mloop_c6_decay(:,:,:,:)=czip
       Mloop_c6_production(:,:,:,:)=czip
       Mloop_c6_width(:,:,:,:)=czip
+      Mloop_SMEFT(:,:,:,:)=czip
      
       call spinoru(6,p,za,zb)
 
@@ -124,6 +128,12 @@ c------ bottom quark in the loop
       ggHmb(1,1)=ggHmb(2,2)*za(1,2)/zb(1,2)
       ggHmb(2,2)=ggHmb(2,2)*zb(1,2)/za(1,2)
 
+c------ infinitely heavy top quark loop 
+      ggHin(2,2)= s(1,2)/3._dp
+     & /(two*wmass*sinthw)
+      ggHin(1,1)=ggHin(2,2)*za(1,2)/zb(1,2)
+      ggHin(2,2)=ggHin(2,2)*zb(1,2)/za(1,2)
+
 c--- Amplitudes for decay
       H4l(1,1)=za(3,5)*zb(4,6)*l1*l2
      &        *wmass/(sinthw*(1._dp-xw))*prop34*prop56
@@ -135,8 +145,13 @@ c--- Amplitudes for decay
      &        *wmass/(sinthw*(1._dp-xw))*prop34*prop56
 
 c--- c6 correction to propagator      
+
+c      write(*,*) dreal(sigmah(300d0**2,10d0,1d0))
+
       prop12_c6=-higgsprop(s(1,2))*(sigmah(s(1,2),c6,w1) +
      &                              sigmahx(s(1,2),cx,mx))
+
+c---  UH 17/03/25: Checked that this agrees with the MCFM7 and MCFM8 versions
 c-------------------------------
 
 c--- c6 correction to HZZ vertex
@@ -147,30 +162,41 @@ c--- c6 correction to HZZ vertex
       MH2  = hmass**2
       MZ2  = zmass**2
 
-      dB0h = (-9 + 2*Sqrt(3.)*Pi)/(9.*MH2)
+c      c6=10d0
+c      qhsq = 38413.334809257140
+c      q1sq = 9026.4031043530958
+c      q2sq = 8333.8906151364608
+
+      dB0h = (-9d0 + 2d0*Sqrt(3d0)*Pi)/(9d0*MH2)
       dZh  = -w2*dB0h 
 
 c--- SM part of HZZ vertex
 
-      HZZ_c6_gmunu = (9*(2.d0 + c6)*dZh*MH2)/2.d0
+      HZZ_c6_gmunu = (9d0*(2d0 + c6)*dZh*MH2)/2d0
+
+c      write(*,*) dreal(HZZ_c6_gmunu)
+c---  UH 17/03/25: Checked that this agrees with the MCFM7 and MCFM8 versions
 
       HZZ_c6_gmunu = HZZ_c6_gmunu +
-     &  3 + ((3*(MH2 - MZ2 + q1sq)*(q1sq - q2sq) + 3*(MH2 - MZ2 - q1sq)*qhsq)*
+     &  3d0 + ((3d0*(MH2 - MZ2 + q1sq)*(q1sq - q2sq) + 3d0*(MH2 - MZ2 - q1sq)*qhsq)*
      &     loopI2(q1sq,MH2,MZ2,1D0,0))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq)) + 
-     &  ((-3*(q1sq - q2sq)*(MH2 - MZ2 + q2sq) - 3*(-MH2 + MZ2 + q2sq)*qhsq)*
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq)) + 
+     &  ((-3d0*(q1sq - q2sq)*(MH2 - MZ2 + q2sq) - 3d0*(-MH2 + MZ2 + q2sq)*qhsq)*
      &     loopI2(q2sq,MH2,MZ2,1D0,0))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq)) + 
-     &  ((-3*(q1sq - q2sq)**2 + 3*(-2*MH2 + 2*MZ2 + q1sq + q2sq)*qhsq)*
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq)) + 
+     &  ((-3d0*(q1sq - q2sq)**2d0 + 3d0*(-2d0*MH2 + 2d0*MZ2 + q1sq + q2sq)*qhsq)*
      &     loopI2(qhsq,MH2,MH2,1D0,0))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq)) + 
-     &  ((6*(MH2 - 2*MZ2)*(q1sq - q2sq)**2 + 
-     &       6*(MH2**2 + MZ2**2 + q1sq*q2sq + 3*MZ2*(q1sq + q2sq) - 
-     &          MH2*(2*MZ2 + q1sq + q2sq))*qhsq - 6*MZ2*qhsq**2)*
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq)) + 
+     &  ((6d0*(MH2 - 2d0*MZ2)*(q1sq - q2sq)**2d0 + 
+     &       6d0*(MH2**2d0 + MZ2**2d0 + q1sq*q2sq + 3d0*MZ2*(q1sq + q2sq) - 
+     &          MH2*(2d0*MZ2 + q1sq + q2sq))*qhsq - 6d0*MZ2*qhsq**2d0)*
      &     loopI3(qhsq,q1sq,q2sq,MH2,MH2,MZ2,1D0,0))/
-     &     (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq))
+     &     (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq))
 
-      HZZ_c6_gmunu = (c6*MH2)/(32.d0*Pi**2*vevsq)*HZZ_c6_gmunu
+      HZZ_c6_gmunu = (c6*MH2)/(32d0*Pi**2d0*vevsq)*HZZ_c6_gmunu
+
+c      write(*,*) dreal(HZZ_c6_gmunu)
+c---  UH 18/03/25: Checked that this agrees with the MCFM7 and MCFM8 versions
 
 c---  BSM amplitudes for decay proportional to metric
       
@@ -181,38 +207,41 @@ c---  BSM amplitudes for decay proportional to metric
 
 c--- Non-SM part of HZZ vertex         
 
-      HZZ_c6_qmuqnu = (6*(q1sq + q2sq - qhsq))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq)) - 
-     &  (12*MH2*(1 - Log(MH2)))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq)) + 
-     &  (12*MZ2*(1 - Log(MZ2)))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq)) + 
-     &  (6*((q1sq - q2sq)*(q1sq*(5*MH2 - 5*MZ2 + q1sq) + 
-     &          (MH2 - MZ2 + 5*q1sq)*q2sq) - 
-     &       2*(q1sq*(2*MH2 - 2*MZ2 + q1sq) + (-MH2 + MZ2 - 2*q1sq)*q2sq)*
-     &        qhsq + (-MH2 + MZ2 + q1sq)*qhsq**2)*loopI2(q1sq,MH2,MZ2,1D0,0))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq))**2 + 
-     &  ((-6*(q1sq - q2sq)*((MH2 - MZ2)*q1sq + 5*(MH2 - MZ2 + q1sq)*q2sq + 
-     &          q2sq**2) + 12*(-(MZ2*q1sq) + MH2*(q1sq - 2*q2sq) + 
-     &          2*(MZ2 + q1sq)*q2sq - q2sq**2)*qhsq + 
-     &       6*(-MH2 + MZ2 + q2sq)*qhsq**2)*loopI2(q2sq,MH2,MZ2,1D0,0))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq))**2 + 
-     &  ((-6*(q1sq - q2sq)**2*(2*MH2 - 2*MZ2 + q1sq + q2sq) + 
-     &       12*(q1sq**2 - 4*q1sq*q2sq + q2sq**2 - MH2*(q1sq + q2sq) + 
+      HZZ_c6_qmuqnu = (6d0*(q1sq + q2sq - qhsq))/
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq)) - 
+     &  (12d0*MH2*(1d0 - Log(MH2)))/
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq)) + 
+     &  (12d0*MZ2*(1d0 - Log(MZ2)))/
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq)) + 
+     &  (6d0*((q1sq - q2sq)*(q1sq*(5d0*MH2 - 5d0*MZ2 + q1sq) + 
+     &          (MH2 - MZ2 + 5d0*q1sq)*q2sq) - 
+     &       2d0*(q1sq*(2d0*MH2 - 2d0*MZ2 + q1sq) + (-MH2 + MZ2 - 2d0*q1sq)*q2sq)*
+     &        qhsq + (-MH2 + MZ2 + q1sq)*qhsq**2d0)*loopI2(q1sq,MH2,MZ2,1D0,0))/
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq))**2d0 + 
+     &  ((-6d0*(q1sq - q2sq)*((MH2 - MZ2)*q1sq + 5d0*(MH2 - MZ2 + q1sq)*q2sq + 
+     &          q2sq**2d0) + 12d0*(-(MZ2*q1sq) + MH2*(q1sq - 2*q2sq) + 
+     &          2d0*(MZ2 + q1sq)*q2sq - q2sq**2d0)*qhsq + 
+     &       6d0*(-MH2 + MZ2 + q2sq)*qhsq**2d0)*loopI2(q2sq,MH2,MZ2,1D0,0))/
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq))**2d0 + 
+     &  ((-6d0*(q1sq - q2sq)**2d0*(2d0*MH2 - 2d0*MZ2 + q1sq + q2sq) + 
+     &       12d0*(q1sq**2d0 - 4d0*q1sq*q2sq + q2sq**2d0 - MH2*(q1sq + q2sq) + 
      &          MZ2*(q1sq + q2sq))*qhsq - 
-     &       6*(-4*MH2 + 4*MZ2 + q1sq + q2sq)*qhsq**2)*loopI2(qhsq,MH2,MH2,1D0,0))
-     &    /(q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq))**2 + 
-     &  (12*((q1sq - q2sq)**2*(MH2**2 + (MZ2 - q1sq)*(MZ2 - q2sq) + 
-     &          2*MH2*(-MZ2 + q1sq + q2sq)) + 
-     &       (q1sq*(MH2**2 + MZ2*(MZ2 + q1sq) - 2*MH2*(MZ2 + 2*q1sq)) + 
-     &          ((MH2 - MZ2)**2 + 4*MH2*q1sq - 6*MZ2*q1sq + q1sq**2)*q2sq + 
-     &          (-4*MH2 + MZ2 + q1sq)*q2sq**2)*qhsq + 
-     &       (-2*MH2**2 - 2*MZ2**2 - 2*q1sq*q2sq + MZ2*(q1sq + q2sq) + 
-     &          2*MH2*(2*MZ2 + q1sq + q2sq))*qhsq**2 - MZ2*qhsq**3)*
+     &       6d0*(-4d0*MH2 + 4d0*MZ2 + q1sq + q2sq)*qhsq**2d0)*loopI2(qhsq,MH2,MH2,1D0,0))
+     &    /(q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq))**2d0 + 
+     &  (12d0*((q1sq - q2sq)**2d0*(MH2**2d0 + (MZ2 - q1sq)*(MZ2 - q2sq) + 
+     &          2d0*MH2*(-MZ2 + q1sq + q2sq)) + 
+     &       (q1sq*(MH2**2d0 + MZ2*(MZ2 + q1sq) - 2d0*MH2*(MZ2 + 2d0*q1sq)) + 
+     &          ((MH2 - MZ2)**2d0 + 4d0*MH2*q1sq - 6d0*MZ2*q1sq + q1sq**2d0)*q2sq + 
+     &          (-4d0*MH2 + MZ2 + q1sq)*q2sq**2d0)*qhsq + 
+     &       (-2d0*MH2**2d0 - 2d0*MZ2**2d0 - 2d0*q1sq*q2sq + MZ2*(q1sq + q2sq) + 
+     &          2d0*MH2*(2d0*MZ2 + q1sq + q2sq))*qhsq**2d0 - MZ2*qhsq**3d0)*
      &     loopI3(qhsq,q1sq,q2sq,MH2,MH2,MZ2,1D0,0))/
-     &   (q1sq**2 + (q2sq - qhsq)**2 - 2*q1sq*(q2sq + qhsq))**2   
+     &   (q1sq**2d0 + (q2sq - qhsq)**2d0 - 2d0*q1sq*(q2sq + qhsq))**2d0   
 
-      HZZ_c6_qmuqnu = (c6*MH2)/(32.d0*Pi**2*vevsq)*HZZ_c6_qmuqnu
+      HZZ_c6_qmuqnu = (c6*MH2)/(32d0*Pi**2d0*vevsq)*HZZ_c6_qmuqnu
+
+c      write(*,*) dreal(HZZ_c6_qmuqnu)
+c---  UH 18/03/25: Checked that this agrees with the MCFM7 and MCFM8 versions
 
 c---  BSM amplitudes for decay proportional to momenta. See Appendix A of https://arxiv.org/pdf/1902.04756.pdf
       
@@ -417,11 +446,21 @@ c--- Calculate the 1-loop form factor
 c--- Calculate the 2-loop form factor        
         
       sqrts = sqrt(s(1,2))
+
+c      sqrts = 300d0 
+
       call lin_interpolate(Fre_x, Fre_y, size(Fre_x), sqrts, Fre)
       call lin_interpolate(Fim_x, Fim_y, size(Fim_x), sqrts, Fim)
       F_2l = cplx2(Fre,Fim)
 
-      F_2l = MH2/(two*wmass*sinthw)*cplx2(Fre,Fim)
+c      write(*,*) F_2l
+c      write(*,*) wmass
+c      write(*,*) sinthw
+
+      F_2l = MH2/(two*wmass*sinthw)*F_2l
+
+c      write(*,*) F_2l
+c---  UH 18/03/25: Checked that this agrees with the MCFM7 and MCFM8 versions
 
 c--- Wave function renormalisation constant
 
@@ -429,30 +468,37 @@ c--- Wave function renormalisation constant
 
 c--- Assemble the renormalised 2-loop form factor        
  
-      ggHmt_c6(2,2) = (9*(2.d0 + c6)*dZh*MH2)/2*F_1l 
+      ggHmt_c6(2,2) = (9d0*(2d0 + c6)*dZh*MH2)/2d0*F_1l 
 
       ggHmt_c6(2,2) = ggHmt_c6(2,2) + F_2l
  
-      ggHmt_c6(2,2) = (c6*MH2)/(32.d0*Pi**2*vevsq)*ggHmt_c6(2,2)
+      ggHmt_c6(2,2) = (c6*MH2)/(32d0*Pi**2d0*vevsq)*ggHmt_c6(2,2)
 
       ggHmt_c6(1,1)=ggHmt_c6(2,2)*za(1,2)/zb(1,2)
       ggHmt_c6(2,2)=ggHmt_c6(2,2)*zb(1,2)/za(1,2)
 
 c--- Calculate the width corrections
 
-      dZh = (-9*c6*(2.d0 + c6)*dB0h*MH2**2)/(32.d0*Pi**2*vevsq)
+      dZh = (-9d0*c6*(2d0 + c6)*dB0h*MH2**2d0)/(32d0*Pi**2d0*vevsq)
 
       hwidth_c6 = 0.0023*c6*hwidth
       
       width_c6 = im*hmass*(t5*w4*dZh*hwidth -
-     &     t6*(w5*dZh/2.d0*hwidth + hwidth_c6))*prop12 
-      
+     &     t6*(w5*dZh/2d0*hwidth + hwidth_c6))*prop12 
+
+c      write(*,*) hwidth 
+c      write(*,*) dreal(hmass*(t5*w4*dZh*hwidth -
+c     &     t6*(w5*dZh/2d0*hwidth + hwidth_c6)))
+c---  UH 18/03/25: Checked that this agrees with the MCFM7 and MCFM8 versions      
+
 c--- Assemble: insert factor of (im) here      
       do h1=1,2
       do h34=1,2
       do h56=1,2
       Mloop_bquark(h1,h1,h34,h56)=im*ggHmb(h1,h1)*H4l(h34,h56)*prop12
       Mloop_tquark(h1,h1,h34,h56)=im*ggHmt(h1,h1)*H4l(h34,h56)*prop12
+c--- corrections from infinitely heavy top quark
+      Mloop_SMEFT(h1,h1,h34,h56)=im*ggHin(h1,h1)*H4l(h34,h56)*prop12
 c--- propagator correction  
       Mloop_c6_propagator(h1,h1,h34,h56)=t1*im*ggHmt(h1,h1)*
      &     H4l(h34,h56)*prop12_c6
@@ -476,6 +522,9 @@ c--- Rescale for width study
       do h56=1,2
       Mloop_bquark(h1,h1,h34,h56)=rescale*Mloop_bquark(h1,h1,h34,h56)
       Mloop_tquark(h1,h1,h34,h56)=rescale*Mloop_tquark(h1,h1,h34,h56)
+c--- corrections from infinitely heavy top quark
+      Mloop_SMEFT(h1,h1,h34,h56)=rescale*
+     & 	   Mloop_SMEFT(h1,h1,h34,h56)
 c--- propagator correction        
       Mloop_c6_propagator(h1,h1,h34,h56)=rescale*
      &     Mloop_c6_propagator(h1,h1,h34,h56)

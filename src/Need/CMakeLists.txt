@@ -118,7 +118,7 @@ swapjet.f
 transform.f
 transform_mass.f
 writeout.f
-output_c6.f
+output_csv.f
 writereference.f
 checkversion.f
 #trI1_generic.f

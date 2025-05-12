@@ -4,12 +4,16 @@ import textwrap
 import subprocess
 from multiprocessing import Pool
 
+basedir = 'zz4l'
+
 processes = []
-# processes += ['ggZZ2e2m_sbi']
-# processes += ['ggZZ2e2m_sig']
-# processes += ['ggZZ2e2m_int']
-# processes += ['ggZZ2e2m_bkg']
-processes += ['qqZZ2e2m']
+processes += ['ggZZ_sbi']
+processes += ['ggZZ_sig']
+processes += ['ggZZ_int']
+processes += ['ggZZ_bkg']
+processes += ['qqZZ']
+# processes += ['qqWW']
+# processes += ['ppZZ']
 
 def write_job(job):
     rundir, command = job
@@ -49,7 +53,7 @@ def submit_job(job):
 def define_job(process):
     mcfm = './mcfm'
     configfile = f"./input_{process}.ini"
-    rundir = f"{process}"
+    rundir = f"{basedir}/{process}"
     command = (
         f"{mcfm} {configfile} "
         f"-general%rundir={rundir} "

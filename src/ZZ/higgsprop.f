@@ -48,6 +48,7 @@ c--- Breit Wigner propagator
 
 c--- 
 c---  One-loop correction to the Higgs propagator
+c---  UH 17/03/25: Checked that this agrees with the MCFM7 and MCFM8 versions
 c---      
       function sigmah(s,c6,wfr)
       use loopI2_generic
@@ -60,151 +61,69 @@ c---
       include 'masses.f'
       include 'ewcouple.f'
       ! include 'qlfirst.f'
-      real(dp):: s, c6, wfr, MH2, dB0h, dZh, dmhsq
+      real(dp):: s, c6, wfr, MH2, dB0h, B0h, dZh, dmhsq
       ! complex(dp):: qlI2
 
       ! if (qlfirst) then
-      !   qlfirst=.false. 
+      !   qlfirst=.false.
       !   call qlinit
       ! endif
 
       MH2=hmass**2
 
+c      c6=10D0
+c      s=300D0**2
+      
 c--- Wavefunction renormalisation
-      dB0h = (-9 + 2*Sqrt(3.d0)*Pi)/(9*MH2)
+      dB0h = (-9D0 + 2D0*Sqrt(3D0)*Pi)/(9D0*MH2)
       dZh  = -wfr*dB0h  
+c--- Loop integral
+      B0h = loopI2(s,MH2,MH2,1D0,0)
 c--- Mass renormalisation
       dmhsq = loopI2(MH2,MH2,MH2,1D0,0)
 c--- Renormalised correction
-      sigmah = (9*c6*(2.d0 + c6)*MH2**2*
-     & (-dZh*(MH2 - s)))/
-     &     (32.d0*Pi**2*vevsq)
+      sigmah = (9D0*c6*(2D0 + c6)*MH2**2*(B0h - dmhsq + dZh*(-MH2 + s)))/(32D0*Pi**2D0*vevsq)
 
-      sigmah = sigmah + (9*c6*(2.d0 + c6)*MH2**2*
-     & (loopI2(s,MH2,MH2,1D0,0) - dmhsq))/
-     & (32.d0*Pi**2*vevsq)
+c      write(*,*) dreal(sigmah)
 
       sigmah= sigmah/cplx2(s-MH2,hmass*hwidth) 
-
 
       end
 
 c--- 
 c---  One-loop correction to the Higgs propagator due to marginal Higgs portal
 c---      
-c      function sigmahx(s,cx,mx)
-c      implicit none
-c      include 'types.f'
-c      complex(dp):: sigmahx
-c      real(dp):: MH2 
-c      include 'constants.f'
-c      include 'cplx.h'
-c      include 'masses.f'
-c      include 'ewcouple.f'
-c      include 'qlfirst.f'
-c      real(dp):: s, cx, mx
-c      complex(dp):: qlI2
-c
-c     if (qlfirst) then
-c        qlfirst=.false. 
-c        call qlinit
-c      endif
-c
-c      MH2=hmass**2
-c
-c--- Renormalised correction without wavefunction correction
-c
-c      sigmahx = cx**2*vevsq* 
-c     &     (loopI2(s,mx**2,mx**2,1D0,0) -
-c     &      dreal(loopI2(MH2,mx**2,mx**2,1D0,0)))/
-c     & (8.0d0*Pi**2)
-c
-c      sigmahx = sigmahx/cplx2(s-MH2,hmass*hwidth) 
-c
-c      end
-
-c--- 
-c---  One-loop correction to the Higgs propagator due to fermion Higgs portal
-c---      
       function sigmahx(s,cx,mx)
       use loopI2_generic
       implicit none
       include 'types.f'
       complex(dp):: sigmahx
-c      complex(dp):: sigmahx, sigmahxcheck, Bderivative
       real(dp):: MH2 
       include 'constants.f'
       include 'cplx.h'
       include 'masses.f'
       include 'ewcouple.f'
       ! include 'qlfirst.f'
-      real(dp):: s, cx, mx, f2, mu2, Nd, CHBox
-      complex(dp):: qlI2
+      real(dp):: s, cx, mx
+      ! complex(dp):: qlI2
 
       ! if (qlfirst) then
-      !   qlfirst=.false. 
-      !   call qlinit
+      ! qlfirst=.false. 
+      ! call qlinit
       ! endif
 
       MH2=hmass**2
 
 c--- Renormalised correction without wavefunction correction
 
-c      sigmahx = 3d0*cx**2*vevsq* 
-c     &     ((s-4*mx**2)*loopI2(s,mx**2,mx**2,s,0) -
-c     &      (MH2-4*mx**2)*dreal(loopI2(MH2,mx**2,mx**2,MH2,0)))/
-c     & (8.0d0*Pi**2)/(9d0*vevsq)
-
-c--- Renormalised correction with wavefunction correction 
-c--- My implementation
-
-c      sigmahx = 3d0*cx**2*vevsq*
-c     &     ((s-4*mx**2)*
-c     & 		(loopI2(s,mx**2,mx**2,1d0,0)-dreal(loopI2(MH2,mx**2,mx**2,1d0,0))) -
-c     &      (s-MH2)*(2d0*mx**2*dreal(loopI2(MH2,mx**2,mx**2,mx**2,0))/MH2-1d0))/
-c     & (8d0*Pi**2)/(9d0*vevsq)
-
-c--- Konstantin's implementation
-c--- This agrees with mine
-
-c      Bderivative = ((-1d0)/MH2)+((2d0*mx**2)/(MH2*(MH2-4d0*mx**2)))*
-c     & (dreal(loopI2(MH2,mx**2,mx**2,mx**2,0))-2d0)
-c
-c      sigmahxcheck = (3d0*cx**2*vevsq*((s-4*mx**2)*
-c     & ((loopI2(s,mx**2,mx**2,1d0,0)-dreal(loopI2(MH2,mx**2,mx**2,1d0,0))))
-c     & +(4*mx**2-MH2)*(s-MH2)*Bderivative))/(9d0*8d0*Pi**2*vevsq)      
-c
-c      write(6,99) sigmahxcheck-sigmahx      
-
-c--- Renormalised correction with inclusion of wave function 
-c--- and higher-dimensional operator correction   
-c--- My implementation
-
-      Nd = 3d0
-      f2 = 3d0*vevsq
-      mu2 = 16d0*Pi**2*f2
-
-c      Nd = 1d0
-c      f2 = 1000d0**2
-c      mu2 = 1000d0**2
-
-      CHBox = 1d0/(2d0*f2)
-
-      sigmahx = -Nd*cx**2*vevsq*
-     &     ((s-4*mx**2)*loopI2(s,mx**2,mx**2,mx**2,0) -
-     &      (MH2-4*mx**2)*dreal(loopI2(MH2,mx**2,mx**2,mx**2,0)) + 
-     &      (s-MH2)*log(mu2/(mx**2)))/
-     & (8d0*Pi**2)/f2 - 2d0*vevsq*CHBox*(s-MH2)		
+      sigmahx = cx**2d0*vevsq* 
+     &     (loopI2(s,mx**2,mx**2,1D0,0) -
+     &      dreal(loopI2(MH2,mx**2,mx**2,1D0,0)))/
+     & (8.0d0*Pi**2d0)
 
       sigmahx = sigmahx/cplx2(s-MH2,hmass*hwidth) 
-      
-      return
 
-c   99 format(' * Check = ',f9.4x)
-
-      end      
-
-     
+      end
 
 
 

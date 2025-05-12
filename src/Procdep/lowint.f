@@ -67,8 +67,8 @@
       include 'nproc.f'
       include 'kpart.f'
       include 'beamtype.f'
-      include 'higgs_trilinear.f'
-      integer:: i,j,k,nvec
+      include 'bsm_higgs.f'
+      integer:: i,j,k,l,nvec
       integer:: itrial
       real(dp):: alphas,msqtrial,xmsqvar(2),
      & fx1up(-nf:nf),fx2up(-nf:nf),fx1dn(-nf:nf),fx2dn(-nf:nf),
@@ -76,7 +76,8 @@
      & fx1(-nf:nf),fx2(-nf:nf),p(mxpart,4),pjet(mxpart,4),pswt,
      & fx1_H(-nf:nf),fx2_H(-nf:nf),fx1_L(-nf:nf),fx2_L(-nf:nf),
      & fxb1(-nf:nf),fxb2(-nf:nf),
-     & wgt,msq(-nf:nf,-nf:nf),msq_sig_sm(-nf:nf,-nf:nf),msq_bkg_sm(-nf:nf,-nf:nf),msq_int_sm(-nf:nf,-nf:nf),msq_sbi_sm(-nf:nf,-nf:nf),msq_sig_c6(c6_nval,-nf:nf,-nf:nf),msq_int_c6(c6_nval,-nf:nf,-nf:nf),msq_sbi_c6(c6_nval,-nf:nf,-nf:nf),xmsqjk,
+     & wgt,msq(-nf:nf,-nf:nf),xmsqjk,
+     & msq_qqb(-nf:nf,-nf:nf), msq_sig_sm(-nf:nf,-nf:nf),msq_bkg_sm(-nf:nf,-nf:nf),msq_int_sm(-nf:nf,-nf:nf),msq_sbi_sm(-nf:nf,-nf:nf),msq_sig_bsm(c6_nval*ct_nval*cg_nval,-nf:nf,-nf:nf),msq_int_bsm(c6_nval*ct_nval*cg_nval,-nf:nf,-nf:nf),msq_sbi_bsm(c6_nval*ct_nval*cg_nval,-nf:nf,-nf:nf),
      & xmsqjk_noew,msq_noew(-nf:nf,-nf:nf),xmsq_noew,lowint_noew,
      & flux,vol,vol_mass,vol3_mass,vol_wt,BrnRat,scaleup,scaledn 
       logical:: bin,includedipole,nopdf
@@ -285,6 +286,13 @@ c        stop
         call qqb_zbb_g(p,msq)
       elseif (kcase==kWWqqbr) then
         call qqb_ww(p,msq)
+        msq_sig_bsm(:,:,:) = 0._dp
+        msq_int_bsm(:,:,:) = 0._dp
+        msq_sbi_bsm(:,:,:) = 0._dp
+        msq_sig_sm(:,:) = 0._dp
+        msq_bkg_sm(:,:) = 0._dp
+        msq_int_sm(:,:) = 0._dp
+        msq_sbi_sm(:,:) = 0._dp
       elseif (kcase==kWWnpol) then
         call qqb_ww_unpol(p,msq)
       elseif (kcase==kWpWp2j) then
@@ -309,9 +317,9 @@ c        stop
         call qqb_wz(p,msq)
       elseif (kcase==kZZlept) then
         call qqb_zz(p,msq)
-        msq_sig_c6(:,:,:) = 0._dp
-        msq_int_c6(:,:,:) = 0._dp
-        msq_sbi_c6(:,:,:) = 0._dp
+        msq_sig_bsm(:,:,:) = 0._dp
+        msq_int_bsm(:,:,:) = 0._dp
+        msq_sbi_bsm(:,:,:) = 0._dp
         msq_sig_sm(:,:) = 0._dp
         msq_bkg_sm(:,:) = 0._dp
         msq_int_sm(:,:) = 0._dp
@@ -421,17 +429,32 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
       elseif (kcase==kHZZ_4l) then
         call qqb_hzz(p,msq)
       elseif (kcase==kHZZ_tb) then
-        msq_sig_c6(:,:,:) = 0._dp
-        msq_int_c6(:,:,:) = 0._dp
-        msq_sbi_c6(:,:,:) = 0._dp
+        msq_sig_bsm(:,:,:) = 0._dp
+        msq_int_bsm(:,:,:) = 0._dp
+        msq_sbi_bsm(:,:,:) = 0._dp
+        if (bsm_higgs_scenario .eq. "eft") then 
+        cx = cx_sm
         c6 = c6_init
+        ct = ct_init
+        cg = cg_init
+        l = 1
         do i = 1, c6_nval
-          call gg_hzz_tb(p,msq_sig_c6(i,:,:))
-          call gg_zz_int(p,msq_int_c6(i,:,:))
-          call gg_zz_all(p,msq_sbi_c6(i,:,:))
-          c6 = c6_init + i*c6_step
+          do j = 1, ct_nval
+            do k = 1, cg_nval
+              call gg_hzz_tb(p, msq_sig_bsm(l, :, :))
+              call gg_zz_int(p, msq_int_bsm(l, :, :))
+              call gg_zz_all(p, msq_sbi_bsm(l, :, :))
+              l = l + 1
+              cg = cg + cg_step
+            enddo
+            ct = ct + ct_step
+          enddo
+          c6 = c6 + c6_step
         enddo
+        endif
         c6 = c6_sm
+        ct = ct_sm
+        cg = cg_sm
         msq_sig_sm(:,:) = 0._dp
         msq_bkg_sm(:,:) = 0._dp
         msq_int_sm(:,:) = 0._dp
@@ -449,17 +472,21 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         msq(:,:)=0._dp
         call gg_VV(p,msq(0,0))
       elseif (kcase==kHZZint) then
-        msq_sig_c6(:,:,:) = 0._dp
-        msq_int_c6(:,:,:) = 0._dp
-        msq_sbi_c6(:,:,:) = 0._dp
+        msq_sig_bsm(:,:,:) = 0._dp
+        msq_int_bsm(:,:,:) = 0._dp
+        msq_sbi_bsm(:,:,:) = 0._dp
+        if (bsm_higgs_scenario .eq. "eft") then
+        cx = cx_sm
         c6 = c6_init
         do i = 1, c6_nval
-          call gg_hzz_tb(p,msq_sig_c6(i,:,:))
-          call gg_zz_int(p,msq_int_c6(i,:,:))
-          call gg_zz_all(p,msq_sbi_c6(i,:,:))
+          call gg_hzz_tb(p,msq_sig_bsm(i,:,:))
+          call gg_zz_int(p,msq_int_bsm(i,:,:))
+          call gg_zz_all(p,msq_sbi_bsm(i,:,:))
           c6 = c6_init + i*c6_step
         enddo
+        endif
         c6 = c6_sm
+        cx = cx_sm
         msq_sig_sm(:,:) = 0._dp
         msq_bkg_sm(:,:) = 0._dp
         msq_int_sm(:,:) = 0._dp
@@ -470,20 +497,38 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         call gg_zz_all(p,msq_sbi_sm) 
         msq = msq_int_sm
       elseif (kcase==kHZZHpi) then
+        cx = cx_sm
         c6 = c6_sm
+        ct = ct_sm
+        cg = cg_sm
         call gg_zz_Hpi(p,msq)
       elseif (kcase==kggZZ4l) then
-        msq_sig_c6(:,:,:) = 0._dp
-        msq_int_c6(:,:,:) = 0._dp
-        msq_sbi_c6(:,:,:) = 0._dp
+        msq_sig_bsm(:,:,:) = 0._dp
+        msq_int_bsm(:,:,:) = 0._dp
+        msq_sbi_bsm(:,:,:) = 0._dp
+        if (bsm_higgs_scenario .eq. "eft") then 
+        cx = cx_sm
         c6 = c6_init
+        ct = ct_init
+        cg = cg_init
+        l = 1
         do i = 1, c6_nval
-          call gg_hzz_tb(p,msq_sig_c6(i,:,:))
-          call gg_zz_int(p,msq_int_c6(i,:,:))
-          call gg_zz_all(p,msq_sbi_c6(i,:,:))
-          c6 = c6_init + i*c6_step
+          do j = 1, ct_nval
+            do k = 1, cg_nval
+              call gg_hzz_tb(p, msq_sig_bsm(l, :, :))
+              call gg_zz_int(p, msq_int_bsm(l, :, :))
+              call gg_zz_all(p, msq_sbi_bsm(l, :, :))
+              l = l + 1
+              cg = cg + cg_step
+            enddo
+            ct = ct + ct_step
+          enddo
+          c6 = c6 + c6_step
         enddo
+        endif
         c6 = c6_sm
+        ct = ct_sm
+        cg = cg_sm
         msq_sig_sm(:,:) = 0._dp
         msq_bkg_sm(:,:) = 0._dp
         msq_int_sm(:,:) = 0._dp
@@ -494,17 +539,32 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         call gg_zz_all(p,msq_sbi_sm) 
         msq = msq_sbi_sm
       elseif (kcase==kggZZbx) then
-        msq_sig_c6(:,:,:) = 0._dp
-        msq_int_c6(:,:,:) = 0._dp
-        msq_sbi_c6(:,:,:) = 0._dp
+        msq_sig_bsm(:,:,:) = 0._dp
+        msq_int_bsm(:,:,:) = 0._dp
+        msq_sbi_bsm(:,:,:) = 0._dp
+        if (bsm_higgs_scenario .eq. "eft") then 
+        cx = cx_sm
         c6 = c6_init
+        ct = ct_init
+        cg = cg_init
+        l = 1
         do i = 1, c6_nval
-          call gg_hzz_tb(p,msq_sig_c6(i,:,:))
-          call gg_zz_int(p,msq_int_c6(i,:,:))
-          call gg_zz_all(p,msq_sbi_c6(i,:,:))
-          c6 = c6_init + i*c6_step
+          do j = 1, ct_nval
+            do k = 1, cg_nval
+              call gg_hzz_tb(p, msq_sig_bsm(l, :, :))
+              call gg_zz_int(p, msq_int_bsm(l, :, :))
+              call gg_zz_all(p, msq_sbi_bsm(l, :, :))
+              l = l + 1
+              cg = cg + cg_step
+            enddo
+            ct = ct + ct_step
+          enddo
+          c6 = c6 + c6_step
         enddo
+        endif
         c6 = c6_sm
+        ct = ct_sm
+        cg = cg_sm
         msq_sig_sm(:,:) = 0._dp
         msq_bkg_sm(:,:) = 0._dp
         msq_int_sm(:,:) = 0._dp
@@ -514,6 +574,23 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         call gg_zz_int(p,msq_int_sm)
         call gg_zz_all(p,msq_sbi_sm) 
         msq = msq_bkg_sm
+      elseif (kcase==kppZZ4l) then
+        msq_sig_bsm(:,:,:) = 0._dp
+        msq_int_bsm(:,:,:) = 0._dp
+        msq_sbi_bsm(:,:,:) = 0._dp
+        msq_sig_sm(:,:) = 0._dp
+        msq_bkg_sm(:,:) = 0._dp
+        msq_int_sm(:,:) = 0._dp
+        msq_sbi_sm(:,:) = 0._dp
+        msq_qqb(:,:) = 0._dp
+        cx = cx_sm
+        c6 = c6_sm
+        ct = ct_sm
+        cg = cg_sm
+        call gg_zz_all(p,msq_sbi_sm) 
+        call qqb_zz(p,msq_qqb)
+        msq = msq_sbi_sm
+        msq = msq+msq_qqb 
       elseif (kcase==kHZZqgI) then
          call qg_Hint_ZZ(p,msq)
       elseif (kcase==kH_1jet) then
@@ -1069,9 +1146,17 @@ c--- for EW corrections, make additional weight available inside common block
           lowint = lowint * reweight_user(pjet)
       endif
 
-      if (bin .and. (kcase==kZZlept .or. kcase==kggZZ4l .or. kcase==kHZZ_tb .or. kcase==kggZZbx .or. kcase==kHZZint)) then
-      ! if (kcase==kggZZ4l .or. kcase==kZZlept) then
-        call output_c6(pjet,msq_sig_sm,msq_bkg_sm,msq_int_sm,msq_sbi_sm,msq_sig_c6,msq_int_c6,msq_sbi_c6,val)
+      if (bin .and. \
+        ( \
+        kcase==kWWqqbr .or. \
+        kcase==kZZlept .or. \
+        kcase==kggZZ4l .or. \
+        kcase==kHZZ_tb .or. \
+        kcase==kggZZbx .or. \
+        kcase==kHZZint .or. \
+        kcase==kppZZ4l \
+        )) then
+        call output_csv(pjet,msq_sig_sm,msq_bkg_sm,msq_int_sm,msq_sbi_sm,msq_sig_bsm,msq_int_bsm,msq_sbi_bsm,val)
       endif
 
   888 continue ! just cuts did not pass

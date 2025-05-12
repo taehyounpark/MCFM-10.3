@@ -234,6 +234,7 @@ c--- converts integer kcase to corresponding 6-character string
       if (k == kZ2jetF) kcasestring='Z2jetF'
       if (k == kHgagaI) kcasestring='HgagaI'
       if (k == kgg2gamjt) kcasestring='gg2gjt'
+      if (k == kppZZ4l) kcasestring='ppZZ4l'
 
       if (kcasestring == 'failed') then
         write(6,*) 'Unexpected kcase in kcasestring: ',k

@@ -1,2 +1,2 @@
-      character(len=255):: csvfile
-      common/output/csvfile
+      character(len=255):: eventfile, metadatafile
+      common/output/ eventfile, metadatafile

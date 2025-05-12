@@ -127,6 +127,7 @@
 129 '  f(p1)+f(p2) --> H(--> Z(e^-(p3)+e^+(p4)) + Z(mu^-(p5)+mu^+(p6)) [only H, gg->ZZ intf.]' 'L'
 130 '  f(p1)+f(p2) --> H(--> Z(e^-(p3)+e^+(p4)) + Z(mu^-(p5)+mu^+(p6)) [H squared and H, gg->ZZ intf.]' 'L'
 131 '  f(p1)+f(p2) --> Z(e^-(p3)+e^+(p4)) + Z(mu^-(p5)+mu^+(p6) [gg only, (H + gg->ZZ) squared]' 'L'
+81131 '  f(p1)+f(p2) --> Z(e^-(p3)+e^+(p4)) + Z(mu^-(p5)+mu^+(p6) [gg only, (H + gg->ZZ) squared]' 'L'
 132 '  f(p1)+f(p2) --> Z(e^-(p3)+e^+(p4)) + Z(mu^-(p5)+mu^+(p6) [(gg->ZZ) squared]' 'L'
 1000 'nul' 'X'
 1281 ' f(p1)+f(p2) --> H (--> e^-(p3)+e^+(p4)+nu_e(p5)+nu~_e(p6)) [top, bottom loops, exact]' 'L'

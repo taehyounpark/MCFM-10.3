@@ -19,11 +19,12 @@ c--- The effect of massive bottom and top quark loops is included
       include 'interference.f'
       include 'zcouple_cms.f'
       include 'first.f'
+      include 'bsm_higgs.f'
       integer:: h1,h2,h34,h56,j,k
       integer,parameter:: i4(2)=(/4,5/),i5(2)=(/5,4/),
      & jkswitch(-nf:nf)=(/-1,-2,-1,-2,-1,0,1,2,1,2,1/)
       real(dp):: p(mxpart,4),wt,wt2,msq(fn:nf,fn:nf),msqgg,fac,
-     & pswap(mxpart,4),oprat,msqggh,msqqqbar_tot,D_S,msqqqbar(-nf:nf,-nf:nf)
+     & pswap(mxpart,4),oprat
       complex(dp)::
      & Mloop_uptype(2,2,2,2),Mloop_dntype(2,2,2,2),
      & Mloop_bquark(2,2,2,2),Mloop_tquark(2,2,2,2),
@@ -41,7 +42,12 @@ c--- The effect of massive bottom and top quark loops is included
      & Mloop_c6_production(2,2,2,2),
      & Mloop_c6_production_swap(2,2,2,2),
      & Mloop_c6_width(2,2,2,2),
-     & Mloop_c6_width_swap(2,2,2,2)  
+     & Mloop_c6_width_swap(2,2,2,2),  
+     & Mloop_SMEFT(2,2,2,2),
+     & Mloop_SMEFT_swap(2,2,2,2),
+     & AHiggs_ct,AHiggs_ct_swap,
+     & AHiggs_cg,AHiggs_cg_swap,
+     & AHiggs_SMEFT,AHiggs_SMEFT_swap
       logical:: includegens1and2,includebottom,includetop
 
 c--- set this to true to include generations 1 and 2 of (light) quarks
@@ -73,7 +79,8 @@ c      if (pttwo(3,4,p) < 7._dp) return ! Kauer gg2VV cut on |H+C|^2
 
       call getggHZZamps(p,ggH_bquark,ggH_tquark,
      & Mloop_c6_propagator,Mloop_c6_decay,
-     & Mloop_c6_production,Mloop_c6_width)
+     & Mloop_c6_production,Mloop_c6_width,
+     & Mloop_SMEFT)
      
       if (interference) then
 c--- for interference, compute amplitudes after 4<->6 swap
@@ -87,7 +94,8 @@ c--- for interference, compute amplitudes after 4<->6 swap
      &  Sloop_uptype,Sloop_dntype,Sloop_bquark,Sloop_tquark)
       call getggHZZamps(pswap,ggH_bquark_swap,ggH_tquark_swap,
      & Mloop_c6_propagator_swap,Mloop_c6_decay_swap,
-     & Mloop_c6_production_swap,Mloop_c6_width_swap)
+     & Mloop_c6_production_swap,Mloop_c6_width_swap,
+     & Mloop_SMEFT_swap)
       endif
 
       msqgg=0._dp
@@ -112,10 +120,17 @@ c--- compute total c6 correction to Higgs amplitude
      &  +Mloop_c6_decay(h1,h2,h34,h56)
      &  +Mloop_c6_production(h1,h2,h34,h56)
      &  +Mloop_c6_width(h1,h2,h34,h56)  
+c--- compute total ct correction to Higgs amplitude
+      AHiggs_ct=ct*ggH_tquark(h1,h2,h34,h56)
+c--- compute total cg correction to Higgs amplitude
+      AHiggs_cg=cg*Mloop_SMEFT(h1,h2,h34,h56)
+c--- compute total SMEFT correction to Higgs amplitude
+      AHiggs_SMEFT=AHiggs_c6+AHiggs_ct+AHiggs_cg
 
 c--- This accumulates all contributions
       ! Mamp=Acont+AHiggs
-      Mamp=Acont+AHiggs+AHiggs_c6
+      ! Mamp=Acont+AHiggs+AHiggs_c6
+      Mamp=Acont+AHiggs+AHiggs_SMEFT
 
       if (interference .eqv. .false.) then
 c--- normal case
@@ -131,14 +146,24 @@ c--- with interference
         AHiggs_swap=
      &  +ggH_bquark_swap(h1,h2,h34,h56)
      &  +ggH_tquark_swap(h1,h2,h34,h56)
+c--- compute total c6 correction to Higgs amplitude
         AHiggs_c6_swap=
      &  +Mloop_c6_propagator_swap(h1,h2,h34,h56)
      &  +Mloop_c6_decay_swap(h1,h2,h34,h56)
      &  +Mloop_c6_production_swap(h1,h2,h34,h56)
-     &  +Mloop_c6_width_swap(h1,h2,h34,h56)  
+     &  +Mloop_c6_width_swap(h1,h2,h34,h56)   
+c--- compute total ct Higgs amplitude
+        AHiggs_ct_swap=ct*ggH_tquark_swap(h1,h2,h34,h56)
+c--- compute total cg Higgs amplitude
+        AHiggs_cg_swap=cg*Mloop_SMEFT_swap(h1,h2,h34,h56)
+c--- compute total SMEFT Higgs amplitude
+        AHiggs_SMEFT_swap=AHiggs_c6_swap+AHiggs_ct_swap+AHiggs_cg_swap
 
       !   Samp=Acont_swap+AHiggs_swap
-        Samp=Acont_swap+AHiggs_swap+AHiggs_c6_swap
+      !   Samp=Acont_swap+AHiggs_swap+AHiggs_c6_swap
+
+        Samp=Acont_swap+AHiggs_swap+AHiggs_SMEFT_swap
+
         if (h34 == h56) then
           oprat=1._dp-two*real(conjg(Mamp)*Samp)
      &                 /(abs(Mamp)**2+abs(Samp)**2)

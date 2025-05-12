@@ -2639,7 +2639,7 @@ c-----------------------------------------------------------------------
       elseif (((nproc >= 116) .and. (nproc <= 118))
      &    .or. (nproc == 128)  .or. (nproc == 129)
      &    .or. (nproc == 130)  .or. (nproc == 131)
-     &    .or. (nproc == 132)  .or. (nproc == 133) ) then
+     &    .or. (nproc == 132)  .or. (nproc == 133) .or. (nproc == 81131) ) then
         if     (nproc <= 118) then
           kcase=kHZZ_4l
         elseif (nproc == 128) then
@@ -2654,6 +2654,8 @@ c-----------------------------------------------------------------------
           kcase=kggZZbx
         elseif (nproc == 133) then
           kcase=kHZZqgI
+        elseif (nproc == 81131) then
+          kcase=kppZZ4l
         endif
         call sethparams(br,wwbr,zzbr,tautaubr,gamgambr,zgambr)
         plabel(7)='pp'
@@ -2693,10 +2695,10 @@ c--- print warning if we're below threshold
           endif
         endif
 
-        if (   (nproc == 116)  .or. (nproc == 128)
-     &    .or. (nproc == 129)  .or. (nproc == 130)
-     &    .or. (nproc == 131)  .or. (nproc == 132)
-     &    .or. (nproc == 133) ) then
+        if (   (nproc == 116) .or. (nproc == 128)
+     &    .or. (nproc == 129) .or. (nproc == 130)
+     &    .or. (nproc == 131) .or. (nproc == 132)
+     &    .or. (nproc == 133) .or. (nproc == 81131)) then
 c--  116 '  f(p1)+f(p2) --> H(-->Z^0(e^-(p3)+e^+(p4)) + Z^0(mu^-(p5)+mu^+(p6))'
 c--      '  f(p1)+f(p2) --> H (for total Xsect)' (removebr=.true.)
 c--- 128 '  f(p1)+f(p2) --> H(--> Z^0(e^-(p3)+e^+(p4)) + Z^0(mu^-(p5)+mu^+(p6)) [top, bottom loops, exact]' 'L'

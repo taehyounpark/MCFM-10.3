@@ -26,7 +26,7 @@ c--- invariant mass of particles 3, 4, 5 and 6
      & (kcase==kHVV_tb) .or. (kcase==kggVV4l) .or. (kcase==kggVVbx) .or.
      & (kcase==kggZZ4l) .or. (kcase==kggZZbx) .or. (kcase==kHmZZ4l) .or.
      & (kcase==kWW_jet) .or. (kcase==kWZ_jet) .or. (kcase==kZZ_jet) .or.
-     & (kcase==kHHpair) .or. (kcase==kWW2jet)) then
+     & (kcase==kHHpair) .or. (kcase==kWW2jet) .or. (kcase==kppZZ4l)) then
          mu0=(p(3,4)+p(4,4)+p(5,4)+p(6,4))**2
      &      -(p(3,1)+p(4,1)+p(5,1)+p(6,1))**2
      &      -(p(3,2)+p(4,2)+p(5,2)+p(6,2))**2

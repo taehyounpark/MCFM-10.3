@@ -206,26 +206,32 @@ contains
     ! [hjetmass]
     call cfg_add(cfg, "hjetmass%mtex", 0, "controls approximation for 2-loop virtual corrections")
 
-    ! [higgs_trilinear]
-    call cfg_add(cfg, "higgs_trilinear%c6", [1d0, 10d0, 1d0], "c6")
-    call cfg_add(cfg, "higgs_trilinear%c6_sm", 0d0, "c6_sm")
-    call cfg_add(cfg, "higgs_trilinear%t1", 1d0, "t1")
-    call cfg_add(cfg, "higgs_trilinear%t2", 1d0, "t2")
-    call cfg_add(cfg, "higgs_trilinear%t3", 1d0, "t3")
-    call cfg_add(cfg, "higgs_trilinear%t4", 1d0, "t4")
-    call cfg_add(cfg, "higgs_trilinear%t5", 1d0, "t5")
-    call cfg_add(cfg, "higgs_trilinear%t6", 1d0, "t6")
-    call cfg_add(cfg, "higgs_trilinear%w1", 1d0, "w1")
-    call cfg_add(cfg, "higgs_trilinear%w2", 1d0, "w2")
-    call cfg_add(cfg, "higgs_trilinear%w3", 1d0, "w3")
-    call cfg_add(cfg, "higgs_trilinear%w4", 1d0, "w4")
-    call cfg_add(cfg, "higgs_trilinear%w5", 1d0, "w5")
-    call cfg_add(cfg, "higgs_trilinear%cx", 0d0, "cx")
-    call cfg_add(cfg, "higgs_trilinear%mx", 1000d0, "mx")
+    ! [bsm_higgs]
+    call cfg_add(cfg, "bsm_higgs%bsm", "eft", "Choose whether to vary EFT or DM parameters as BSM scenario")
+    call cfg_add(cfg, "bsm_higgs%t1", 1d0, "t1")
+    call cfg_add(cfg, "bsm_higgs%t2", 1d0, "t2")
+    call cfg_add(cfg, "bsm_higgs%t3", 1d0, "t3")
+    call cfg_add(cfg, "bsm_higgs%t4", 1d0, "t4")
+    call cfg_add(cfg, "bsm_higgs%t5", 1d0, "t5")
+    call cfg_add(cfg, "bsm_higgs%t6", 1d0, "t6")
+    call cfg_add(cfg, "bsm_higgs%w1", 1d0, "w1")
+    call cfg_add(cfg, "bsm_higgs%w2", 1d0, "w2")
+    call cfg_add(cfg, "bsm_higgs%w3", 1d0, "w3")
+    call cfg_add(cfg, "bsm_higgs%w4", 1d0, "w4")
+    call cfg_add(cfg, "bsm_higgs%w5", 1d0, "w5")
+    call cfg_add(cfg, "bsm_higgs%c6", [-20d0, 20d0, 10d0], "c6 BSM values")
+    call cfg_add(cfg, "bsm_higgs%ct", [-1d0, 1d0, 1d0], "ct BSM values")
+    call cfg_add(cfg, "bsm_higgs%cg", [-0d01, 0d01, 0d01], "cg SM value")
+    call cfg_add(cfg, "bsm_higgs%c6_sm", 0d0, "c6 SM value")
+    call cfg_add(cfg, "bsm_higgs%ct_sm", 0d0, "ct SM value")
+    call cfg_add(cfg, "bsm_higgs%cg_sm", 0d0, "cg SM value")
+    call cfg_add(cfg, "bsm_higgs%cx_sm", 0d0, "cx SM value")
+    call cfg_add(cfg, "bsm_higgs%cx",    1d0, "cx BSM value")
+    call cfg_add(cfg, "bsm_higgs%mx", 1000d0, "mx BSM value")
 
     ! [output]
-    call cfg_add(cfg, "output%csvfile", "output.csv", "CSV output file") 
-   !  call cfg_add(cfg, "output%lhefile", "output.lhe", "LHE output file") 
+    call cfg_add(cfg, "output%metadata", "metadata.csv", "Metadata output file") 
+    call cfg_add(cfg, "output%events",   "events.csv",   "CSV output file") 
 
     ! [anom_higgs]
     call cfg_add(cfg, "anom_higgs%hwidth_ratio", 1d0, "Gamma_H / Gamma_H(SM)")
@@ -346,8 +352,8 @@ contains
     include 'scalarselect.f'
     include 'interference.f'
     include 'userap.f'
+    include 'bsm_higgs.f'
     include 'csvfile.f'
-    include 'higgs_trilinear.f'
     character(len=cfg_string_len) :: mcfm_version, part, dynstring
     character(len=cfg_string_len) :: pdfchannels
 
@@ -667,29 +673,46 @@ contains
     call cfg_get(cfg, "anom_higgs%cttH", cttH)
     call cfg_get(cfg, "anom_higgs%cWWH", cWWH)
 
-    ! [higgs_trilinear]
-    call cfg_get(cfg, "higgs_trilinear%c6", c6_cfg)
-    call cfg_get(cfg, "higgs_trilinear%c6_sm", c6_sm)
-    call cfg_get(cfg, "higgs_trilinear%t1", t1)
-    call cfg_get(cfg, "higgs_trilinear%t2", t2)
-    call cfg_get(cfg, "higgs_trilinear%t3", t3)
-    call cfg_get(cfg, "higgs_trilinear%t4", t4)
-    call cfg_get(cfg, "higgs_trilinear%t5", t5)
-    call cfg_get(cfg, "higgs_trilinear%t6", t6)
-    call cfg_get(cfg, "higgs_trilinear%w1", w1)
-    call cfg_get(cfg, "higgs_trilinear%w2", w2)
-    call cfg_get(cfg, "higgs_trilinear%w3", w3)
-    call cfg_get(cfg, "higgs_trilinear%w4", w4)
-    call cfg_get(cfg, "higgs_trilinear%w5", w5)
-    call cfg_get(cfg, "higgs_trilinear%cx", cx)
-    call cfg_get(cfg, "higgs_trilinear%mx", mx)
+    ! [bsm_higgs]
+    call cfg_get(cfg, "bsm_higgs%bsm", bsm_higgs_scenario)
+    call cfg_get(cfg, "bsm_higgs%t1", t1)
+    call cfg_get(cfg, "bsm_higgs%t2", t2)
+    call cfg_get(cfg, "bsm_higgs%t3", t3)
+    call cfg_get(cfg, "bsm_higgs%t4", t4)
+    call cfg_get(cfg, "bsm_higgs%t5", t5)
+    call cfg_get(cfg, "bsm_higgs%t6", t6)
+    call cfg_get(cfg, "bsm_higgs%w1", w1)
+    call cfg_get(cfg, "bsm_higgs%w2", w2)
+    call cfg_get(cfg, "bsm_higgs%w3", w3)
+    call cfg_get(cfg, "bsm_higgs%w4", w4)
+    call cfg_get(cfg, "bsm_higgs%w5", w5)
+    call cfg_get(cfg, "bsm_higgs%c6",    c6_cfg)
+    call cfg_get(cfg, "bsm_higgs%ct",    ct_cfg)
+    call cfg_get(cfg, "bsm_higgs%cg",    cg_cfg)
+    call cfg_get(cfg, "bsm_higgs%c6_sm", c6_sm)
+    call cfg_get(cfg, "bsm_higgs%ct_sm", ct_sm)
+    call cfg_get(cfg, "bsm_higgs%cg_sm", cg_sm)
+    call cfg_get(cfg, "bsm_higgs%cx",    cx)
+    call cfg_get(cfg, "bsm_higgs%cx_sm", cx_sm)
+    call cfg_get(cfg, "bsm_higgs%mx",    mx)
+
+    bsm_higgs_scenario = trim(adjustl(bsm_higgs_scenario))
 
     c6_init = c6_cfg(1)
-    c6_nval = int(c6_cfg(2) - c6_cfg(1)) / c6_cfg(3) + 1
+    c6_nval = int( (c6_cfg(2) - c6_cfg(1)) / c6_cfg(3) + 1 )
     c6_step = c6_cfg(3)
 
+    ct_init = ct_cfg(1)
+    ct_nval = int( (ct_cfg(2) - ct_cfg(1)) / ct_cfg(3) + 1 )
+    ct_step = ct_cfg(3)
+
+    cg_init = cg_cfg(1)
+    cg_nval = int( (cg_cfg(2) - cg_cfg(1)) / cg_cfg(3) + 1 )
+    cg_step = cg_cfg(3)
+
     ! [output]
-    call cfg_get(cfg, "output%csvfile", csvfile)
+    call cfg_get(cfg, "output%events",   eventfile)
+    call cfg_get(cfg, "output%metadata", metadatafile)
 
     ! [anom_wz]
     call cfg_get(cfg, "anom_wz%enable", anomtgc)
