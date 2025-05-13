@@ -49,7 +49,7 @@
       do k=1,c6_nval
         do l=1,ct_nval
           do m=1,cg_nval
-            write(metadata_file_unit, '(I3)', advance='no') n
+            write(metadata_file_unit, '(I0)', advance='no') n
             write(metadata_file_unit, '(A)', advance='no') ',' 
             write(metadata_file_unit, '(E15.7)', advance='no') c6_init + (k-1)*c6_step
             write(metadata_file_unit, '(A)', advance='no') ',' 
@@ -84,18 +84,20 @@
       do k=1,c6_nval
         do l=1,ct_nval
           do m=1,cg_nval
-            write(event_file_unit, '(A)', advance='no') 'msq_sig_bsm_',n
+            write(event_file_unit, '(A)', advance='no') 'msq_sig_bsm_'
+            write(event_file_unit, '(I0)', advance='no') n
             write(event_file_unit, '(A)', advance='no') ','
-            write(event_file_unit, '(A)', advance='no') 'msq_int_bsm_',n
+            write(event_file_unit, '(A)', advance='no') 'msq_int_bsm_'
+            write(event_file_unit, '(I0)', advance='no') n
             write(event_file_unit, '(A)', advance='no') ','
-            write(event_file_unit, '(A)', advance='no') 'msq_sbi_bsm_',n
+            write(event_file_unit, '(A)', advance='no') 'msq_sbi_bsm_'
+            write(event_file_unit, '(I0)', advance='no') n
             write(event_file_unit, '(A)', advance='no') ','
             n = n+1
           end do
         end do
       end do
-      write(event_file_unit, '(A)', advance='no') 'wt'
-      write(event_file_unit, '(A)', advance='yes') ''
+      write(event_file_unit, '(A)', advance='yes') 'wt'
   
       endif
 
@@ -132,11 +134,8 @@
       end do
 
       ! weight
-      write(event_file_unit, '(E15.7)', advance='no') wt
+      write(event_file_unit, '(E15.7)', advance='yes') wt
       !write(event_file_unit, '(A)', advance='no') ','
-
-      ! newline character
-      write(event_file_unit, '(A)', advance='yes') ''
 
       ! Close the file
       return

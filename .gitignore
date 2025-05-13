@@ -112,5 +112,7 @@ share/
 src/BLHA/process.DAT
 src/BLHA/test
 Bin/*.txt
-Bin/*snapshot.dat
-Bin/*/events.csv
+Bin/**/*snapshot.dat
+Bin/**/events.csv
+Bin/**/*.err
+Bin/**/*.out
