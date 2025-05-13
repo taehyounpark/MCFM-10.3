@@ -122,9 +122,9 @@ c---- This only accumulates contributions from the interference
       if (interference .eqv. .false.) then
 c---  normal case
         msqgg=msqgg
-     &        +abs(Acont+AHiggs+AHiggs_c6)**2
+     &        +abs(Acont+AHiggs+AHiggs_SMEFT)**2
      &        -abs(Acont)**2
-     &        -abs(AHiggs+AHiggs_c6)**2
+     &        -abs(AHiggs+AHiggs_SMEFT)**2
 !     &        +two*real(conjg(Acont)*AHiggs)
 !     &        +two*real(conjg(AHiggs)*AHiggs_c6)
 !     &        +two*real(conjg(Acont)*AHiggs_c6)
