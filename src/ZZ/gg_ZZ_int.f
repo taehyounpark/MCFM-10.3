@@ -37,7 +37,7 @@ c--- The effect of massive bottom and top quark loops is included
      & Mloop_c6_production(2,2,2,2),
      & Mloop_c6_production_swap(2,2,2,2),
      & Mloop_c6_width(2,2,2,2),
-     & Mloop_c6_width_swap(2,2,2,2),  
+     & Mloop_c6_width_swap(2,2,2,2),
      & Mloop_SMEFT(2,2,2,2),
      & Mloop_SMEFT_swap(2,2,2,2),
      & AHiggs_ct,AHiggs_ct_swap,
@@ -103,19 +103,19 @@ c--- compute total Higgs amplitude
       AHiggs=
      &  +ggH_bquark(h1,h2,h34,h56)
      &  +ggH_tquark(h1,h2,h34,h56)
-
 c--- compute total c6 correction to Higgs amplitude        
       AHiggs_c6=
      &  +Mloop_c6_propagator(h1,h2,h34,h56)
      &  +Mloop_c6_decay(h1,h2,h34,h56)
      &  +Mloop_c6_production(h1,h2,h34,h56)
-     &  +Mloop_c6_width(h1,h2,h34,h56) 
+     &  +Mloop_c6_width(h1,h2,h34,h56)
 c--- compute total ct correction to Higgs amplitude
       AHiggs_ct=ct*ggH_tquark(h1,h2,h34,h56)
 c--- compute total cg correction to Higgs amplitude
       AHiggs_cg=cg*Mloop_SMEFT(h1,h2,h34,h56)
 c--- compute total SMEFT correction to Higgs amplitude
       AHiggs_SMEFT=AHiggs_c6+AHiggs_ct+AHiggs_cg
+c-------------------------------      
 
 c---- This only accumulates contributions from the interference
       
@@ -138,16 +138,25 @@ c--- with interference
         AHiggs_swap=
      &  +ggH_bquark_swap(h1,h2,h34,h56)
      &  +ggH_tquark_swap(h1,h2,h34,h56)
+c--- compute total c6 correction to Higgs amplitude
         AHiggs_c6_swap=
      &  +Mloop_c6_propagator_swap(h1,h2,h34,h56)
      &  +Mloop_c6_decay_swap(h1,h2,h34,h56)
      &  +Mloop_c6_production_swap(h1,h2,h34,h56)
      &  +Mloop_c6_width_swap(h1,h2,h34,h56)  
+c--- compute total ct Higgs amplitude
         AHiggs_ct_swap=ct*ggH_tquark_swap(h1,h2,h34,h56)
+c--- compute total cg Higgs amplitude
         AHiggs_cg_swap=cg*Mloop_SMEFT_swap(h1,h2,h34,h56)
+c--- compute total SMEFT Higgs amplitude
         AHiggs_SMEFT_swap=AHiggs_c6_swap+AHiggs_ct_swap+AHiggs_cg_swap
+
+!        Mamp=Acont+AHiggs+AHiggs_c6
+!        Samp=Acont_swap+AHiggs_swap+AHiggs_c6_swap
+
         Mamp=Acont+AHiggs+AHiggs_SMEFT
         Samp=Acont_swap+AHiggs_swap+AHiggs_SMEFT_swap
+
         if (h34 == h56) then
           oprat=1._dp-two*real(conjg(Mamp)*Samp)
      &                 /(abs(Mamp)**2+abs(Samp)**2)
@@ -176,8 +185,8 @@ c--- subtract |Acont|^2
 c--- subtract |AHiggs|^2
         if (h1 == h2) then
 c------ Higgs amplitudes only non-zero for h1=h2
-        Mamp=AHiggs+AHiggs_SMEFT
-        Samp=AHiggs_swap+AHiggs_SMEFT_swap
+        Mamp=AHiggs+AHiggs_c6
+        Samp=AHiggs_swap+AHiggs_c6_swap
         if (h34 == h56) then
           oprat=1._dp-two*real(conjg(Mamp)*Samp)
      &                 /(abs(Mamp)**2+abs(Samp)**2)

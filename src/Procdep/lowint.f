@@ -434,22 +434,19 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         msq_sbi_bsm(:,:,:) = 0._dp
         if (bsm_higgs_scenario .eq. "eft") then 
         cx = cx_sm
-        c6 = c6_init
-        ct = ct_init
-        cg = cg_init
         l = 1
         do i = 1, c6_nval
           do j = 1, ct_nval
             do k = 1, cg_nval
+              c6 = c6_init + (i-1)*c6_step
+              ct = ct_init + (j-1)*ct_step
+              cg = cg_init + (k-1)*cg_step
               call gg_hzz_tb(p, msq_sig_bsm(l, :, :))
               call gg_zz_int(p, msq_int_bsm(l, :, :))
               call gg_zz_all(p, msq_sbi_bsm(l, :, :))
               l = l + 1
-              cg = cg + cg_step
             enddo
-            ct = ct + ct_step
           enddo
-          c6 = c6 + c6_step
         enddo
         endif
         c6 = c6_sm
@@ -477,12 +474,19 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         msq_sbi_bsm(:,:,:) = 0._dp
         if (bsm_higgs_scenario .eq. "eft") then
         cx = cx_sm
-        c6 = c6_init
+        l = 1
         do i = 1, c6_nval
-          call gg_hzz_tb(p,msq_sig_bsm(i,:,:))
-          call gg_zz_int(p,msq_int_bsm(i,:,:))
-          call gg_zz_all(p,msq_sbi_bsm(i,:,:))
-          c6 = c6_init + i*c6_step
+          do j = 1, ct_nval
+            do k = 1, cg_nval
+              c6 = c6_init + (i-1)*c6_step
+              ct = ct_init + (j-1)*ct_step
+              cg = cg_init + (k-1)*cg_step
+              call gg_hzz_tb(p, msq_sig_bsm(l, :, :))
+              call gg_zz_int(p, msq_int_bsm(l, :, :))
+              call gg_zz_all(p, msq_sbi_bsm(l, :, :))
+              l = l + 1
+            enddo
+          enddo
         enddo
         endif
         c6 = c6_sm
@@ -508,22 +512,19 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         msq_sbi_bsm(:,:,:) = 0._dp
         if (bsm_higgs_scenario .eq. "eft") then 
         cx = cx_sm
-        c6 = c6_init
-        ct = ct_init
-        cg = cg_init
         l = 1
         do i = 1, c6_nval
           do j = 1, ct_nval
             do k = 1, cg_nval
+              c6 = c6_init + (i-1)*c6_step
+              ct = ct_init + (j-1)*ct_step
+              cg = cg_init + (k-1)*cg_step
               call gg_hzz_tb(p, msq_sig_bsm(l, :, :))
               call gg_zz_int(p, msq_int_bsm(l, :, :))
               call gg_zz_all(p, msq_sbi_bsm(l, :, :))
               l = l + 1
-              cg = cg + cg_step
             enddo
-            ct = ct + ct_step
           enddo
-          c6 = c6 + c6_step
         enddo
         endif
         c6 = c6_sm
@@ -544,22 +545,19 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         msq_sbi_bsm(:,:,:) = 0._dp
         if (bsm_higgs_scenario .eq. "eft") then 
         cx = cx_sm
-        c6 = c6_init
-        ct = ct_init
-        cg = cg_init
         l = 1
         do i = 1, c6_nval
           do j = 1, ct_nval
             do k = 1, cg_nval
+              c6 = c6_init + (i-1)*c6_step
+              ct = ct_init + (j-1)*ct_step
+              cg = cg_init + (k-1)*cg_step
               call gg_hzz_tb(p, msq_sig_bsm(l, :, :))
               call gg_zz_int(p, msq_int_bsm(l, :, :))
               call gg_zz_all(p, msq_sbi_bsm(l, :, :))
               l = l + 1
-              cg = cg + cg_step
             enddo
-            ct = ct + ct_step
           enddo
-          c6 = c6 + c6_step
         enddo
         endif
         c6 = c6_sm

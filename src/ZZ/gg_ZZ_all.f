@@ -24,7 +24,7 @@ c--- The effect of massive bottom and top quark loops is included
       integer,parameter:: i4(2)=(/4,5/),i5(2)=(/5,4/),
      & jkswitch(-nf:nf)=(/-1,-2,-1,-2,-1,0,1,2,1,2,1/)
       real(dp):: p(mxpart,4),wt,wt2,msq(fn:nf,fn:nf),msqgg,fac,
-     & pswap(mxpart,4),oprat
+     & pswap(mxpart,4),oprat,msqggh,msqqqbar_tot,D_S,msqqqbar(-nf:nf,-nf:nf)
       complex(dp)::
      & Mloop_uptype(2,2,2,2),Mloop_dntype(2,2,2,2),
      & Mloop_bquark(2,2,2,2),Mloop_tquark(2,2,2,2),
@@ -128,14 +128,11 @@ c--- compute total SMEFT correction to Higgs amplitude
       AHiggs_SMEFT=AHiggs_c6+AHiggs_ct+AHiggs_cg
 
 c--- This accumulates all contributions
-      ! Mamp=Acont+AHiggs
-      ! Mamp=Acont+AHiggs+AHiggs_c6
       Mamp=Acont+AHiggs+AHiggs_SMEFT
 
       if (interference .eqv. .false.) then
 c--- normal case
         msqgg=msqgg+abs(Mamp)**2
-c     &        +two*real(conjg(Mamp)*AHiggs_c6)
       else
 c--- with interference
         Acont_swap=
@@ -158,9 +155,6 @@ c--- compute total cg Higgs amplitude
         AHiggs_cg_swap=cg*Mloop_SMEFT_swap(h1,h2,h34,h56)
 c--- compute total SMEFT Higgs amplitude
         AHiggs_SMEFT_swap=AHiggs_c6_swap+AHiggs_ct_swap+AHiggs_cg_swap
-
-      !   Samp=Acont_swap+AHiggs_swap
-      !   Samp=Acont_swap+AHiggs_swap+AHiggs_c6_swap
 
         Samp=Acont_swap+AHiggs_swap+AHiggs_SMEFT_swap
 
