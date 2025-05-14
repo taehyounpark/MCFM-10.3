@@ -25,7 +25,7 @@ def write_script(mode, proc):
     cmd = form_command(mode, proc)
 
     rundir = os.path.join(mode,proc)
-    os.makedirs(dir, exist_ok=True)
+    os.makedirs(rundir, exist_ok=True)
 
     script_contents = f"""#!/usr/bin/env bash
 #SBATCH --job-name={rundir}
