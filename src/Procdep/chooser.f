@@ -2711,10 +2711,14 @@ c--- 133 '  f(p1)+f(p2) --> H(--> Z^0(mu^-(p3)+mu^+(p4)) + Z^0(e^-(p5)+e^+(p6) +
           plabel(4)='ea'
           plabel(5)='ml'
           plabel(6)='ma'
+          plabel(5)='nl'
+          plabel(6)='na'
           l1=le
           r1=re
           l2=le
           r2=re
+          l2=ln*sqrt(3._dp)
+          r2=rn*sqrt(3._dp)
           q1=-1._dp
           q2=-1._dp
 
