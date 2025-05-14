@@ -32,11 +32,11 @@ c                    input here. You have to know what you're doing.
 
       include 'ewinput.f'
       data ewscheme  / +1                  /   ! Chooses EW scheme
-      data Gf_inp    / 1.16639e-5_dp          /   ! G_F
+      data Gf_inp    / 1.166379e-5_dp          /   ! G_F
       data aemmz_inp / 7.7585538055706e-03_dp /   ! alpha_EM(m_Z)=1/128.89
       data xw_inp    / 0.2223_dp            /   ! sin^2(theta_W)
-      data wmass_inp / 80.385_dp            /   ! W mass
-      data zmass_inp / 91.1876_dp           /   ! Z mass
+      data wmass_inp / 80.37_dp            /   ! W mass
+      data zmass_inp / 91.188_dp           /   ! Z mass
 c***********************************************************************
 
 
