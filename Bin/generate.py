@@ -4,7 +4,7 @@ import textwrap
 import subprocess
 from multiprocessing import Pool
 
-basedir = 'zz4l'
+mode = 'zz4l'
 
 processes = []
 processes += ['ggZZ_sbi']
@@ -15,9 +15,17 @@ processes += ['qqZZ']
 # processes += ['qqWW']
 # processes += ['ppZZ']
 
-def write_job(job):
-    rundir, command = job
-    os.makedirs(rundir, exist_ok=True)
+def form_command(mode, proc):
+    mcfm = './mcfm'
+    cfg = os.path.join(mode,f"input_{proc}.ini")
+    command = f"{mcfm} {cfg} "
+    return command
+
+def write_script(mode, proc):
+    cmd = form_command(mode, proc)
+
+    rundir = os.path.join(mode,proc)
+    os.makedirs(dir, exist_ok=True)
 
     script_contents = f"""#!/usr/bin/env bash
 #SBATCH --job-name={rundir}
@@ -35,7 +43,7 @@ module load gcc/14
 export OMP_STACKSIZE=16000
 export OMP_NUM_THREADS=1
 
-{command}
+{cmd}
 """
 
     script_path = f"{rundir}/job.sh"
@@ -43,31 +51,19 @@ export OMP_NUM_THREADS=1
         script_file.write(script_contents)
     return script_path
 
-def submit_job(job):
-    script_path = write_job(job)
+def submit_job(mode, proc):
+
+    script_path = write_script(mode, proc)
+
     try:
         subprocess.run(f"sbatch {script_path}", shell=True, check=True)
     except subprocess.CalledProcessError as e:
         print(f"Failed to submit {script_path}: {e}")
 
-def define_job(process):
-    mcfm = './mcfm'
-    configfile = f"./input_{process}.ini"
-    rundir = f"{basedir}/{process}"
-    command = (
-        f"{mcfm} {configfile} "
-        f"-general%rundir={rundir} "
-    )
-    return (rundir, command)
-
 def main():
 
-    jobs = []
     for process in processes:
-        jobs.append(define_job(process))
-
-    for job in jobs:
-        submit_job(job)
+        submit_job(mode, process)
 
 if __name__ == '__main__':
     main()
