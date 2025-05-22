@@ -1564,6 +1564,14 @@ c--     '  f(p1)+f(p2) --> Z^0 + Z^0 (for total Xsect) (NO GAMMA*)' (removebr=.t
           rq2=-1._dp
           zl2=zle
           zr2=zre
+          if (index(runstring,'2l2v') > 0) then
+c--- decay to 2l2v instead
+            plabel(5)='nl'
+            plabel(6)='na'
+            l2=ln*sqrt(3._dp)
+            r2=rn*sqrt(3._dp)
+            q2=-0._dp
+          endif
 
 c--- check runstring to change from (e,mu) Z decays to (e,e) or (mu,mu)
           if     (index(runstring,'ELEL') > 0) then
@@ -2717,12 +2725,14 @@ c--- 133 '  f(p1)+f(p2) --> H(--> Z^0(mu^-(p3)+mu^+(p4)) + Z^0(e^-(p5)+e^+(p6) +
           r2=re
           q1=-1._dp
           q2=-1._dp
-c--- decay ZZ->2l2v instead
-c          plabel(5)='nl'
-c          plabel(6)='na'
-c          l2=ln*sqrt(3._dp)
-c          r2=rn*sqrt(3._dp)
-c          q2=-0._dp
+          if (index(runstring,'2l2v') > 0) then
+c--- decay to 2l2v instead
+            plabel(5)='nl'
+            plabel(6)='na'
+            l2=ln*sqrt(3._dp)
+            r2=rn*sqrt(3._dp)
+            q2=-0._dp
+          endif
 
 c--- check runstring to change from (e,mu) Z decays to (e,e) or (mu,mu)
 c          if     (index(runstring,'ELEL') > 0) then

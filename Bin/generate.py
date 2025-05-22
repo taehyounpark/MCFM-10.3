@@ -5,6 +5,7 @@ import subprocess
 from multiprocessing import Pool
 
 mode = 'zz4l'
+# mode = 'zz2l2v'
 
 processes = []
 processes += ['ggZZ_sbi']
@@ -15,17 +16,14 @@ processes += ['qqZZ']
 # processes += ['qqWW']
 # processes += ['ppZZ']
 
-def form_command(mode, proc):
+def write_job(mode, proc):
     mcfm = './mcfm'
-    cfg = os.path.join(mode,f"input_{proc}.ini")
-    command = f"{mcfm} {cfg} "
-    return command
-
-def write_script(mode, proc):
-    cmd = form_command(mode, proc)
-
+    
     rundir = os.path.join(mode,proc)
     os.makedirs(rundir, exist_ok=True)
+
+    cfg = os.path.join(mode,f"input_{proc}.ini")
+    cmd = f"{mcfm} {cfg} -general%rundir={rundir} -general%runstring={mode}"
 
     script_contents = f"""#!/usr/bin/env bash
 #SBATCH --job-name={rundir}
@@ -53,7 +51,7 @@ export OMP_NUM_THREADS=1
 
 def submit_job(mode, proc):
 
-    script_path = write_script(mode, proc)
+    script_path = write_job(mode, proc)
 
     try:
         subprocess.run(f"sbatch {script_path}", shell=True, check=True)
