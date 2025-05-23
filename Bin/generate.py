@@ -4,8 +4,8 @@ import textwrap
 import subprocess
 from multiprocessing import Pool
 
-mode = 'zz4l'
-# mode = 'zz2l2v'
+# mode = 'zz4l'
+mode = 'zz2l2v'
 
 processes = []
 processes += ['ggZZ_sbi']
@@ -13,7 +13,7 @@ processes += ['ggZZ_sig']
 processes += ['ggZZ_int']
 processes += ['ggZZ_bkg']
 processes += ['qqZZ']
-# processes += ['qqWW']
+processes += ['qqWW']
 # processes += ['ppZZ']
 
 def write_job(mode, proc):
@@ -23,7 +23,7 @@ def write_job(mode, proc):
     os.makedirs(rundir, exist_ok=True)
 
     cfg = os.path.join(mode,f"input_{proc}.ini")
-    cmd = f"{mcfm} {cfg} -general%rundir={rundir} -general%runstring={mode}"
+    cmd = f"{mcfm} {cfg} -general%runstring={mode} -general%rundir={rundir}"
 
     script_contents = f"""#!/usr/bin/env bash
 #SBATCH --job-name={rundir}
