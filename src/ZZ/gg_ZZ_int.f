@@ -18,7 +18,9 @@ c--- The effect of massive bottom and top quark loops is included
       include 'interference.f'
       include 'zcouple_cms.f'
       include 'bsm_higgs.f'
-      integer:: h1,h2,h34,h56
+      integer:: h1,h2,h34,h56,j,k
+      integer,parameter:: i4(2)=(/4,5/),i5(2)=(/5,4/),
+     & jkswitch(-nf:nf)=(/-1,-2,-1,-2,-1,0,1,2,1,2,1/)
       real(dp):: p(mxpart,4),wt,wt2,msq(fn:nf,fn:nf),msqgg,fac,
      & pswap(mxpart,4),oprat
       complex(dp)::
@@ -28,7 +30,8 @@ c--- The effect of massive bottom and top quark loops is included
      & Sloop_bquark(2,2,2,2),Sloop_tquark(2,2,2,2),
      & ggH_bquark(2,2,2,2),ggH_tquark(2,2,2,2),Acont,AHiggs,
      & ggH_bquark_swap(2,2,2,2),ggH_tquark_swap(2,2,2,2),AHiggs_swap,
-     & Acont_swap,Mamp,Samp,
+     & Acont_swap,
+     & Mamp,Samp,
      & Mloop_c6_propagator(2,2,2,2),
      & Mloop_c6_propagator_swap(2,2,2,2),
      & AHiggs_c6,AHiggs_c6_swap,

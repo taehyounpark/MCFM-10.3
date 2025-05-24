@@ -9,16 +9,16 @@ processes = {
     'zz4l' : [
         # 'ggZZ_sbi',
         # 'ggZZ_sig',
-        # 'ggZZ_int',
+        'ggZZ_int',
         # 'ggZZ_bkg',
-        'qqZZ'
+        # 'qqZZ'
         ],
     'zz2l2v' : [
-        'ggZZ_sbi',
-        'ggZZ_sig',
+        # 'ggZZ_sbi',
+        # 'ggZZ_sig',
         'ggZZ_int',
-        'ggZZ_bkg',
-        'qqZZ'
+        # 'ggZZ_bkg',
+        # 'qqZZ'
         ],
 }
 

@@ -472,7 +472,7 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         msq_sig_bsm(:,:,:) = 0._dp
         msq_int_bsm(:,:,:) = 0._dp
         msq_sbi_bsm(:,:,:) = 0._dp
-        if (bsm_higgs_scenario .eq. "eft") then
+        if (bsm_higgs_scenario .eq. "eft") then 
         cx = cx_sm
         l = 1
         do i = 1, c6_nval
@@ -490,7 +490,8 @@ c        call checkgvec(-1, 1,6,p,gg_hzgamg,gg_hg_zgam_gvec)
         enddo
         endif
         c6 = c6_sm
-        cx = cx_sm
+        ct = ct_sm
+        cg = cg_sm
         msq_sig_sm(:,:) = 0._dp
         msq_bkg_sm(:,:) = 0._dp
         msq_int_sm(:,:) = 0._dp
