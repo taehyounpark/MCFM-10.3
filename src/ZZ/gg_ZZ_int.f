@@ -185,8 +185,8 @@ c--- subtract |Acont|^2
 c--- subtract |AHiggs|^2
         if (h1 == h2) then
 c------ Higgs amplitudes only non-zero for h1=h2
-        Mamp=AHiggs+AHiggs_c6
-        Samp=AHiggs_swap+AHiggs_c6_swap
+        Mamp=AHiggs+AHiggs_SMEFT
+        Samp=AHiggs_swap+AHiggs_SMEFT_swap
         if (h34 == h56) then
           oprat=1._dp-two*real(conjg(Mamp)*Samp)
      &                 /(abs(Mamp)**2+abs(Samp)**2)
