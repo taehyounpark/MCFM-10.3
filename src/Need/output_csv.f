@@ -15,7 +15,6 @@
       include 'mxpart.f'
       include 'constants.f'
       include 'nf.f'
-      include 'first.f'
       include 'ipsgen.f'
       include 'nplot.f'
       include 'nproc.f'
@@ -23,17 +22,23 @@
       include 'bsm_higgs.f'
       real(dp) :: p(mxpart,4),wt,msq_sig_bsm(c6_nval*ct_nval*cg_nval,-nf:nf,-nf:nf),msq_int_bsm(c6_nval*ct_nval*cg_nval,-nf:nf,-nf:nf),msq_sbi_bsm(c6_nval*ct_nval*cg_nval,-nf:nf,-nf:nf),msq_sig_sm(-nf:nf,-nf:nf),msq_bkg_sm(-nf:nf,-nf:nf),msq_int_sm(-nf:nf,-nf:nf),msq_sbi_sm(-nf:nf,-nf:nf)
       integer :: i, j, k, l, m, n
-      character(len=255)::rundir, index_str
+      character(len=255)::rundir
       common/rundir/rundir
       integer :: io_status
-      integer :: event_file_unit, metadata_file_unit
-      character(len=255), save :: event_file_path, metadata_file_path
+      integer, save :: event_file_unit, metadata_file_unit, tid
+      character(len=255), save :: event_file_path, metadata_file_path, tid_str
+      logical,save::first
+      data first/.true./
+!$omp threadprivate(first,tid,tid_str,event_file_path,metadata_file_path,event_file_unit,metadata_file_unit)
 
-      write(event_file_path, '(A,I0)') trim(rundir) // "/" // trim(eventfile)
-      event_file_unit = 10
+      tid = omp_get_thread_num()
+      write(tid_str, '(I0)') tid
 
-      write(metadata_file_path, '(A,I0)') trim(rundir) // "/" // trim(metadatafile)
-      metadata_file_unit = 11
+      write(event_file_path, '(A)') trim(rundir) // "/" // trim(eventfile) // "_" // trim(tid_str) // ".csv"
+      event_file_unit = 10 + tid
+
+      write(metadata_file_path, '(A)') trim(rundir) // "/" // trim(metadatafile) // "_" // trim(tid_str) // ".csv"
+      metadata_file_unit = 10 + omp_get_max_threads() + tid
 
       if (first) then
 

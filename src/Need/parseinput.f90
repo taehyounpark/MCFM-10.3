@@ -230,8 +230,8 @@ contains
     call cfg_add(cfg, "bsm_higgs%mx", 1000d0, "mx BSM value")
 
     ! [output]
-    call cfg_add(cfg, "output%metadata", "metadata.csv", "Metadata output file") 
-    call cfg_add(cfg, "output%events",   "events.csv",   "CSV output file") 
+    call cfg_add(cfg, "output%metadata", "metadata", "Metadata output file") 
+    call cfg_add(cfg, "output%events",   "events",   "CSV output file") 
 
     ! [anom_higgs]
     call cfg_add(cfg, "anom_higgs%hwidth_ratio", 1d0, "Gamma_H / Gamma_H(SM)")
